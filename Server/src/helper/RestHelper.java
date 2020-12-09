@@ -1,13 +1,18 @@
 package helper;
 
-
+import java.util.ArrayList;
+import model.*;
 
 public final class RestHelper {
 
 	
 	
-	public static String createMeeting() {
-		return "";
+	public static String createMeeting() {		
+		Meeting m = new Meeting(new Agenda(), new MeetingSettings(), new ArrayList<Participant>());
+		String json = JSONHelper.MeetingToJSON(m);
+
+		return json;//String.valueOf(m.getId());
+		
 	}
 	
 	public static String getMeeting(long id) {
@@ -17,6 +22,11 @@ public final class RestHelper {
 	
 	public static void setMeeting(long id) {
 
+		String json ="";
+		
+		Meeting m = JSONHelper.JSONToMeeting(json);
+		
+		
 	}
 	
 	

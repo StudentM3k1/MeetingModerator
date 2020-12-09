@@ -1,6 +1,11 @@
 package helper;
 
+import java.util.ArrayList;
+
+import model.Agenda;
 import model.Meeting;
+import model.MeetingSettings;
+import model.Participant;
 
 public class JSONHelper {
 
@@ -12,8 +17,7 @@ public class JSONHelper {
 	
 	public static Meeting JSONToMeeting(String json) {
 		
-		
-		return new Meeting();
+		return new Meeting(new Agenda(), new MeetingSettings(), new ArrayList<Participant>());
 	}
 	
 	
