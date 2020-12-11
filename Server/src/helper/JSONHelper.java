@@ -17,7 +17,7 @@ public class JSONHelper {
 	
 	public static Meeting JSONToMeeting(String json) {
 		
-		return new Meeting(new Agenda(), new MeetingSettings(), new ArrayList<Participant>());
+		return new Meeting(0, new Agenda(), new MeetingSettings(), new ArrayList<Participant>(), null, 0);
 	}
 	
 	

@@ -1,28 +1,27 @@
 package model;
 
 import java.util.ArrayList;
-
-import helper.IdHelper;
 import model.enumerations.*;
 
 public class Meeting {
 
-	
-	
+
 	private long id;
 	private Agenda agenda;
 	private MeetingSettings settings;
 	private ArrayList<Participant> participants;
 	private MeetingStatus meetingStatus;
+	private long passedTime;
 	
 	
-	public Meeting(Agenda agenda, MeetingSettings settings, ArrayList<Participant> participants)
+	public Meeting(long id, Agenda agenda, MeetingSettings settings, ArrayList<Participant> participants, MeetingStatus meetingStatus, long passedTime)
 	{
-		this.id = IdHelper.getNewMeetingId();
+		this.id = id;
 		this.agenda = agenda;
 		this.settings = settings;
 		this.participants = participants;
-		this.meetingStatus = MeetingStatus.Planned;
+		this.meetingStatus = meetingStatus;
+		this.passedTime = passedTime;
 	}
 	
 	
@@ -89,6 +88,16 @@ public class Meeting {
 	
 	private void removeParticipant() {
 		
+	}
+
+
+	public long getPassedTime() {
+		return passedTime;
+	}
+
+
+	public void setPassedTime(long passedTime) {
+		this.passedTime = passedTime;
 	}
 
 }

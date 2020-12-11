@@ -1,8 +1,11 @@
-package model;
+package helper;
 
 import java.util.ArrayList;
 
-public class MeetingContainerList {
+import model.Meeting;
+import model.MeetingContainer;
+
+public class MeetingContainerHelper {
 	private static ArrayList<MeetingContainer> meetings;
 		
 	public static Meeting getMeeting(long id) {
