@@ -14,6 +14,11 @@ private long usedTime;
 		this.type =type;
 		this.usedTime = usedTime;
 		}
+		
+		// Nur für interne Benutzung
+		public Participant() {
+
+		}
 
 		public long getId() {
 			return id;

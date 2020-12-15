@@ -15,7 +15,12 @@ public class User {
 		
 	}
 	
+	// Nur für interne Benutzung
+	public User() {
 	
+	}
+
+
 	public long getId() {
 		return id;
 	}
