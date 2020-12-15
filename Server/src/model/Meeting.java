@@ -18,9 +18,10 @@ public class Meeting {
 	{
 
 	}
+	private String ort;
 	
 	
-	public Meeting(long id, Agenda agenda, MeetingSettings settings, ArrayList<Participant> participants, MeetingStatus meetingStatus, long passedTime)
+	public Meeting(long id, Agenda agenda, MeetingSettings settings, ArrayList<Participant> participants, MeetingStatus meetingStatus, long passedTime, String ort)
 	{
 		this.id = id;
 		this.agenda = agenda;
@@ -28,6 +29,7 @@ public class Meeting {
 		this.participants = participants;
 		this.meetingStatus = meetingStatus;
 		this.passedTime = passedTime;
+		this.ort = ort;
 	}
 	
 	
@@ -109,6 +111,16 @@ public class Meeting {
 
 	public void setPassedTime(long passedTime) {
 		this.passedTime = passedTime;
+	}
+
+
+	public String getOrt() {
+		return ort;
+	}
+
+
+	public void setOrt(String ort) {
+		this.ort = ort;
 	}
 
 

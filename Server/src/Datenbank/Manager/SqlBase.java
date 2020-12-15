@@ -12,7 +12,6 @@ import Datenbank.ConnectionManager;
 import Datenbank.Annotations.Key;
 import Datenbank.Annotations.Spalte;
 import Datenbank.Annotations.Spalte.SpaltenTyp;
-import Datenbank.Dbo.Meeting;
 import Datenbank.Annotations.Tabelle;
 
 public abstract class SqlBase<TDbo> {
@@ -21,6 +20,11 @@ public abstract class SqlBase<TDbo> {
 	
 	protected TDbo getFirst(List<TDbo> dbos) throws Exception {
 		return dbos.size() > 0 ? dbos.get(0) : null;
+	}
+	
+	public void CreateTabelle() throws Exception {
+		String sql = this.CreateTabelleSql(CreateNew());		
+		this.Execute(sql);
 	}
 	
 	public List<TDbo> GetAll() throws Exception {
@@ -170,15 +174,21 @@ public abstract class SqlBase<TDbo> {
 		Connection connection = ConnectionManager.GetConnection();	
 		String sql = insertString + ") VALUES (" + valueString + ")";
 		System.out.println(sql);			
-		PreparedStatement statement = connection.prepareStatement(sql);
+		PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					
 		for(SqlParameter para : parameter) {
 			para.AddToStatemant(statement);
 		}
 		
-		statement.execute(sql);	
+		statement.execute();	
 		ResultSet resultSet = statement.getGeneratedKeys(); //TODO
-		return 0; //TODO
+		if(resultSet != null) {
+			while(resultSet.next()) {
+				return resultSet.getInt(1);
+			}
+		}
+		
+		return 0;
 	}
 	
 	public void Delete(TDbo dbo) throws Exception {

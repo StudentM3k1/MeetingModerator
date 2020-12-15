@@ -15,12 +15,12 @@ public class AgendaPoint {
 	public AgendaPoint() {
 		
 	}
-	
-	public AgendaPoint(long id,String title,Participant responsible ,String note,long availableTime ,AgendaPointStatus status  ) {
+
+
+	public AgendaPoint(long id,String title ,String note,long availableTime ,AgendaPointStatus status  ) {
 	
 		this.id =id;
 		this.title=title;
-		this.responsible=responsible;
 		this.note=note;
 		this.setAvailableTime(availableTime);
 		this.status = status;

@@ -7,11 +7,11 @@ import model.AgendaPoint;
 import model.enumerations.AgendaPointStatus;
 
 public class MapperAgenda {
-	public static Agenda MapToAgenda(AgendaPoint agendaPoint) {
+	public static Agenda MapToAgenda(AgendaPoint agendaPoint, int meetingId) {
 		Agenda agenda = new Agenda();
 		
 		agenda.AgendaId = (int)agendaPoint.getId(); //TODO
-		agenda.MeetingId = 0; //TODO
+		agenda.MeetingId = meetingId;
 		agenda.Name = agendaPoint.getTitle();
 		agenda.Diskussionszeit = new Time(agendaPoint.getAvailableTime());
 		agenda.Sort = 0; //TODO
@@ -22,8 +22,8 @@ public class MapperAgenda {
 	}
 	
 	public static AgendaPoint MapToAgendaPoint(Agenda agenda) {
-		return new AgendaPoint(agenda.AgendaId, agenda.Name, null, //TODO 
-				agenda.Notiz, agenda.Diskussionszeit.getTime(), GetAgendaPointStatus(agenda.Status));
+		return new AgendaPoint(agenda.AgendaId, agenda.Name, agenda.Notiz, 
+				agenda.Diskussionszeit.getTime(), GetAgendaPointStatus(agenda.Status));
 		//TODO Sort fehlt
 	}
 	
