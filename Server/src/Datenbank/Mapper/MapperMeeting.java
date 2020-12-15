@@ -15,7 +15,7 @@ public class MapperMeeting {
 		result.MeetingId = (int)meeting.getId(); //TODO
 		result.Bezeichnung = meeting.getSettings().getMeetingTitle();
 		result.Gesamtdauer = new Time(meeting.getSettings().getDuration()); //TODO
-		result.Ort = ""; //TODO Ort fehlt
+		result.Ort = meeting.getOrt();
 		result.Datum = meeting.getSettings().getStartTime();
 		result.VerbindungsId = meeting.getSettings().getParticipantId();
 		result.ModeratorVerbindungsId = meeting.getSettings().getModeratorId();
@@ -41,8 +41,8 @@ public class MapperMeeting {
 			participants.add(MapperMeetingTeilnehmer.MapToParticipant(teilnehmer.getMeetingTeilnehmer(), teilnehmer.getTeilnehmer()));
 		}
 		
-		model.Meeting result = new model.Meeting(meeting.MeetingId, agenda, settings, participants, MeetingStatus.Planned, 0);		
-		//TODO woher Status und passedTime?
+		model.Meeting result = new model.Meeting(meeting.MeetingId, agenda, settings, participants, MeetingStatus.Planned, 0, meeting.Ort);		
+		//TODO woher Status
 		
 		return result;
 	}

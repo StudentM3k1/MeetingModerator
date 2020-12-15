@@ -6,12 +6,7 @@ import java.util.List;
 import Datenbank.Dbo.Agenda;
 
 public class AgendaManager extends SqlBase<Agenda> {
-	
-	public void CreateTabelle() throws Exception {
-		String sql = this.CreateTabelleSql(new Agenda());		
-		this.Execute(sql);
-	}
-	
+		
 	public Agenda GetById(int id) throws Exception {
 		List<Agenda> result = GetBy(new Bedingung(Agenda.class.getField("AgendaId"), id));
 		return result.size() > 0 ? result.get(0) : null;

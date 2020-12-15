@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-	<url> </url>
-	<user></user>
+	<url>jdbc:mysql://localhost:3306/</url>
+	<user>root</user>
 	<password></password>
+	<database>test</database>
 </settings>

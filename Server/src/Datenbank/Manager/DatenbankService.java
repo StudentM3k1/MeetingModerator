@@ -11,12 +11,23 @@ import model.Meeting;
 import model.enumerations.AgendaPointStatus;
 
 public class DatenbankService {
+	
+	private static DatenbankService _instance;
+	
+	public static DatenbankService getInstance() {
+		if(_instance == null) {
+			_instance = new DatenbankService();
+		}
+		
+		return _instance;
+	}
+	
 	private AgendaManager _agendaManager;
 	private TeilnehmerManager _teilnehmerManager;
 	private MeetingManager _meetingManager;
 	private MeetingTeilnehmerManager _meetingTeilnehmerManager;
 	
-	public DatenbankService() {
+	private DatenbankService() {
 		this._agendaManager = new AgendaManager();
 		this._teilnehmerManager = new TeilnehmerManager();
 		this._meetingManager = new MeetingManager();
@@ -66,8 +77,7 @@ public class DatenbankService {
 		int meetingId = this._meetingManager.AddNewMeeting(MapperMeeting.MapToMeeting(meeting));
 		
 		for(model.AgendaPoint agendaPoint : meeting.getAgenda().getAgendaPoint()) {
-			Datenbank.Dbo.Agenda agenda = MapperAgenda.MapToAgenda(agendaPoint);
-			agenda.MeetingId = meetingId;
+			Datenbank.Dbo.Agenda agenda = MapperAgenda.MapToAgenda(agendaPoint, meetingId);
 			this._agendaManager.AddAgenda(agenda);
 		}
 		
@@ -104,37 +114,34 @@ public class DatenbankService {
 		if(deleteParticipants != null) {
 			for(model.Participant item : deleteParticipants) {
 				this._meetingTeilnehmerManager.Delete(MapperMeetingTeilnehmer.MapToMeetingTeilnehmer(item));
-				//TODO Teilnehmer auch löschen?
 			}
 		}
 	}
 	
 	public void saveAgenda(List<model.AgendaPoint> addAgendaPoints, 
 			List<model.AgendaPoint> updateAgendaPoints, 
-			List<model.AgendaPoint> deleteAgendaPoints) throws Exception {
+			List<model.AgendaPoint> deleteAgendaPoints, int meetingId) throws Exception {
 		if(addAgendaPoints != null) {
 			for(model.AgendaPoint item : addAgendaPoints) {
-				this._agendaManager.Add(MapperAgenda.MapToAgenda(item));
+				this._agendaManager.Add(MapperAgenda.MapToAgenda(item, meetingId));
 			}
 		}
 		
 		if(updateAgendaPoints != null) {
 			for(model.AgendaPoint item : updateAgendaPoints) {
-				this._agendaManager.Update(MapperAgenda.MapToAgenda(item));
+				this._agendaManager.Update(MapperAgenda.MapToAgenda(item, meetingId));
 			}
 		}
 		
 		if(deleteAgendaPoints != null) {
 			for(model.AgendaPoint item : deleteAgendaPoints) {
-				this._agendaManager.Delete(MapperAgenda.MapToAgenda(item));
+				this._agendaManager.Delete(MapperAgenda.MapToAgenda(item, meetingId));
 			}
 		}
 	}
 	
-	public void setAgendaStatus(model.AgendaPoint point, model.enumerations.AgendaPointStatus newStatus) throws Exception {
-		Datenbank.Dbo.Agenda agenda = MapperAgenda.MapToAgenda(point);
-		agenda.Status = MapperAgenda.GetAgendaPointStatusId(newStatus);
-		this._agendaManager.Update(agenda);
+	public void setAgendaStatus(int agendaPointId, model.enumerations.AgendaPointStatus newStatus) throws Exception {
+		//TODO
 	}
 	
 	public List<model.AgendaPoint> getAgendaPoints(int meetingId, AgendaPointStatus agendaPointStatus) throws Exception {

@@ -13,7 +13,7 @@ public class MapperMeetingTeilnehmer {
 		
 		meetingTeilnehmer.MeetingId = (int)participant.getId(); //TODO
 		meetingTeilnehmer.TeilnehmerId = (int)participant.getUser().getId(); //TODO
-		meetingTeilnehmer.Sprechzeit = new Time(participant.getUsedTime()); //TODO
+		meetingTeilnehmer.Sprechzeit = new Time(participant.getUsedTime()); //TODO in sec
 		meetingTeilnehmer.Typ = getParticipantTypeId(participant.getType());
 		
 		return meetingTeilnehmer;
