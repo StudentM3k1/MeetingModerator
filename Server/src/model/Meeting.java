@@ -12,6 +12,12 @@ public class Meeting {
 	private ArrayList<Participant> participants;
 	private MeetingStatus meetingStatus;
 	private long passedTime;
+	
+	// Nur für interne Benutzung
+	public Meeting()
+	{
+
+	}
 	private String ort;
 	
 	
@@ -110,6 +116,11 @@ public class Meeting {
 
 	public void setOrt(String ort) {
 		this.ort = ort;
+	}
+
+
+	public void setMeetingStatus(MeetingStatus meetingStatus) {
+		this.meetingStatus = meetingStatus;
 	}
 
 }

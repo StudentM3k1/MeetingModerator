@@ -1,17 +1,25 @@
 package helper;
 
+import java.sql.Date;
 import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import model.*;
+import model.enumerations.MeetingStatus;
 
 public final class RestHelper {
 
 	
 	
-	public static String createMeeting() {		
-		Meeting m = new Meeting(new Agenda(), new MeetingSettings(), new ArrayList<Participant>());
-		String json = JSONHelper.MeetingToJSON(m);
+	public static String createMeeting(String json) {		
 
-		return json;//String.valueOf(m.getId());
+		MeetingSettings s = new MeetingSettings(9876,"Das Meeting",new Date(987787787), 12, "123456789", "987654321");
+		Meeting m = new Meeting(1234, new Agenda(), s, new ArrayList<Participant>(), MeetingStatus.Planned, 0);
+
+		String jsons = JSONHelper.MeetingToJSON(m);
+
+		return jsons;//String.valueOf(m.getId());
 		
 	}
 	
@@ -47,15 +55,26 @@ public final class RestHelper {
 	
 	public static String getSyncTime (long id) {
 		return "";
+		
+		
+		
 	}
 	
 	
 	public static void startMeeting (long id) {
 
+		
+		
+		
 	}
 	
 
 	public static void nextAgendaMeeting (long id) {
 
+		
+		
+		
+		
+		
 	}	
 }

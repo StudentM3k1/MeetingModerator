@@ -13,9 +13,9 @@ public class RestInterface {
 		@POST
 		@Consumes({MediaType.APPLICATION_JSON})
 		@Produces({MediaType.APPLICATION_JSON})
-		public String createMeeting()
+		public String createMeeting(String json)
 		{
-			String response = RestHelper.createMeeting();
+			String response = RestHelper.createMeeting(json);
 			
 			return response;
 		}

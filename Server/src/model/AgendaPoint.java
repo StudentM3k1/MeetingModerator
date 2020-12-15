@@ -11,6 +11,11 @@ public class AgendaPoint {
 	private long availableTime;
 	private AgendaPointStatus status;
 
+	// Nur für interne Benutzung
+	public AgendaPoint() {
+		
+	}
+
 
 	public AgendaPoint(long id,String title ,String note,long availableTime ,AgendaPointStatus status  ) {
 	

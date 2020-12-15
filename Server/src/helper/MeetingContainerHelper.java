@@ -8,26 +8,24 @@ import model.MeetingContainer;
 public class MeetingContainerHelper {
 	private static ArrayList<MeetingContainer> meetings;
 		
-	public static Meeting getMeeting(long id) {
+	public static void getMeeting(long id) { // Meeting
 
-		MeetingContainer matchingMeeting = new MeetingContainer();
 
-		for (MeetingContainer m : meetings ) {
-			if (m.Meeting.getId() == id) {
-				matchingMeeting.Meeting = m.Meeting;
-				break;
+		for (MeetingContainer meetingContainer : meetings ) {
+			if (meetingContainer.getMeeting().getId() == id) {			
+				meetingContainer.increaseCurrentAccess();
+				//return meetingContainer;
 			}
 		}
 		
-		if (matchingMeeting.Meeting == null) {
-			
-			// aus Datenbank holen
-			
-			
-		}
+		// Aus DB holen
 		
-		matchingMeeting.CurrentAccess ++;
-		return matchingMeeting.Meeting;		
+		
+	
+
+		
+	//	matchingMeeting.CurrentAccess ++;
+//		return matchingMeeting.Meeting;		
 	}
 
 	
@@ -37,10 +35,10 @@ public class MeetingContainerHelper {
 		MeetingContainer matchingMeeting = null;
 
 		for (MeetingContainer m : meetings ) {
-			if (m.Meeting.getId() == id) {
+			if (m.getMeeting().getId() == id) {
 				matchingMeeting = m;
 				
-				matchingMeeting.CurrentAccess --;
+				matchingMeeting.decreaseCurrentAccess();
 				// matchingMeeting.Meeting in DB schreiben
 				
 				
