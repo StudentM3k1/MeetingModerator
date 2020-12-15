@@ -31,7 +31,7 @@ public class MapperMeeting {
 		for(Datenbank.Dbo.Agenda item : agendaList) {
 			agendaPoints.add(MapperAgenda.MapToAgendaPoint(item));
 		}
-		agenda.setAgendaPoint(agendaPoints);		
+		agenda.setAgendaPoints(agendaPoints);		
 		
 		model.MeetingSettings settings = new model.MeetingSettings(meeting.MeetingId, meeting.Bezeichnung, meeting.Datum, 
 				meeting.Gesamtdauer.getTime(), meeting.ModeratorVerbindungsId, meeting.VerbindungsId);

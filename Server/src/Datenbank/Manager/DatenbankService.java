@@ -65,7 +65,7 @@ public class DatenbankService {
 	public void addMeeting(Meeting meeting) throws Exception {
 		int meetingId = this._meetingManager.AddNewMeeting(MapperMeeting.MapToMeeting(meeting));
 		
-		for(model.AgendaPoint agendaPoint : meeting.getAgenda().getAgendaPoint()) {
+		for(model.AgendaPoint agendaPoint : meeting.getAgenda().getAgendaPoints()) {
 			Datenbank.Dbo.Agenda agenda = MapperAgenda.MapToAgenda(agendaPoint);
 			agenda.MeetingId = meetingId;
 			this._agendaManager.AddAgenda(agenda);

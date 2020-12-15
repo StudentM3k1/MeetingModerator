@@ -13,6 +13,12 @@ public class Meeting {
 	private MeetingStatus meetingStatus;
 	private long passedTime;
 	
+	// Nur für interne Benutzung
+	public Meeting()
+	{
+
+	}
+	
 	
 	public Meeting(long id, Agenda agenda, MeetingSettings settings, ArrayList<Participant> participants, MeetingStatus meetingStatus, long passedTime)
 	{
@@ -98,6 +104,11 @@ public class Meeting {
 
 	public void setPassedTime(long passedTime) {
 		this.passedTime = passedTime;
+	}
+
+
+	public void setMeetingStatus(MeetingStatus meetingStatus) {
+		this.meetingStatus = meetingStatus;
 	}
 
 }
