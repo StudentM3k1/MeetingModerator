@@ -1,6 +1,5 @@
 package Datenbank.Mapper;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +11,14 @@ public class MapperMeeting {
 	public static Datenbank.Dbo.Meeting MapToMeeting(model.Meeting meeting) {
 		Datenbank.Dbo.Meeting result = new Datenbank.Dbo.Meeting();
 		
-		result.MeetingId = (int)meeting.getId(); //TODO
+		result.MeetingId = meeting.getId();
 		result.Bezeichnung = meeting.getSettings().getMeetingTitle();
-		result.Gesamtdauer = new Time(meeting.getSettings().getDuration()); //TODO
+		result.Gesamtdauer = Converter.LongToTime(meeting.getSettings().getDuration());
 		result.Ort = meeting.getOrt();
 		result.Datum = meeting.getSettings().getStartTime();
 		result.VerbindungsId = meeting.getSettings().getParticipantId();
 		result.ModeratorVerbindungsId = meeting.getSettings().getModeratorId();
+		result.Status = MeetingStatus.getInt(meeting.getMeetingStatus());
 		
 		return result;
 	}
@@ -26,7 +26,7 @@ public class MapperMeeting {
 	public static model.Meeting MapToMeeting(Datenbank.Dbo.Meeting meeting, List<Datenbank.Dbo.Agenda> agendaList, 
 			List<Datenbank.Manager.TeilnehmerDaten> teilnehmerList) {
 		
-		model.Agenda agenda = new model.Agenda(); //TODO id?
+		model.Agenda agenda = new model.Agenda();
 		ArrayList<model.AgendaPoint> agendaPoints = new ArrayList<model.AgendaPoint>();
 		for(Datenbank.Dbo.Agenda item : agendaList) {
 			agendaPoints.add(MapperAgenda.MapToAgendaPoint(item));
@@ -34,15 +34,15 @@ public class MapperMeeting {
 		agenda.setAgendaPoints(agendaPoints);		
 		
 		model.MeetingSettings settings = new model.MeetingSettings(meeting.MeetingId, meeting.Bezeichnung, meeting.Datum, 
-				meeting.Gesamtdauer.getTime(), meeting.ModeratorVerbindungsId, meeting.VerbindungsId);
+				Converter.TimeToLong(meeting.Gesamtdauer), meeting.ModeratorVerbindungsId, meeting.VerbindungsId);
 				
 		ArrayList<Participant> participants = new ArrayList<Participant>();
 		for(TeilnehmerDaten teilnehmer : teilnehmerList) {
 			participants.add(MapperMeetingTeilnehmer.MapToParticipant(teilnehmer.getMeetingTeilnehmer(), teilnehmer.getTeilnehmer()));
 		}
 		
-		model.Meeting result = new model.Meeting(meeting.MeetingId, agenda, settings, participants, MeetingStatus.Planned, 0, meeting.Ort);		
-		//TODO woher Status
+		model.Meeting result = new model.Meeting(meeting.MeetingId, agenda, settings, participants, 
+				MeetingStatus.getMeetingStatus(meeting.Status), 0, meeting.Ort);
 		
 		return result;
 	}

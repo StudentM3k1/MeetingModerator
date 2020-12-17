@@ -11,8 +11,8 @@ import Datenbank.Annotations.Tabelle;
 @Tabelle(Name = "Meeting")
 public class Meeting {
 	@Key(Autoincrement = true)
-	@Spalte(AllowNull = false, Name = "Meeting_id", Typ = SpaltenTyp.Int)
-	public int MeetingId;
+	@Spalte(AllowNull = false, Name = "Meeting_id", Typ = SpaltenTyp.Long)
+	public long MeetingId;
 	
 	@Spalte(AllowNull = false, Name = "Bezeichnung", Typ = SpaltenTyp.Varchar, MaxLength = 128)
 	public String Bezeichnung;
@@ -31,4 +31,7 @@ public class Meeting {
 	
 	@Spalte(AllowNull = false, Name = "ModeratorVerbindungsId", Typ = SpaltenTyp.Varchar, MaxLength = 9)
 	public String ModeratorVerbindungsId;
+	
+	@Spalte(AllowNull = false, Name = "Status", Typ = SpaltenTyp.Int)
+	public int Status;
 }

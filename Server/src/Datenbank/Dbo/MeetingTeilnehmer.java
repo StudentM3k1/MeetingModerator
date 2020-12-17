@@ -10,12 +10,12 @@ import Datenbank.Annotations.Tabelle;
 @Tabelle(Name = "MeetingTeilnehmer")
 public class MeetingTeilnehmer {
 	@Key(Autoincrement = false)
-	@Spalte(AllowNull = false, Name = "Meeting_id", Typ = SpaltenTyp.Int)
-	public int MeetingId;
+	@Spalte(AllowNull = false, Name = "Meeting_id", Typ = SpaltenTyp.Long)
+	public long MeetingId;
 	
 	@Key(Autoincrement = false)
-	@Spalte(AllowNull = false, Name = "Teilnehmer_id", Typ = SpaltenTyp.Int)
-	public int TeilnehmerId;
+	@Spalte(AllowNull = false, Name = "Teilnehmer_id", Typ = SpaltenTyp.Long)
+	public long TeilnehmerId;
 	
 	@Spalte(AllowNull = false, Name = "Sprechzeit", Typ = SpaltenTyp.Time)
 	public Time Sprechzeit;

@@ -25,12 +25,12 @@ public final class RestHelper {
 		ArrayList<Participant> participants = new ArrayList<Participant>();
 		participants.add(p);
 	
-		AgendaPoint ap = new AgendaPoint(234234,"Erster Punkt",p,"Labern",600,AgendaPointStatus.Planned);
+		AgendaPoint ap = new AgendaPoint(234234,"Erster Punkt","Labern",600,AgendaPointStatus.Planned, 0);
 		ArrayList<AgendaPoint> apl = new ArrayList<AgendaPoint>();
 		apl.add(ap);
 		Agenda a = new Agenda(12123, apl);
 				
-		Meeting m = new Meeting(1234, a, s, participants, MeetingStatus.Planned, 0);
+		Meeting m = new Meeting(1234, a, s, participants, MeetingStatus.Planned, 0, "Ort");
 
 				
 		

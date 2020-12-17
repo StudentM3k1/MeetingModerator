@@ -59,6 +59,9 @@ public abstract class SqlBase<TDbo> {
 			case Int:
 				value = resultSet.getInt(spalte.getSpalte().Name());
 				break;
+			case Long:
+				value = resultSet.getLong(spalte.getSpalte().Name());
+				break;
 			case Datetime:
 				value = resultSet.getDate(spalte.getSpalte().Name());
 				break;
@@ -101,7 +104,7 @@ public abstract class SqlBase<TDbo> {
 				sql += " AND ";
 			}
 			
-			sql += bedingung.GetWhere();
+			sql += bedingung.getSql();
 			
 			if(bedingung.NeedParameter()) {
 				parameter.add(bedingung.GetParameter(parameter.size() + 1));
@@ -132,7 +135,7 @@ public abstract class SqlBase<TDbo> {
 		return result;
 	}
 	
-	protected int Add(TDbo dbo) throws Exception {
+	protected long Add(TDbo dbo) throws Exception {
 		Class<? extends Object> klasse = CreateNew().getClass();
 		
 		List<SpaltenDaten> spalten = GetSpalten(klasse);
@@ -158,17 +161,12 @@ public abstract class SqlBase<TDbo> {
 			}
 			
 			insertString += spalte.getSpalte().Name();
-			//spalte.get
-			
-			if(spalte.getSpalte().Typ() == SpaltenTyp.Varchar || spalte.getSpalte().Typ() == SpaltenTyp.Time) {
-				valueString += "?";
-				parameter.add(new SqlParameter(spalte.getField().get(dbo), 
-						spalte.getSpalte().Typ(), parameter.size() + 1));
-			}				
-			else {
-				valueString += spalte.getField().get(dbo);
+			InsertParameter insertParameter = new InsertParameter(spalte.getField(), spalte.getField().get(dbo));
+			valueString += insertParameter.getSql();
+				
+			if(insertParameter.NeedParameter()) {
+				parameter.add(insertParameter.GetParameter(parameter.size() + 1));
 			}
-			
 		}
 		 
 		Connection connection = ConnectionManager.GetConnection();	
@@ -181,10 +179,10 @@ public abstract class SqlBase<TDbo> {
 		}
 		
 		statement.execute();	
-		ResultSet resultSet = statement.getGeneratedKeys(); //TODO
+		ResultSet resultSet = statement.getGeneratedKeys();
 		if(resultSet != null) {
 			while(resultSet.next()) {
-				return resultSet.getInt(1);
+				return resultSet.getLong(1);
 			}
 		}
 		
@@ -214,6 +212,72 @@ public abstract class SqlBase<TDbo> {
 			
 			Execute(sql);
 		}
+	}
+	
+	public void Update(TDbo dbo, NewValue newValue) throws Exception {
+		List<NewValue> newValues = new ArrayList<NewValue>();
+		newValues.add(newValue);
+		this.Update(dbo, newValues);
+	}
+	
+	public void Update(TDbo dbo, List<NewValue> newValues) throws Exception {
+		Class<? extends Object> klasse = dbo.getClass();		
+		List<SpaltenDaten> spalten = GetSpalten(klasse);
+		Tabelle tabelle = GetTabelle(klasse);
+		
+		String sql = "UPDATE " + tabelle.Name() + " SET ";
+		String setSql = "";
+		String whereSql = "";
+		List<SqlParameter> parameter = new ArrayList<SqlParameter>();
+		boolean firstSet = true;
+		boolean firstWhere = true;
+		
+		for(SpaltenDaten spalte : spalten) {
+			if(spalte.getKey() != null) {				
+				if(firstWhere) {
+					firstWhere = false;
+				}
+				else {
+					whereSql += " AND ";
+				}
+				
+				if(spalte.getSpalte().Typ() == SpaltenTyp.Varchar || spalte.getSpalte().Typ() == SpaltenTyp.Time) {
+					whereSql += spalte.getSpalte().Name() + " = ?";
+					parameter.add(new SqlParameter(spalte.getField().get(dbo), 
+							spalte.getSpalte().Typ(), parameter.size() + 1));
+				}				
+				else {
+					whereSql += spalte.getSpalte().Name() + " = " + spalte.getField().get(dbo);
+				}
+			}
+		}
+		
+		for(NewValue newValue : newValues) {
+			if(firstSet) {
+				firstSet = false;
+			}
+			else {
+				setSql += ", ";
+			}
+			
+			setSql += newValue.getSql();
+			
+			if(newValue.NeedParameter()) {
+				parameter.add(newValue.GetParameter(parameter.size() + 1));
+			}
+		}
+		
+		sql += setSql + " WHERE " + whereSql;
+		
+		Connection connection = ConnectionManager.GetConnection();	
+		System.out.println(sql);			
+		PreparedStatement statement = connection.prepareStatement(sql);
+					
+		for(SqlParameter para : parameter) {
+			para.AddToStatemant(statement);
+		}
+		
+		statement.execute();	
 	}
 	
 	public void Update(TDbo dbo) throws Exception {
@@ -288,9 +352,11 @@ public abstract class SqlBase<TDbo> {
 			List<SpaltenDaten> spalten = GetSpalten(klasse);
 			
 			if(spalten.size() > 0) {
-				result += "CREATE TABLE " + tabelle.Name() + " (";
+				result += "CREATE TABLE IF NOT EXISTS " + tabelle.Name() + " (";
 				
 				boolean firstItem = true;
+				List<String> keyNames = new ArrayList<String>();
+				
 				for(SpaltenDaten spalteDaten : spalten) {
 					
 					if(firstItem) {
@@ -305,11 +371,25 @@ public abstract class SqlBase<TDbo> {
 							(spalteDaten.getSpalte().AllowNull() ? "NULL" : "NOT NULL");
 					
 					if(spalteDaten.getKey() != null) {
-						result += (spalteDaten.getKey().Autoincrement() ? " AUTO_INCREMENT" : "") + " PRIMARY KEY";
+						result += (spalteDaten.getKey().Autoincrement() ? " AUTO_INCREMENT" : "");
+						keyNames.add(spalteDaten.getSpalte().Name());
 					}
 				}
 				
-				result += ");";
+				result += ", PRIMARY KEY(";
+				boolean firstName = true;
+				for(String keyName : keyNames) {
+					if(firstName) {
+						firstName = false;
+					}
+					else {
+						result += " ,";
+					}
+					
+					result += keyName;
+				}
+				
+				result += "));";
 			}
 		}
 		
@@ -336,6 +416,8 @@ public abstract class SqlBase<TDbo> {
 		switch(spalte.Typ()) {
 			case Int:
 				return "INT";
+			case Long:
+				return "BIGINT";
 			case Datetime:
 				return "DATETIME";
 			case Time:

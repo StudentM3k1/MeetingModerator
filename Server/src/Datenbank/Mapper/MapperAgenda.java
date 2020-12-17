@@ -1,61 +1,26 @@
 package Datenbank.Mapper;
 
-import java.sql.Time;
-
 import Datenbank.Dbo.Agenda;
 import model.AgendaPoint;
 import model.enumerations.AgendaPointStatus;
 
 public class MapperAgenda {
-	public static Agenda MapToAgenda(AgendaPoint agendaPoint, int meetingId) {
+	public static Agenda MapToAgenda(AgendaPoint agendaPoint, long meetingId) {
 		Agenda agenda = new Agenda();
 		
-		agenda.AgendaId = (int)agendaPoint.getId(); //TODO
+		agenda.AgendaId = agendaPoint.getId();
 		agenda.MeetingId = meetingId;
 		agenda.Name = agendaPoint.getTitle();
-		agenda.Diskussionszeit = new Time(agendaPoint.getAvailableTime());
-		agenda.Sort = 0; //TODO
-		agenda.Status = GetAgendaPointStatusId(agendaPoint.getStatus());
+		agenda.Diskussionszeit = Converter.LongToTime(agendaPoint.getAvailableTime());
+		agenda.Sort = agendaPoint.getSort();
+		agenda.Status = AgendaPointStatus.getInt(agendaPoint.getStatus());
 		agenda.Notiz = agendaPoint.getNote();
 		
 		return agenda;
 	}
 	
 	public static AgendaPoint MapToAgendaPoint(Agenda agenda) {
-		return new AgendaPoint(agenda.AgendaId, agenda.Name, agenda.Notiz, 
-				agenda.Diskussionszeit.getTime(), GetAgendaPointStatus(agenda.Status));
-		//TODO Sort fehlt
-	}
-	
-	public static int GetAgendaPointStatusId(AgendaPointStatus status) {
-		if(status == AgendaPointStatus.Planned) {
-			return 1;
-		}
-		
-		if(status == AgendaPointStatus.Running) {
-			return 2;
-		}
-		
-		if(status == AgendaPointStatus.Done) {
-			return 3;
-		}
-		
-		return 4;
-	}
-	
-	public static AgendaPointStatus GetAgendaPointStatus(int id) {
-		if(id == 1) {
-			return AgendaPointStatus.Planned;
-		}
-		
-		if(id == 2) {
-			return AgendaPointStatus.Running;
-		}
-		
-		if(id == 3) {
-			return AgendaPointStatus.Done;
-		}
-		
-		return AgendaPointStatus.Cancelled;
+		return new AgendaPoint(agenda.AgendaId, agenda.Name, agenda.Notiz, Converter.TimeToLong(agenda.Diskussionszeit), 
+				AgendaPointStatus.getAgendaPointStatus(agenda.Status), agenda.Sort);
 	}
 }

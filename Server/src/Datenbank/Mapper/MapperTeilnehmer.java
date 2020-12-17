@@ -7,7 +7,7 @@ public class MapperTeilnehmer {
 	public static Teilnehmer MapToTeilnehmer(User user) {
 		Teilnehmer teilnehmer = new Teilnehmer();
 		
-		teilnehmer.TeilnehmerId = (int)user.getId(); //TODO
+		teilnehmer.TeilnehmerId = user.getId();
 		teilnehmer.Name = user.getLastname();
 		teilnehmer.Vorname = user.getFirstname();
 		teilnehmer.Mail = user.getMail();

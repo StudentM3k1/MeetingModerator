@@ -1,6 +1,5 @@
 package Datenbank.Manager;
 
-import Datenbank.Dbo.Agenda;
 import Datenbank.Dbo.Teilnehmer;
 
 public class TeilnehmerManager extends SqlBase<Teilnehmer> {
@@ -10,7 +9,7 @@ public class TeilnehmerManager extends SqlBase<Teilnehmer> {
 		return new Teilnehmer();
 	}
 
-	public int AddOrUpdateTeilnehmer(Teilnehmer teilnehmer) throws Exception {
+	public long AddOrUpdateTeilnehmer(Teilnehmer teilnehmer) throws Exception {
 		if(teilnehmer.TeilnehmerId > 0) {
 			this.Update(teilnehmer);
 			return teilnehmer.TeilnehmerId;
@@ -19,7 +18,7 @@ public class TeilnehmerManager extends SqlBase<Teilnehmer> {
 		return this.Add(teilnehmer);
 	}
 	
-	public Teilnehmer GetById(int teilnehmerId) throws Exception {
-		return getFirst(this.GetBy(new Bedingung(Agenda.class.getField("TeilnehmerId"), teilnehmerId)));
+	public Teilnehmer GetById(long teilnehmerId) throws Exception {
+		return getFirst(this.GetBy(new Bedingung(Teilnehmer.class.getField("TeilnehmerId"), teilnehmerId)));
 	}
 }

@@ -3,5 +3,5 @@
 	<url>jdbc:mysql://localhost:3306/</url>
 	<user>root</user>
 	<password></password>
-	<database>test</database>
+	<database>MeetingModerator</database>
 </settings>

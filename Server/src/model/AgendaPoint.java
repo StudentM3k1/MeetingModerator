@@ -10,6 +10,7 @@ public class AgendaPoint {
 	private String note;
 	private long availableTime;
 	private AgendaPointStatus status;
+	private long sort;
 
 	// Nur für interne Benutzung
 	public AgendaPoint() {
@@ -17,13 +18,14 @@ public class AgendaPoint {
 	}
 
 
-	public AgendaPoint(long id,String title ,String note,long availableTime ,AgendaPointStatus status  ) {
+	public AgendaPoint(long id,String title ,String note,long availableTime ,AgendaPointStatus status, long sort) {
 	
 		this.id =id;
 		this.title=title;
 		this.note=note;
 		this.setAvailableTime(availableTime);
 		this.status = status;
+		this.setSort(sort);
 	}
 	
 	
@@ -57,18 +59,21 @@ public class AgendaPoint {
 	public void setStatus(AgendaPointStatus status) {
 		this.status = status;
 	}
-	
-	
+		
 	public long getAvailableTime() {
 		return availableTime;
 	}
-	
-	
+		
 	public void setAvailableTime(long availableTime) {
 		this.availableTime = availableTime;
 	}
 
+	public long getSort() {
+		return sort;
+	}
 
-
+	public void setSort(long sort) {
+		this.sort = sort;
+	}
 }
  

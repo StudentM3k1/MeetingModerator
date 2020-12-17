@@ -12,14 +12,14 @@ public class AgendaManager extends SqlBase<Agenda> {
 		return result.size() > 0 ? result.get(0) : null;
 	}
 
-	public List<Agenda> GetAgenda(int meetingId, int statusId) throws Exception {
+	public List<Agenda> GetAgenda(long meetingId, int statusId) throws Exception {
 		List<Bedingung> bedingungen = new ArrayList<Bedingung>();
 		bedingungen.add(new Bedingung(Agenda.class.getField("MeetingId"), meetingId));
 		bedingungen.add(new Bedingung(Agenda.class.getField("Status"), statusId));
 		return GetBy(bedingungen);
 	}
 	
-	public List<Agenda> GetAgenda(int meetingId) throws Exception {
+	public List<Agenda> GetAgenda(long meetingId) throws Exception {
 		return GetBy(new Bedingung(Agenda.class.getField("MeetingId"), meetingId));
 	}
 	
@@ -31,4 +31,11 @@ public class AgendaManager extends SqlBase<Agenda> {
 	public void AddAgenda(Agenda agenda) throws Exception {
 		this.Add(agenda);
 	}
+	
+	public void setAgendaStatus(long agendaPointId, int newStatus) throws Exception {
+		Agenda agenda = new Agenda();
+		agenda.AgendaId = agendaPointId;
+		
+		this.Update(agenda, new NewValue(Agenda.class.getField("Status"), newStatus));
+	} 
 }

@@ -1,5 +1,6 @@
 package Datenbank.Manager;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Time;
 
@@ -21,11 +22,17 @@ class SqlParameter {
 			case Int:
 				prepareStatement.setInt(_id, (int)_value);
 				break;
+			case Long:
+				prepareStatement.setLong(_id, (long)_value);
+				break;
 			case Time:
 				prepareStatement.setTime(_id, (Time)_value);
 				break;
+			case Datetime:
+				prepareStatement.setDate(_id, (Date)_value);
+				break;
 			case Varchar:
-				prepareStatement.setString(_id, _value.toString());
+				prepareStatement.setString(_id, (_value == null ? "" : _value.toString()));
 				break;
 		}
 	}

@@ -17,6 +17,7 @@ public @interface Spalte {
 		Varchar,
 		Int,
 		Time,
-		Datetime
+		Datetime,
+		Long
 	}
 }
