@@ -7,14 +7,14 @@ public enum ParticipantType {
 	Moderator;
 	
 	public static int getInt(ParticipantType participantType) {
-		 
+		if ( participantType == null) return 0;
 		 switch (participantType) {
 			case Participant:
 				return 0;
 			case Moderator:
 				return 1;
 			default:
-				throw new JSONException("Status ungültig");
+				return 0;
 		 }
 	}
 

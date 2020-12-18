@@ -6,7 +6,8 @@ public enum AgendaPointStatus {
 	Planned, Running, Done, Cancelled;
 
 	public static int getInt(AgendaPointStatus agendaPointStatus) {
-		 switch (agendaPointStatus) {
+		if (agendaPointStatus == null) 	return 0;
+		 switch (agendaPointStatus) {		 
 			case Planned:
 				return 0;
 			case Running:
@@ -16,11 +17,11 @@ public enum AgendaPointStatus {
 			case Cancelled:
 				return 3;
 			default:
-				throw new JSONException("Status ungültig");
+				return 0;
 		 }
 	}
 
-	public static AgendaPointStatus getAgendaPointStatus(int i) {			 
+	public static AgendaPointStatus getAgendaPointStatus(int i) {	
 			 switch (i) {
 				case 0:
 					return AgendaPointStatus.Planned;

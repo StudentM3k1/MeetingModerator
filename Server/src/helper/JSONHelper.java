@@ -1,5 +1,7 @@
 package helper;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,7 +17,8 @@ public class JSONHelper {
 		jsonobj.put("id", meeting.getId());
 		jsonobj.put("passedTime", meeting.getPassedTime());
 		jsonobj.put("status", MeetingStatus.getInt(meeting.getMeetingStatus()));
-
+		jsonobj.put("ort", meeting.getOrt());
+		
 		JSONObject meetingSettings = new JSONObject();
 		meetingSettings.put("id", meeting.getSettings().getId());
 		meetingSettings.put("meetingTitle", meeting.getSettings().getMeetingTitle());
@@ -23,10 +26,9 @@ public class JSONHelper {
 		meetingSettings.put("duration", meeting.getSettings().getDuration());
 		meetingSettings.put("moderatorId", meeting.getSettings().getModeratorId());
 		meetingSettings.put("participantId", meeting.getSettings().getParticipantId());
+		meetingSettings.put("startTime",meeting.getSettings().getStartTime().toEpochSecond(ZoneOffset.UTC));
 		jsonobj.put("meetingSettings", meetingSettings);
 
-		
-		
 		JSONObject agenda = new JSONObject();	
 		agenda.put("id", meeting.getAgenda().getId());
 		JSONArray agenda_points = new JSONArray();
@@ -74,11 +76,10 @@ public class JSONHelper {
 		try {
 			
 			JSONObject json_obj = new JSONObject(json);
-
 			meeting.setPassedTime(json_obj.getLong("passedTime"));
 			meeting.setId(json_obj.getLong("id"));	
 			meeting.setMeetingStatus(MeetingStatus.getMeetingStatus(json_obj.getInt("status")));
-			
+			meeting.setOrt(json_obj.getString("ort"));
 					
 			JSONObject json_settings = json_obj.getJSONObject("meetingSettings");
 			settings.setId(json_settings.getLong("id"));
@@ -86,7 +87,7 @@ public class JSONHelper {
 			settings.setParticipantId(json_settings.getString("participantId"));
 			settings.setModeratorId(json_settings.getString("moderatorId"));	
 			settings.setMeetingTitle(json_settings.getString("meetingTitle"));
-			
+			settings.setStartTime(LocalDateTime.ofEpochSecond(json_settings.getLong("startTime"), 0, ZoneOffset.UTC));
 			
 			JSONObject json_agenda = json_obj.getJSONObject("agenda");
 			agenda.setId(json_agenda.getLong("id"));
@@ -97,14 +98,13 @@ public class JSONHelper {
 				agendaPoint.setId(json_agendaPoint.getLong("id"));
 				agendaPoint.setTitle(json_agendaPoint.getString("title"));
 				agendaPoint.setNote(json_agendaPoint.getString("note"));
-				agendaPoint.setAvailableTime(json_agendaPoint.getLong("avaibleTime"));
+				agendaPoint.setAvailableTime(json_agendaPoint.getLong("availableTime"));
 				agendaPoint.setStatus(AgendaPointStatus.getAgendaPointStatus(json_agendaPoint.getInt("status")));
 				agenda.getAgendaPoints().add(agendaPoint);
 			}
 			
-			JSONArray json_participants = json_agenda.getJSONArray("participants");
-		
-			
+			JSONArray json_participants = json_obj.getJSONArray("participants");
+
 			for (int i = 0; i < json_participants.length(); i++) {
 				User user = new User();
 				Participant participant = new Participant();
@@ -131,7 +131,8 @@ public class JSONHelper {
 		}
 		
 		
-		
+		meeting.setAgenda(agenda);
+		meeting.setSettings(settings);	
 		
 		return meeting;
 	}

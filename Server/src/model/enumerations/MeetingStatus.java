@@ -8,6 +8,7 @@ public enum MeetingStatus {
 	Done;
 
 	public static int getInt(MeetingStatus meetingStatus) {
+		if ( meetingStatus == null) return 0;
 		switch (meetingStatus) {
 		case Planned:
 			return 0;
@@ -16,7 +17,7 @@ public enum MeetingStatus {
 		case Done:
 			return 2;
 		default:
-			throw new JSONException("Status ungültig");
+			return 0;
 		}
 	}
 

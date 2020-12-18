@@ -4,13 +4,13 @@ import model.enumerations.AgendaPointStatus;
 
 public class AgendaPoint {
 
-	private long id;
-	private String title;
-	private Participant responsible ;
-	private String note;
-	private long availableTime;
-	private AgendaPointStatus status;
-	private long sort;
+	private long id = 0;
+	private String title = new String();
+	private Participant responsible = new Participant();
+	private String note = new String();
+	private long availableTime = 0;
+	private AgendaPointStatus status = AgendaPointStatus.Planned;
+	private long sort = 0;
 
 	// Nur für interne Benutzung
 	public AgendaPoint() {

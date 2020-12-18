@@ -16,7 +16,6 @@ public class RestInterface {
 		public String createMeeting(String json)
 		{
 			String response = RestHelper.createMeeting(json);
-			
 			return response;
 		}
 			
@@ -30,7 +29,6 @@ public class RestInterface {
 			//return getMeetingTechnical(IdHelper.getTechnicalIdByParticipantId(id));
 		}
 			
-		
 		@GET
 		@Path("/Moderator/{id}")
 		@Consumes({MediaType.APPLICATION_JSON})
@@ -65,7 +63,7 @@ public class RestInterface {
 		@Consumes({MediaType.APPLICATION_JSON})
 		public void setMeetingTechnical(@PathParam("id") Long id)
 		{
-			RestHelper.setMeeting(id);
+			//RestHelper.setMeeting(id);
 		}
 		
 		

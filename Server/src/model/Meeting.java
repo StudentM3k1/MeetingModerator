@@ -6,12 +6,12 @@ import model.enumerations.*;
 public class Meeting {
 
 
-	private long id;
-	private Agenda agenda;
-	private MeetingSettings settings;
-	private ArrayList<Participant> participants;
-	private MeetingStatus meetingStatus;
-	private long passedTime;
+	private long id = 0;
+	private Agenda agenda = new Agenda();
+	private MeetingSettings settings = new MeetingSettings();
+	private ArrayList<Participant> participants = new ArrayList<Participant>();
+	private MeetingStatus meetingStatus = MeetingStatus.Planned;
+	private long passedTime = 0;
 	
 	// Nur für interne Benutzung
 	public Meeting()

@@ -1,11 +1,13 @@
 package model;
 
+import java.time.LocalDateTime;
 
 public class MeetingContainer {
 	
 
 	private int currentAccess = 0;
 	private Meeting meeting;
+	private LocalDateTime timeStamp;
 	
 	public MeetingContainer (Meeting meeting) {
 		this.setMeeting(meeting);
@@ -30,4 +32,13 @@ public class MeetingContainer {
 	public void decreaseCurrentAccess() {
 		this.currentAccess--;
 	}
+
+	public LocalDateTime getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp() {
+		this.timeStamp = LocalDateTime.now();
+	}
+	
 }

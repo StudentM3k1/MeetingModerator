@@ -59,7 +59,7 @@ public class TestKlasse {
 		points.add(new AgendaPoint(0, "Punkt3", null, 180, AgendaPointStatus.Planned, 0));
 		model.Agenda agenda = new model.Agenda(0, points);
 		
-		MeetingSettings meetingSettings = new MeetingSettings(0, "Meeting Title", new Date(2020, 12, 17), 360, "123", "456");
+	//	MeetingSettings meetingSettings = new MeetingSettings(0, "Meeting Title", new Date(2020, 12, 17), 360, "123", "456");
 		
 		ArrayList<Participant> participants = new ArrayList<Participant>();
 		participants.add(new Participant(0, new User(0, "Vorname", "Nachname", "Mail"), ParticipantType.Moderator, 30));

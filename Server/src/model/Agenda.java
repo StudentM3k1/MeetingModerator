@@ -6,9 +6,9 @@ public class Agenda {
 	
 	
 	
-	private long id;
+	private long id = 0;
 	
-	private ArrayList<AgendaPoint> agendaPoints;
+	private ArrayList<AgendaPoint> agendaPoints = new ArrayList<AgendaPoint>();
 	
 	
 	// Nur für interne Benutzung
