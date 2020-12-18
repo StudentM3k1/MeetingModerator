@@ -1,7 +1,5 @@
 package model.enumerations;
 
-import org.json.JSONException;
-
 public enum MeetingStatus {
 	Planned, // 0
 	Running, // 1

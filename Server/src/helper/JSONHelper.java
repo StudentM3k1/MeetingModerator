@@ -3,8 +3,6 @@ package helper;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Date;
-
 import org.json.*;
 import model.*;
 import model.enumerations.*;
@@ -18,7 +16,7 @@ public class JSONHelper {
 		jsonobj.put("passedTime", meeting.getPassedTime());
 		jsonobj.put("status", MeetingStatus.getInt(meeting.getMeetingStatus()));
 		jsonobj.put("ort", meeting.getOrt());
-		
+
 		JSONObject meetingSettings = new JSONObject();
 		meetingSettings.put("id", meeting.getSettings().getId());
 		meetingSettings.put("meetingTitle", meeting.getSettings().getMeetingTitle());
@@ -26,10 +24,10 @@ public class JSONHelper {
 		meetingSettings.put("duration", meeting.getSettings().getDuration());
 		meetingSettings.put("moderatorId", meeting.getSettings().getModeratorId());
 		meetingSettings.put("participantId", meeting.getSettings().getParticipantId());
-		meetingSettings.put("startTime",meeting.getSettings().getStartTime().toEpochSecond(ZoneOffset.UTC));
+		meetingSettings.put("startTime", meeting.getSettings().getStartTime().toEpochSecond(ZoneOffset.UTC));
 		jsonobj.put("meetingSettings", meetingSettings);
 
-		JSONObject agenda = new JSONObject();	
+		JSONObject agenda = new JSONObject();
 		agenda.put("id", meeting.getAgenda().getId());
 		JSONArray agenda_points = new JSONArray();
 		for (AgendaPoint agendaPoint : meeting.getAgenda().getAgendaPoints()) {
@@ -43,20 +41,20 @@ public class JSONHelper {
 		}
 		agenda.put("agendaPoints", agenda_points);
 		jsonobj.put("agenda", agenda);
-		
+
 		JSONArray participants = new JSONArray();
-		for (Participant participant : meeting.getParticipants()) {	
+		for (Participant participant : meeting.getParticipants()) {
 			JSONObject participant_json = new JSONObject();
 			JSONObject user = new JSONObject();
-			user.put("id",participant.getUser().getId());
-			user.put("firstname",participant.getUser().getFirstname());
-			user.put("lastname",participant.getUser().getLastname());
-			user.put("mail",participant.getUser().getMail());
+			user.put("id", participant.getUser().getId());
+			user.put("firstname", participant.getUser().getFirstname());
+			user.put("lastname", participant.getUser().getLastname());
+			user.put("mail", participant.getUser().getMail());
 			participant_json.put("user", user);
 			participant_json.put("id", participant.getId());
 			participant_json.put("type", ParticipantType.getInt(participant.getType()));
-			participant_json.put("usedTime", participant.getUsedTime());	
-			participants.put(participant_json);	
+			participant_json.put("usedTime", participant.getUsedTime());
+			participants.put(participant_json);
 		}
 		jsonobj.put("participants", participants);
 
@@ -67,34 +65,31 @@ public class JSONHelper {
 
 		Meeting meeting = new Meeting();
 		MeetingSettings settings = new MeetingSettings();
-		
-		
+
 		Agenda agenda = new Agenda();
 		ArrayList<Participant> p = new ArrayList<Participant>();
 
-
 		try {
-			
 			JSONObject json_obj = new JSONObject(json);
 			meeting.setPassedTime(json_obj.getLong("passedTime"));
-			meeting.setId(json_obj.getLong("id"));	
+			meeting.setId(json_obj.getLong("id"));
 			meeting.setMeetingStatus(MeetingStatus.getMeetingStatus(json_obj.getInt("status")));
 			meeting.setOrt(json_obj.getString("ort"));
-					
+
 			JSONObject json_settings = json_obj.getJSONObject("meetingSettings");
 			settings.setId(json_settings.getLong("id"));
 			settings.setDuration(json_settings.getLong("duration"));
 			settings.setParticipantId(json_settings.getString("participantId"));
-			settings.setModeratorId(json_settings.getString("moderatorId"));	
+			settings.setModeratorId(json_settings.getString("moderatorId"));
 			settings.setMeetingTitle(json_settings.getString("meetingTitle"));
 			settings.setStartTime(LocalDateTime.ofEpochSecond(json_settings.getLong("startTime"), 0, ZoneOffset.UTC));
-			
+
 			JSONObject json_agenda = json_obj.getJSONObject("agenda");
 			agenda.setId(json_agenda.getLong("id"));
 			JSONArray json_agendaPoints = json_agenda.getJSONArray("agendaPoints");
 			for (int i = 0; i < json_agendaPoints.length(); i++) {
 				AgendaPoint agendaPoint = new AgendaPoint();
-				JSONObject json_agendaPoint = json_agendaPoints.getJSONObject(i);			
+				JSONObject json_agendaPoint = json_agendaPoints.getJSONObject(i);
 				agendaPoint.setId(json_agendaPoint.getLong("id"));
 				agendaPoint.setTitle(json_agendaPoint.getString("title"));
 				agendaPoint.setNote(json_agendaPoint.getString("note"));
@@ -102,38 +97,82 @@ public class JSONHelper {
 				agendaPoint.setStatus(AgendaPointStatus.getAgendaPointStatus(json_agendaPoint.getInt("status")));
 				agenda.getAgendaPoints().add(agendaPoint);
 			}
-			
+
 			JSONArray json_participants = json_obj.getJSONArray("participants");
 
 			for (int i = 0; i < json_participants.length(); i++) {
 				User user = new User();
 				Participant participant = new Participant();
-								
+
 				JSONObject json_participant = json_participants.getJSONObject(i);
 				participant.setId(json_participant.getLong("id"));
 				participant.setType(ParticipantType.getParticipantType(json_participant.getInt("type")));
 				participant.setUsedTime(json_participant.getLong("usedTime"));
-			
+
 				JSONObject json_user = json_participant.getJSONObject("user");
 				user.setFirstname(json_user.getString("firstname"));
 				user.setId(json_user.getLong("id"));
 				user.setLastname(json_user.getString("lastname"));
 				user.setMail(json_user.getString("mail"));
-				
+
 				participant.setUser(user);
-				
+
 				meeting.getParticipants().add(participant);
 			}
-			
+
 		} catch (JSONException jsonex) {
 
 			return meeting;
 		}
-		
-		
+
 		meeting.setAgenda(agenda);
-		meeting.setSettings(settings);	
-		
+		meeting.setSettings(settings);
+
 		return meeting;
 	}
+
+	public static LocalDateTime JSONToLastChange(String json) {
+		JSONObject jsonobj = new JSONObject(json);
+		return LocalDateTime.ofEpochSecond(jsonobj.getLong("lastChange"), 0, ZoneOffset.UTC);
+	}
+
+	public static String LastChangeToJSON(LocalDateTime localDateTime) {
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("lastChange", localDateTime.toEpochSecond(ZoneOffset.UTC));
+		return jsonobj.toString();
+	}
+
+	public static String StateToJSON(AgendaPoint agendaPoint) {
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("id", agendaPoint.getId());
+		jsonobj.put("title", agendaPoint.getTitle());
+		jsonobj.put("note", agendaPoint.getNote());
+		jsonobj.put("availableTime", agendaPoint.getAvailableTime());
+		jsonobj.put("status", AgendaPointStatus.getInt(agendaPoint.getStatus()));
+		return jsonobj.toString();
+
+	}
+
+	public static AgendaPoint JSONToState(String json) {
+		AgendaPoint agendaPoint = new AgendaPoint();
+		JSONObject json_agendaPoint = new JSONObject(json);
+		agendaPoint.setId(json_agendaPoint.getLong("id"));
+		agendaPoint.setTitle(json_agendaPoint.getString("title"));
+		agendaPoint.setNote(json_agendaPoint.getString("note"));
+		agendaPoint.setAvailableTime(json_agendaPoint.getLong("availableTime"));
+		agendaPoint.setStatus(AgendaPointStatus.getAgendaPointStatus(json_agendaPoint.getInt("status")));
+		return agendaPoint;
+	}
+
+	public static long JSONToSync(String json) {
+		JSONObject jsonobj = new JSONObject(json);
+		return jsonobj.getLong("passedTime");
+	}
+
+	public static String SyncToJSON(long ticks) {
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("passedTime", ticks);
+		return jsonobj.toString();
+	}
+
 }
