@@ -1,6 +1,5 @@
 package model.enumerations;
 
-import org.json.JSONException;
 
 public enum ParticipantType {
 	Participant,

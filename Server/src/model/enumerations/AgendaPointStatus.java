@@ -1,7 +1,5 @@
 package model.enumerations;
 
-import org.json.JSONException;
-
 public enum AgendaPointStatus {
 	Planned, Running, Done, Cancelled;
 

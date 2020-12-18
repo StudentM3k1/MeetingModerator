@@ -84,7 +84,7 @@ public class DatenbankService {
 		return result;
 	}
 
-	public void addMeeting(Meeting meeting) throws Exception {
+	public long addMeeting(Meeting meeting) throws Exception {
 		long meetingId = this._meetingManager.AddNewMeeting(MapperMeeting.MapToMeeting(meeting));
 
 		for (model.AgendaPoint agendaPoint : meeting.getAgenda().getAgendaPoints()) {
@@ -100,6 +100,7 @@ public class DatenbankService {
 			meetingTeilnehmer.TeilnehmerId = teilnehmerId;
 			this._meetingTeilnehmerManager.AddMeetingTeilnehmer(meetingTeilnehmer);
 		}
+		return meetingId;
 	}
 
 	public void saveTeilnehmer(List<model.Participant> addParticipants, List<model.Participant> updateParticipants,
@@ -158,6 +159,12 @@ public class DatenbankService {
 		this._agendaManager.setAgendaStatus(agendaPointId, AgendaPointStatus.getInt(newStatus));
 	}
 
+	
+	public void setMeetingStatus(long id, model.enumerations.MeetingStatus newStatus) throws Exception	{
+	//todo	
+	}
+
+	
 	public List<model.AgendaPoint> getAgendaPoints(long meetingId, AgendaPointStatus agendaPointStatus)
 			throws Exception {
 		List<model.AgendaPoint> result = new ArrayList<model.AgendaPoint>();
