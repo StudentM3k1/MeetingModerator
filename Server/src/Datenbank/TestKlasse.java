@@ -27,9 +27,9 @@ public class TestKlasse {
 		try {
 			//System.out.println(VerbindungsIdGenerator.createUserId());
 			
-			TestCreateDatabase();
+			//TestCreateDatabase();
 			//TestAddMeeting();
-			//TestGetMeetingId();
+			TestGetMeetingId();
 			//TestGetMeeting();			
 			//TestGetAgendaPoints();
 			//TestSetAgendaStatus();
@@ -48,7 +48,7 @@ public class TestKlasse {
 	}
 	
 	private static void TestGetMeetingId() throws Exception {
-		Meeting meeting = DatenbankService.getInstance().getMeeting(4);	
+		Meeting meeting = DatenbankService.getInstance().getMeeting(1);	
 	}
 	
 	private static void TestGetMeeting() throws Exception {

@@ -3,6 +3,9 @@ package Datenbank.Manager;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Time;
+import java.time.LocalDateTime;
+
+import com.mysql.cj.PerConnectionLRUFactory;
 
 import Datenbank.Annotations.Spalte.SpaltenTyp;
 
@@ -29,7 +32,7 @@ class SqlParameter {
 				prepareStatement.setTime(_id, (Time)_value);
 				break;
 			case Datetime:
-				prepareStatement.setDate(_id, (Date)_value);
+				prepareStatement.setString(_id, ((LocalDateTime)_value).toString());
 				break;
 			case Varchar:
 				prepareStatement.setString(_id, (_value == null ? "" : _value.toString()));
