@@ -8,10 +8,10 @@ public class Agenda {
 	
 	private long id = 0;
 	
-	private ArrayList<AgendaPoint> agendaPoints = new ArrayList<AgendaPoint>();
+	private ArrayList<AgendaPoint> agendaPoints = new ArrayList<>();
 	
 	
-	// Nur für interne Benutzung
+	// Nur fr interne Benutzung
 	public Agenda()
 	{
 		

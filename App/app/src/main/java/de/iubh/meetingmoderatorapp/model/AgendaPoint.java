@@ -12,7 +12,7 @@ public class AgendaPoint {
 	private AgendaPointStatus status = AgendaPointStatus.Planned;
 	private long sort = 0;
 
-	// Nur für interne Benutzung
+	// Nur fr interne Benutzung
 	public AgendaPoint() {
 		
 	}
