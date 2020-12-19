@@ -10,18 +10,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import de.iubh.meetingmoderatorapp.R;
 
 
-public class TeilnehmerAdapter extends RecyclerView.Adapter<TeilnehmerAdapter.ViewHolder> {
+public class TeilnehmerAdapter extends RecyclerView.Adapter<TeilnehmerAdapter.TeilnehmerViewHolder> {
+    TextView surname, lastname;
 
+    public class TeilnehmerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TeilnehmerViewHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            surname = itemView.findViewById(R.id.txtWelcSur);
+            lastname = itemView.findViewById(R.id.txtWelcLast);
+        }
 
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
 
     @NonNull
     @Override
-    public TeilnehmerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TeilnehmerAdapter.TeilnehmerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TeilnehmerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TeilnehmerAdapter.TeilnehmerViewHolder holder, int position) {
 
     }
 
@@ -29,4 +42,6 @@ public class TeilnehmerAdapter extends RecyclerView.Adapter<TeilnehmerAdapter.Vi
     public int getItemCount() {
         return 0;
     }
+
+
 }

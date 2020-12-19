@@ -12,18 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MeetingModeratorApp">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.Act_IDEingabe">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.Act_CreateMeeting"/>
-        <activity android:name=".activities.Act_addParticipant"/>
         <activity android:name=".activities.Act_AddAgendaPoint"/>
+        <activity android:name=".activities.Act_addParticipant"/>
         <activity android:name=".activities.Act_Agenda"/>
+        <activity android:name=".activities.Act_CreateMeeting"/>
         <activity android:name=".activities.Act_MeetingSettings"/>
+        <activity android:name=".activities.Act_ModAtMeeting"/>
+        <activity android:name=".activities.Act_PartiAddMeeting"/>
+        <activity android:name=".activities.Act_Welcome"/>
 
 
     </application>

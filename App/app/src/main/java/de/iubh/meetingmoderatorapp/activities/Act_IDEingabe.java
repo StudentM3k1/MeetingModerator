@@ -23,13 +23,10 @@ public class Act_IDEingabe extends AppCompatActivity {
         setContentView(R.layout.act_id_eingabe);
         AndroidThreeTen.init(this);
 
-        Button btnToCreateMeeting = findViewById(R.id.btn_toCreateMeeting);
-        btnToCreateMeeting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Act_IDEingabe.this, Act_CreateMeeting.class);
-                startActivity(i);
-            }
+        Button btnToCreateMeeting = findViewById(R.id.btn_createNewMeeting);
+        btnToCreateMeeting.setOnClickListener(v -> {
+            Intent i = new Intent(Act_IDEingabe.this, Act_CreateMeeting.class);
+            startActivity(i);
         });
 
 
