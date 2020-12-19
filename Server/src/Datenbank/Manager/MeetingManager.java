@@ -24,4 +24,11 @@ public class MeetingManager extends SqlBase<Meeting> {
 	public long AddNewMeeting(Meeting meeting) throws Exception {
 		return this.Add(meeting);
 	}
+	
+	public void setMeetingStatus(long meetingId, int newStatus) throws Exception {
+		Meeting meeting = new Meeting();
+		meeting.MeetingId = meetingId;
+		
+		this.Update(meeting, new NewValue(Meeting.class.getField("Status"), newStatus));
+	} 
 }

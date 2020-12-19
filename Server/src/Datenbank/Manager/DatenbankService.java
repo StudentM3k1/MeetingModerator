@@ -10,6 +10,7 @@ import Datenbank.Mapper.MapperMeetingTeilnehmer;
 import Datenbank.Mapper.MapperTeilnehmer;
 import model.Meeting;
 import model.enumerations.AgendaPointStatus;
+import model.enumerations.MeetingStatus;
 
 public class DatenbankService {
 
@@ -100,6 +101,7 @@ public class DatenbankService {
 			meetingTeilnehmer.TeilnehmerId = teilnehmerId;
 			this._meetingTeilnehmerManager.AddMeetingTeilnehmer(meetingTeilnehmer);
 		}
+		
 		return meetingId;
 	}
 
@@ -160,8 +162,8 @@ public class DatenbankService {
 	}
 
 	
-	public void setMeetingStatus(long id, model.enumerations.MeetingStatus newStatus) throws Exception	{
-	//todo	
+	public void setMeetingStatus(long meetingId, model.enumerations.MeetingStatus newStatus) throws Exception	{
+		this._meetingManager.setMeetingStatus(meetingId, MeetingStatus.getInt(newStatus));
 	}
 
 	
@@ -173,5 +175,9 @@ public class DatenbankService {
 			result.add(MapperAgenda.MapToAgendaPoint(agenda));
 		}
 		return result;
+	}
+	
+	public boolean VerbindungsIdUsed(String verbindungsId) throws Exception {
+		return this._meetingManager.GetByVerbindungsId(verbindungsId) != null;
 	}
 }

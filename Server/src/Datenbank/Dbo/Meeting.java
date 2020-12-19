@@ -1,8 +1,7 @@
 package Datenbank.Dbo;
 
 import java.sql.Time;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import Datenbank.Annotations.Key;
 import Datenbank.Annotations.Spalte;
 import Datenbank.Annotations.Spalte.SpaltenTyp;
@@ -24,7 +23,7 @@ public class Meeting {
 	public String Ort;
 	
 	@Spalte(AllowNull = false, Name = "Datum", Typ = SpaltenTyp.Datetime)
-	public Date Datum;
+	public LocalDateTime Datum;
 	
 	@Spalte(AllowNull = false, Name = "VerbindungsId", Typ = SpaltenTyp.Varchar, MaxLength = 9)
 	public String VerbindungsId;
