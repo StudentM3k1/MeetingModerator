@@ -1,6 +1,6 @@
-package model;
+package de.iubh.meetingmoderatorapp.model;
 
-import model.enumerations.AgendaPointStatus;
+import de.iubh.meetingmoderatorapp.model.enumerations.AgendaPointStatus;
 
 public class AgendaPoint {
 

@@ -1,4 +1,4 @@
-package model;
+package de.iubh.meetingmoderatorapp.model;
 
 public class User {
 	
@@ -15,7 +15,7 @@ public class User {
 		
 	}
 	
-	// Nur für interne Benutzung
+	// Nur fï¿½r interne Benutzung
 	public User() {
 	
 	}

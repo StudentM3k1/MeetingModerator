@@ -1,4 +1,4 @@
-package model;
+package de.iubh.meetingmoderatorapp.model;
 
 import java.util.ArrayList;
 
