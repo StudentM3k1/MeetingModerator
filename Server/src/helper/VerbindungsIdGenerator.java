@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import Datenbank.Manager.DatenbankService;
+
 public class VerbindungsIdGenerator {
 	private static int _length = 9;
 	
@@ -20,12 +22,29 @@ public class VerbindungsIdGenerator {
 	private static int _sCapitalLetter = 65;
 	private static int _bCapitalLetter = 90;
 	
-	public static String createUserId() {
-		return createId();
+	public static String createUserId() throws Exception {
+			
+		DatenbankService dbService = DatenbankService.getInstance();
+		String newId = createId();
+		
+		while (dbService.VerbindungsIdUsed(newId))
+		{
+			newId = createId();			
+		}
+		
+		return newId;
 	}
 	
-	public static String createModeratorId() {
-		return createId();
+	public static String createModeratorId() throws Exception {
+		DatenbankService dbService = DatenbankService.getInstance();
+		String newId = createId();
+		
+		while (dbService.VerbindungsIdUsed(newId))
+		{
+			newId = createId();			
+		}
+		
+		return newId;
 	}
 	
 	private static String createId() {

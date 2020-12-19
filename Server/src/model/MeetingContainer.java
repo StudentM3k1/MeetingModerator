@@ -97,7 +97,7 @@ public class MeetingContainer {
 		return removedParticipants;
 	}
 
-	public void addRemovedMeetingSettings(Participant removedParticipants) {
+	public void addRemovedParticipants(Participant removedParticipants) {
 		this.removedParticipants.add(removedParticipants);
 	}
 	

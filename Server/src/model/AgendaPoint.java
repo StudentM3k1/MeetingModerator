@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import model.enumerations.AgendaPointStatus;
 
 public class AgendaPoint {
@@ -11,6 +13,10 @@ public class AgendaPoint {
 	private long availableTime = 0;
 	private AgendaPointStatus status = AgendaPointStatus.Planned;
 	private long sort = 0;
+	
+	private Participant actualSpeaker = new Participant();
+	private ArrayList<Participant> doneSpeaker = new ArrayList<Participant>();
+	private long runningTime = 0;
 
 	// Nur für interne Benutzung
 	public AgendaPoint() {
@@ -75,5 +81,53 @@ public class AgendaPoint {
 	public void setSort(long sort) {
 		this.sort = sort;
 	}
+
+
+	public Participant getActualSpeaker() {
+		return actualSpeaker;
+	}
+
+
+	public void setActualSpeaker(Participant actualSpeaker) {
+		this.actualSpeaker = actualSpeaker;
+	}
+
+
+	public ArrayList<Participant> getDoneSpeaker() {
+		return doneSpeaker;
+	}
+
+
+	public void setDoneSpeaker(ArrayList<Participant> doneSpeaker) {
+		this.doneSpeaker = doneSpeaker;
+	}
+	
+
+
+
+	public long getRunningTime() {
+		return runningTime;
+	}
+
+
+	public void setRunningTime(long runningTime) {
+		this.runningTime = runningTime;
+	}
+	
+	public static Participant setNextSpeaker(ArrayList<Participant> all_participants, AgendaPoint agendaPoint)
+	{
+		agendaPoint.getDoneSpeaker().add(agendaPoint.getActualSpeaker());
+		for (Participant participant : all_participants)
+		{
+			if (!agendaPoint.getDoneSpeaker().contains(participant))
+					{
+				agendaPoint.setActualSpeaker(participant);
+					return participant;
+					}
+		}
+		return null;
+	}
+	
+	
 }
  

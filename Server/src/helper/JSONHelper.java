@@ -37,6 +37,17 @@ public class JSONHelper {
 			agendaPoint_json.put("note", agendaPoint.getNote());
 			agendaPoint_json.put("availableTime", agendaPoint.getAvailableTime());
 			agendaPoint_json.put("status", AgendaPointStatus.getInt(agendaPoint.getStatus()));
+						
+			JSONObject participant = new JSONObject();
+			JSONObject user = new JSONObject();
+			user.put("id", agendaPoint.getActualSpeaker().getUser().getId());
+			user.put("firstname", agendaPoint.getActualSpeaker().getUser().getFirstname());
+			user.put("lastname", agendaPoint.getActualSpeaker().getUser().getLastname());
+			user.put("mail", agendaPoint.getActualSpeaker().getUser().getMail());
+			participant.put("user", user);
+			participant.put("id", agendaPoint.getActualSpeaker().getId());
+			participant.put("type", ParticipantType.getInt(agendaPoint.getActualSpeaker().getType()));		
+			agendaPoint_json.put("actualSpeaker", participant);		
 			agenda_points.put(agendaPoint_json);
 		}
 		agenda.put("agendaPoints", agenda_points);
@@ -53,7 +64,6 @@ public class JSONHelper {
 			participant_json.put("user", user);
 			participant_json.put("id", participant.getId());
 			participant_json.put("type", ParticipantType.getInt(participant.getType()));
-			participant_json.put("usedTime", participant.getUsedTime());
 			participants.put(participant_json);
 		}
 		jsonobj.put("participants", participants);
@@ -61,8 +71,7 @@ public class JSONHelper {
 		return jsonobj.toString();
 	}
 
-	public static Meeting JSONToMeeting(String json) {
-
+	public static Meeting JSONToMeeting(String json) throws Exception{
 		Meeting meeting = new Meeting();
 		MeetingSettings settings = new MeetingSettings();
 
@@ -94,7 +103,20 @@ public class JSONHelper {
 				agendaPoint.setTitle(json_agendaPoint.getString("title"));
 				agendaPoint.setNote(json_agendaPoint.getString("note"));
 				agendaPoint.setAvailableTime(json_agendaPoint.getLong("availableTime"));
-				agendaPoint.setStatus(AgendaPointStatus.getAgendaPointStatus(json_agendaPoint.getInt("status")));
+				agendaPoint.setStatus(AgendaPointStatus.getAgendaPointStatus(json_agendaPoint.getInt("status")));				
+				User user = new User();
+				Participant participant = new Participant();
+				JSONObject json_participant = json_agendaPoint.getJSONObject("actualSpeaker");
+				participant.setId(json_participant.getLong("id"));
+				participant.setType(ParticipantType.getParticipantType(json_participant.getInt("type")));
+				JSONObject json_user = json_participant.getJSONObject("user");
+				user.setFirstname(json_user.getString("firstname"));
+				user.setId(json_user.getLong("id"));
+				user.setLastname(json_user.getString("lastname"));
+				user.setMail(json_user.getString("mail"));
+				participant.setUser(user);
+				agendaPoint.setActualSpeaker(participant);
+				
 				agenda.getAgendaPoints().add(agendaPoint);
 			}
 
@@ -107,7 +129,6 @@ public class JSONHelper {
 				JSONObject json_participant = json_participants.getJSONObject(i);
 				participant.setId(json_participant.getLong("id"));
 				participant.setType(ParticipantType.getParticipantType(json_participant.getInt("type")));
-				participant.setUsedTime(json_participant.getLong("usedTime"));
 
 				JSONObject json_user = json_participant.getJSONObject("user");
 				user.setFirstname(json_user.getString("firstname"));
@@ -122,7 +143,7 @@ public class JSONHelper {
 
 		} catch (JSONException jsonex) {
 
-			return meeting;
+			throw new Exception("JSON kann nicht gelesen werden",jsonex.getCause());
 		}
 
 		meeting.setAgenda(agenda);

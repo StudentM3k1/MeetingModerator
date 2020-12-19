@@ -17,7 +17,7 @@ public class MeetingContainerHelper {
 	private static Timer garbageTimer;
 	private static DatenbankService dbService;
 
-	public static MeetingContainer identifyMeetingContainer(long id) {
+	public static MeetingContainer identifyMeetingContainer(long id) throws Exception {
 		for (MeetingContainer meetingContainer : meetings) {
 			if (meetingContainer.getMeeting().getId() == id) {
 				return meetingContainer;
@@ -26,7 +26,7 @@ public class MeetingContainerHelper {
 		return null;
 	}
 
-	public static Meeting getMeeting(long id) {
+	public static Meeting getMeeting(long id) throws Exception {
 		if (garbageTimer == null) {
 			garbageTimer = new Timer();
 			garbageTimer.schedule(new MeetingGarbageCollector(), 900000, 900000);
@@ -42,22 +42,15 @@ public class MeetingContainerHelper {
 
 		if (dbService == null)
 			dbService = DatenbankService.getInstance();
-		Meeting newMeeting = null;
-
-		try {
-			newMeeting = dbService.getMeeting(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		MeetingContainer newMeetingContainer = new MeetingContainer(newMeeting);
+		
+		MeetingContainer newMeetingContainer = new MeetingContainer(dbService.getMeeting(id));
 
 		newMeetingContainer.increaseCurrentAccess();
 		newMeetingContainer.setTimeStamp();
 		return newMeetingContainer.getMeeting();
 	}
 
-	public static void releaseMeeting(long id) {
+	public static void releaseMeeting(long id) throws Exception {
 		MeetingContainer matchingMeeting = null;
 		for (int i = 0; i < meetings.size(); i++) {
 			if (meetings.get(i).getMeeting().getId() == id) {
@@ -72,7 +65,7 @@ public class MeetingContainerHelper {
 		}
 	}
 
-	public static void garbageCollect() {
+	public static void garbageCollect() throws Exception {
 		for (MeetingContainer meeting : meetings) {
 			if (meeting.getMeeting().getMeetingStatus() != MeetingStatus.Running
 					&& meeting.getTimeStamp().isBefore(LocalDateTime.now().minusMinutes(15))) {
@@ -81,24 +74,18 @@ public class MeetingContainerHelper {
 		}
 	}
 
-	private static void writeToDataBase(MeetingContainer meetingContainer) {
+	public static void writeToDataBase(MeetingContainer meetingContainer) throws Exception {
 		if (dbService == null)
 			dbService = DatenbankService.getInstance();
 
-		try {
-			dbService.saveTeilnehmer(meetingContainer.getAddedParticipants(), new ArrayList<Participant>(),
-					meetingContainer.getRemovedParticipants(), meetingContainer.getMeeting().getId());
-			dbService.saveAgenda(meetingContainer.getAddedAgendaPoint(), new ArrayList<AgendaPoint>(),
-					meetingContainer.getRemovedAgendaPoints(), meetingContainer.getMeeting().getId());
-			dbService.setMeetingStatus(meetingContainer.getMeeting().getId(),
-					meetingContainer.getMeeting().getMeetingStatus());
-			for (AgendaPoint agendaPoint : meetingContainer.getMeeting().getAgenda().getAgendaPoints()) {
-				dbService.setAgendaStatus(agendaPoint.getId(), agendaPoint.getStatus());
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		dbService.saveTeilnehmer(meetingContainer.getAddedParticipants(), new ArrayList<Participant>(),
+				meetingContainer.getRemovedParticipants(), meetingContainer.getMeeting().getId());
+		dbService.saveAgenda(meetingContainer.getAddedAgendaPoint(), new ArrayList<AgendaPoint>(),
+				meetingContainer.getRemovedAgendaPoints(), meetingContainer.getMeeting().getId());
+		dbService.setMeetingStatus(meetingContainer.getMeeting().getId(),
+				meetingContainer.getMeeting().getMeetingStatus());
+		for (AgendaPoint agendaPoint : meetingContainer.getMeeting().getAgenda().getAgendaPoints()) {
+			dbService.setAgendaStatus(agendaPoint.getId(), agendaPoint.getStatus());
 		}
 
 	}

@@ -8,6 +8,7 @@ public class Agenda {
 	
 	private long id = 0;
 	
+
 	private ArrayList<AgendaPoint> agendaPoints = new ArrayList<AgendaPoint>();
 	
 	
@@ -36,4 +37,12 @@ public class Agenda {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

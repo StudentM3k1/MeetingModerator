@@ -42,7 +42,7 @@ public class MapperMeeting {
 		}
 		
 		model.Meeting result = new model.Meeting(meeting.MeetingId, agenda, settings, participants, 
-				MeetingStatus.getMeetingStatus(meeting.Status), 0, meeting.Ort);
+				MeetingStatus.getMeetingStatus(meeting.Status), meeting.Ort);
 		
 		return result;
 	}
