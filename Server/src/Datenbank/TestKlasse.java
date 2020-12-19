@@ -2,12 +2,16 @@ package Datenbank;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import Datenbank.Dbo.Agenda;
 import Datenbank.Manager.AgendaManager;
 import Datenbank.Manager.DatenbankService;
+import helper.VerbindungsIdGenerator;
 import model.AgendaPoint;
 import model.Meeting;
 import model.MeetingSettings;
@@ -20,10 +24,13 @@ import model.enumerations.ParticipantType;
 public class TestKlasse {
 
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 		try {
+			
+			for(int i = 0; i < 100; i++) {
+				System.out.println(VerbindungsIdGenerator.createUserId());
+			}
 			//TestCreateDatabase();
-			TestAddMeeting();
+			//TestAddMeeting();
 			//TestGetMeetingId();
 			//TestGetMeeting();			
 			//TestGetAgendaPoints();
@@ -59,7 +66,7 @@ public class TestKlasse {
 		points.add(new AgendaPoint(0, "Punkt3", null, 180, AgendaPointStatus.Planned, 0));
 		model.Agenda agenda = new model.Agenda(0, points);
 		
-	//	MeetingSettings meetingSettings = new MeetingSettings(0, "Meeting Title", new Date(2020, 12, 17), 360, "123", "456");
+		MeetingSettings meetingSettings = new MeetingSettings(0, "Meeting Title", LocalDateTime.now(), 360, "123", "456");
 		
 		ArrayList<Participant> participants = new ArrayList<Participant>();
 		participants.add(new Participant(0, new User(0, "Vorname", "Nachname", "Mail"), ParticipantType.Moderator, 30));
