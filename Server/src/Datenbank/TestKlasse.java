@@ -25,11 +25,9 @@ public class TestKlasse {
 
 	public static void main(String[] args) throws Exception {
 		try {
+			//System.out.println(VerbindungsIdGenerator.createUserId());
 			
-			for(int i = 0; i < 100; i++) {
-				System.out.println(VerbindungsIdGenerator.createUserId());
-			}
-			//TestCreateDatabase();
+			TestCreateDatabase();
 			//TestAddMeeting();
 			//TestGetMeetingId();
 			//TestGetMeeting();			
