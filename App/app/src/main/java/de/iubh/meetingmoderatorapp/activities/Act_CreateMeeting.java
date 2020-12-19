@@ -24,25 +24,15 @@ import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 
 public class Act_CreateMeeting extends AppCompatActivity {
-
+    static String POST_URL ="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_create_meeting);
         AndroidThreeTen.init(this);
 
-        /* all of necessay things,  a meeting need
-        long id
-        Agenda agenda,
-        MeetingSettings settings,
-        ArrayList<Participant> participants,
-                MeetingStatus meetingStatus,
-        long passedTime,
-        String ort
-   */
 
         Intent intent = getIntent();
-
 
         Participant p = new Participant(0,
                 new User(0, intent.getStringExtra("surname"),
@@ -71,14 +61,15 @@ public class Act_CreateMeeting extends AppCompatActivity {
         btnCreateMeeting.setOnClickListener(v -> {
 
             Meeting m = new Meeting();
-            String body = null;
+            String body;
             try {
                 body = JSONHelper.MeetingToJSON(m);
+                HTTPClient client = new HTTPClient();
+                String s = client.postMeeting(POST_URL, body);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            HTTPClient client = new HTTPClient();
-            String s = client.postMeeting("http://192.168.178.110:8080/MeetingModeratorServer/Meeting/", body);
+
         });
     }
 }

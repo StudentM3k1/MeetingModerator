@@ -2,8 +2,15 @@ package de.iubh.meetingmoderatorapp.controller;
 
 
 
+import android.view.View;
+
+import androidx.appcompat.widget.ActionBarContextView;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.IOException;
 
+import de.iubh.meetingmoderatorapp.activities.Act_IDEingabe;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -20,7 +27,7 @@ public class HTTPClient {
 
 
 
-    // POST
+    // POST Meeting to create
     public String postMeeting(String url, String json) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
@@ -36,11 +43,38 @@ public class HTTPClient {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+
                 assert response.body() != null;
                 m = response.body().string();
-                System.out.println(m);
+
+            }
+        });
+        return m;
+    }
 
 
+
+    // GET Meeting per ID
+    public String getMeeting(String url) {
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+               if(response.code() != 200) {
+                   m = "Err: HTTP Code: " + response.code();
+                    return;
+               }
+                assert response.body() != null;
+                m = response.body().string();
             }
         });
         return m;
