@@ -19,6 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.Act_CreateMeeting"/>
+        <activity android:name=".activities.Act_addParticipant"/>
+        <activity android:name=".activities.Act_AddAgendaPoint"/>
+        <activity android:name=".activities.Act_Agenda"/>
+        <activity android:name=".activities.Act_MeetingSettings"/>
+
+
     </application>
 
 </manifest>
