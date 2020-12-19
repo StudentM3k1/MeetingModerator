@@ -4,11 +4,11 @@ import org.threeten.bp.LocalDateTime;
 
 public class MeetingSettings {
     private long id = 0;
-    private String meetingTitle = new String();
+    private String meetingTitle;
     private LocalDateTime startTime = LocalDateTime.now();
     private long duration = 0;
-    private String moderatorId = new String();
-    private String participantId = new String();
+    private String moderatorId;
+    private String participantId;
 
     // Nur f�r interne Benutzung
     public MeetingSettings() {
