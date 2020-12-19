@@ -14,15 +14,14 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HTTPClient {
-    String jsonMeeting;
-    Meeting m = new Meeting();
+    String m;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
 
 
     // POST
-    public Meeting postMeeting(String url, String json) {
+    public String postMeeting(String url, String json) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
@@ -37,12 +36,13 @@ public class HTTPClient {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                System.out.println(response.body().string());
+                assert response.body() != null;
+                m = response.body().string();
+                System.out.println(m);
 
-                m = JSONHelper.JSONToMeeting(response.body().string());
+
             }
         });
-
         return m;
     }
 }

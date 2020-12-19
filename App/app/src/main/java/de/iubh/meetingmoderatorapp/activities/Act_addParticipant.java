@@ -8,12 +8,12 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import de.iubh.meetingmoderatorapp.R;
 
-public class Act_Agenda extends AppCompatActivity {
+public class Act_addParticipant extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_see_agenda);
+        setContentView(R.layout.act_add_participant);
         AndroidThreeTen.init(this);
 
 
