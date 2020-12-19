@@ -11,7 +11,7 @@ public class MapperAgenda {
 		agenda.AgendaId = agendaPoint.getId();
 		agenda.MeetingId = meetingId;
 		agenda.Name = agendaPoint.getTitle();
-		agenda.Diskussionszeit = Converter.LongToTime(agendaPoint.getAvailableTime());
+		agenda.Diskussionszeit = agendaPoint.getAvailableTime();
 		agenda.Sort = agendaPoint.getSort();
 		agenda.Status = AgendaPointStatus.getInt(agendaPoint.getStatus());
 		agenda.Notiz = agendaPoint.getNote();
@@ -20,7 +20,7 @@ public class MapperAgenda {
 	}
 	
 	public static AgendaPoint MapToAgendaPoint(Agenda agenda) {
-		return new AgendaPoint(agenda.AgendaId, agenda.Name, agenda.Notiz, Converter.TimeToLong(agenda.Diskussionszeit), 
+		return new AgendaPoint(agenda.AgendaId, agenda.Name, agenda.Notiz, agenda.Diskussionszeit, 
 				AgendaPointStatus.getAgendaPointStatus(agenda.Status), agenda.Sort);
 	}
 }
