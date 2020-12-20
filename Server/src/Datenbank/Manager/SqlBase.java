@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public abstract class SqlBase<TDbo> {
 				break;
 			case Datetime:
 				//TODO
-				value = LocalDateTime.now();// LocalDateTime.parse(resultSet.getString(spalte.getSpalte().Name()));
+				value = LocalDateTime.parse(resultSet.getString(spalte.getSpalte().Name()), DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss"));
 				break;
 			case Time:
 				value = resultSet.getTime(spalte.getSpalte().Name());

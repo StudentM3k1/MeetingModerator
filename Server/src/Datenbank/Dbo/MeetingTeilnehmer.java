@@ -15,9 +15,6 @@ public class MeetingTeilnehmer {
 	@Spalte(AllowNull = false, Name = "Teilnehmer_id", Typ = SpaltenTyp.Long)
 	public long TeilnehmerId;
 	
-	@Spalte(AllowNull = false, Name = "Sprechzeit", Typ = SpaltenTyp.Long)
-	public long Sprechzeit;
-	
 	@Spalte(AllowNull = false, Name = "Typ", Typ = SpaltenTyp.Int)
 	public int Typ;
 }

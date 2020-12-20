@@ -37,7 +37,7 @@ public class ConnectionManager {
 	private static ConnectionSettings getSettings() throws Exception {
 
 		if (_settings == null) {
-			_settings = LoadSettings(false);
+			_settings = LoadSettings(true);
 		}
 
 		return _settings;
@@ -46,20 +46,21 @@ public class ConnectionManager {
 	private static ConnectionSettings LoadSettings(boolean fromPath) throws Exception {
 
 		if(fromPath) {
-			File file = new File("target\\classes\\Datenbank\\ConnectionSettings.xml");
+			File file = new File("ConnectionSettings.xml");
 
-			DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			Document document = documentBuilder.parse(file);
+			if(file.exists()) {
+				DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+				Document document = documentBuilder.parse(file);
 
-			String url = document.getElementsByTagName("url").item(0).getTextContent();
-			String user = document.getElementsByTagName("user").item(0).getTextContent();
-			String password = document.getElementsByTagName("password").item(0).getTextContent();
-			String database = document.getElementsByTagName("database").item(0).getTextContent();
+				String url = document.getElementsByTagName("url").item(0).getTextContent();
+				String user = document.getElementsByTagName("user").item(0).getTextContent();
+				String password = document.getElementsByTagName("password").item(0).getTextContent();
+				String database = document.getElementsByTagName("database").item(0).getTextContent();
 
-			return new ConnectionSettings(url, user, password, database);
+				return new ConnectionSettings(url, user, password, database);
+			}
 		}
-		else {
-			return new ConnectionSettings("jdbc:mysql://localhost:3306/", "root", "", "MeetingModerator");
-		}
+		
+		return new ConnectionSettings("jdbc:mysql://localhost:3306/", "root", "", "MeetingModerator");
 	}
 }

@@ -1,17 +1,10 @@
 package Datenbank;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import Datenbank.Dbo.Agenda;
-import Datenbank.Manager.AgendaManager;
 import Datenbank.Manager.DatenbankService;
-import helper.VerbindungsIdGenerator;
 import model.AgendaPoint;
 import model.Meeting;
 import model.MeetingSettings;
@@ -27,9 +20,9 @@ public class TestKlasse {
 		try {
 			//System.out.println(VerbindungsIdGenerator.createUserId());
 			
-			//TestCreateDatabase();
-			//TestAddMeeting();
-			TestGetMeetingId();
+			TestCreateDatabase();
+			TestAddMeeting();
+			//TestGetMeetingId();
 			//TestGetMeeting();			
 			//TestGetAgendaPoints();
 			//TestSetAgendaStatus();
