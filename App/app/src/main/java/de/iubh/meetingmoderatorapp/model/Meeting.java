@@ -20,7 +20,7 @@ public class Meeting {
     private AgendaPoint runningPoint = new AgendaPoint();
     private LocalDateTime lastChange = LocalDateTime.now();
 
-    // Nur f?r interne Benutzung
+    // Nur für interne Benutzung
     public Meeting() {
 
     }

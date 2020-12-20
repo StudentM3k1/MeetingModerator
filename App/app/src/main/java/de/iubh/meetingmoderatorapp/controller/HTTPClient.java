@@ -52,8 +52,6 @@ public class HTTPClient {
         return m;
     }
 
-
-
     // GET Meeting per ID
     public String getMeeting(String url) {
         Request request = new Request.Builder()
@@ -71,10 +69,11 @@ public class HTTPClient {
             public void onResponse(Call call, Response response) throws IOException {
                if(response.code() != 200) {
                    m = "Err: HTTP Code: " + response.code();
-                    return;
+               } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                   m="";
                }
-                assert response.body() != null;
-                m = response.body().string();
             }
         });
         return m;
