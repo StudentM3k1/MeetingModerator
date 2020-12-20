@@ -25,7 +25,7 @@
         <activity android:name=".activities.Act_CreateMeeting"/>
         <activity android:name=".activities.Act_MeetingSettings"/>
         <activity android:name=".activities.Act_ModAtMeeting"/>
-        <activity android:name=".activities.Act_PartiAddMeeting"/>
+        <activity android:name=".activities.Act_PartiAtMeeting"/>
         <activity android:name=".activities.Act_Welcome"/>
 
 

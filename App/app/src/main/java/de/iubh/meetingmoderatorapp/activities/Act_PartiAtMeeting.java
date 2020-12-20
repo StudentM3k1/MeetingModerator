@@ -8,13 +8,15 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import de.iubh.meetingmoderatorapp.R;
 
-public class Act_PartiAddMeeting  extends AppCompatActivity {
-
+public class Act_PartiAtMeeting extends AppCompatActivity {
+    static String GET_URL="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/User/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_parti_at_meeting);
         AndroidThreeTen.init(this);
+
+
 
     }
 }

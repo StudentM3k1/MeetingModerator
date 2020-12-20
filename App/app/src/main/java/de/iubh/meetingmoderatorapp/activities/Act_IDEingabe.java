@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import de.iubh.meetingmoderatorapp.MainActivity;
@@ -31,15 +32,25 @@ public class Act_IDEingabe extends AppCompatActivity {
 
 
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
-        btnJoinMeeting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = findViewById(R.id.txtMeetingID).toString();
+        btnJoinMeeting.setOnClickListener(v -> {
+            String id = findViewById(R.id.txtMeetingID).toString();
+            String url = GET_URL + id;
+            if(id.matches("")) {
+                Snackbar.make(findViewById(R.id.IDView), "Bitte Meeting-ID eingeben.", Snackbar.LENGTH_LONG).show();
+            } else {
                 HTTPClient client = new HTTPClient();
-                String meeting = client.getMeeting(GET_URL + id);
-                Intent i = new Intent(Act_IDEingabe.this, Act_Welcome.class);
-                i.putExtra("JSON", meeting);
-                startActivity(i);
+                String meeting = client.getMeeting(url);
+                if(meeting.matches("")) {
+                    Snackbar.make(findViewById(R.id.IDView), "Server nicht erreichbar", Snackbar.LENGTH_LONG).show();
+                }
+                if(meeting.startsWith("Err")) {
+                    Snackbar.make(findViewById(R.id.IDView), meeting, Snackbar.LENGTH_LONG).show();
+                }
+               else {
+                    Intent i = new Intent(Act_IDEingabe.this, Act_Welcome.class);
+                    i.putExtra("JSON", meeting);
+                    startActivity(i);
+                }
             }
         });
     }
