@@ -13,7 +13,7 @@ public class MapperMeeting {
 		
 		result.MeetingId = meeting.getId();
 		result.Bezeichnung = meeting.getSettings().getMeetingTitle();
-		result.Gesamtdauer = Converter.LongToTime(meeting.getSettings().getDuration());
+		result.Gesamtdauer = meeting.getSettings().getDuration();
 		result.Ort = meeting.getOrt();
 		result.Datum = meeting.getSettings().getStartTime();
 		result.VerbindungsId = meeting.getSettings().getParticipantId();
@@ -34,7 +34,7 @@ public class MapperMeeting {
 		agenda.setAgendaPoints(agendaPoints);		
 		
 		model.MeetingSettings settings = new model.MeetingSettings(meeting.MeetingId, meeting.Bezeichnung, meeting.Datum, 
-				Converter.TimeToLong(meeting.Gesamtdauer), meeting.ModeratorVerbindungsId, meeting.VerbindungsId);
+				meeting.Gesamtdauer, meeting.ModeratorVerbindungsId, meeting.VerbindungsId);
 				
 		ArrayList<Participant> participants = new ArrayList<Participant>();
 		for(TeilnehmerDaten teilnehmer : teilnehmerList) {
@@ -42,7 +42,7 @@ public class MapperMeeting {
 		}
 		
 		model.Meeting result = new model.Meeting(meeting.MeetingId, agenda, settings, participants, 
-				MeetingStatus.getMeetingStatus(meeting.Status), 0, meeting.Ort);
+				MeetingStatus.getMeetingStatus(meeting.Status), meeting.Ort);
 		
 		return result;
 	}

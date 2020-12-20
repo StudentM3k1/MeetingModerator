@@ -1,24 +1,12 @@
 package de.iubh.meetingmoderatorapp.activities;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.jakewharton.threetenabp.AndroidThreeTen;
-
-import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
-public class Act_Agenda extends AppCompatActivity {
-    private RecyclerView recyAP;
+public class Act_Agenda {    private RecyclerView recyAP;
     private RecyclerView.Adapter apAdapter;
     private RecyclerView.LayoutManager apLayoutManger;
 
@@ -54,4 +42,5 @@ public class Act_Agenda extends AppCompatActivity {
         });
 
     }
+
 }

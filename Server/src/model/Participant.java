@@ -6,13 +6,12 @@ public class Participant {
 private	long id = 0;
 private User user = new User();
 private ParticipantType type = ParticipantType.Participant;
-private long usedTime  = 0;
 		
-		public Participant(long id,User user,ParticipantType type,long usedTime){
+		public Participant(long id,User user,ParticipantType type){
 		this.id =id;
 		this.user =user;
 		this.type =type;
-		this.usedTime = usedTime;
+
 		}
 		
 		// Nur für interne Benutzung
@@ -42,14 +41,6 @@ private long usedTime  = 0;
 
 		public void setType(ParticipantType type) {
 			this.type = type;
-		}
-
-		public long getUsedTime() {
-			return usedTime;
-		}
-
-		public void setUsedTime(long usedTime) {
-			this.usedTime = usedTime;
 		}
 }
 

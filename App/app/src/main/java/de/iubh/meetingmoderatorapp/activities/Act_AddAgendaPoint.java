@@ -1,19 +1,6 @@
 package de.iubh.meetingmoderatorapp.activities;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Switch;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.jakewharton.threetenabp.AndroidThreeTen;
-
-import de.iubh.meetingmoderatorapp.R;
-
-public class Act_AddAgendaPoint extends AppCompatActivity {
-    static String GET_URL="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
+public class Act_AddAgendaPoint {    static String GET_URL="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,4 +25,5 @@ public class Act_AddAgendaPoint extends AppCompatActivity {
 
 
     }
+
 }

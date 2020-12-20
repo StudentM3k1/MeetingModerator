@@ -16,8 +16,8 @@ public class Meeting {
 	@Spalte(AllowNull = false, Name = "Bezeichnung", Typ = SpaltenTyp.Varchar, MaxLength = 128)
 	public String Bezeichnung;
 	
-	@Spalte(AllowNull = false, Name = "Gesamtdauer", Typ = SpaltenTyp.Time)
-	public Time Gesamtdauer;
+	@Spalte(AllowNull = false, Name = "Gesamtdauer", Typ = SpaltenTyp.Long)
+	public long Gesamtdauer;
 	
 	@Spalte(AllowNull = false, Name = "Ort", Typ = SpaltenTyp.Varchar, MaxLength = 128)
 	public String Ort;

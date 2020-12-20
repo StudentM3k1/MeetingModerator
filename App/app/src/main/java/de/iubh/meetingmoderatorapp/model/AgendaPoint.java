@@ -1,18 +1,18 @@
-package de.iubh.meetingmoderatorapp.model;
+package model;
 
-import de.iubh.meetingmoderatorapp.model.enumerations.AgendaPointStatus;
+import model.enumerations.AgendaPointStatus;
 
 public class AgendaPoint {
 
 	private long id = 0;
-	private String title;
+	private String title = new String();
 	private Participant responsible = new Participant();
-	private String note;
+	private String note = new String();
 	private long availableTime = 0;
 	private AgendaPointStatus status = AgendaPointStatus.Planned;
 	private long sort = 0;
 
-	// Nur fr interne Benutzung
+	// Nur für interne Benutzung
 	public AgendaPoint() {
 		
 	}

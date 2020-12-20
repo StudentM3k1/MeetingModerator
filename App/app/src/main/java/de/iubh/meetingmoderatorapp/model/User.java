@@ -1,11 +1,11 @@
-package de.iubh.meetingmoderatorapp.model;
+package model;
 
 public class User {
 	
 	private long id =0;
-	private String firstname;
-	private String lastname;
-	private String mail;
+	private String firstname = new String();
+	private String lastname = new String();
+	private String mail = new String();
 	
 	public User(long id,String firstname,String lastname, String mail) {
 		this.id = id;
@@ -15,7 +15,7 @@ public class User {
 		
 	}
 	
-	// Nur fï¿½r interne Benutzung
+	// Nur für interne Benutzung
 	public User() {
 	
 	}

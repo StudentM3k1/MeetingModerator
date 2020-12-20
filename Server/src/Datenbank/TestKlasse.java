@@ -1,17 +1,10 @@
 package Datenbank;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import Datenbank.Dbo.Agenda;
-import Datenbank.Manager.AgendaManager;
 import Datenbank.Manager.DatenbankService;
-import helper.VerbindungsIdGenerator;
 import model.AgendaPoint;
 import model.Meeting;
 import model.MeetingSettings;
@@ -28,7 +21,7 @@ public class TestKlasse {
 			//System.out.println(VerbindungsIdGenerator.createUserId());
 			
 			TestCreateDatabase();
-			//TestAddMeeting();
+			TestAddMeeting();
 			//TestGetMeetingId();
 			//TestGetMeeting();			
 			//TestGetAgendaPoints();
@@ -48,7 +41,7 @@ public class TestKlasse {
 	}
 	
 	private static void TestGetMeetingId() throws Exception {
-		Meeting meeting = DatenbankService.getInstance().getMeeting(4);	
+		Meeting meeting = DatenbankService.getInstance().getMeeting(1);	
 	}
 	
 	private static void TestGetMeeting() throws Exception {
@@ -67,10 +60,10 @@ public class TestKlasse {
 		MeetingSettings meetingSettings = new MeetingSettings(0, "Meeting Title", LocalDateTime.now(), 360, "123", "456");
 		
 		ArrayList<Participant> participants = new ArrayList<Participant>();
-		participants.add(new Participant(0, new User(0, "Vorname", "Nachname", "Mail"), ParticipantType.Moderator, 30));
-		participants.add(new Participant(0, new User(0, "Test1", "Test2", "Test3"), ParticipantType.Participant, 150));
+		participants.add(new Participant(0, new User(0, "Vorname", "Nachname", "Mail"), ParticipantType.Moderator));
+		participants.add(new Participant(0, new User(0, "Test1", "Test2", "Test3"), ParticipantType.Participant ));
 		
-		Meeting meeting = new Meeting(0, agenda, meetingSettings, participants, MeetingStatus.Planned, 0, "Ort");
+		Meeting meeting = new Meeting(0, agenda, meetingSettings, participants, MeetingStatus.Planned, "Ort");
 		
 		DatenbankService.getInstance().addMeeting(meeting);
 	}
@@ -82,7 +75,7 @@ public class TestKlasse {
 		List<Participant> updateParticipants = new ArrayList<Participant>();
 		//updateParticipants.add(new Participant(4, new User(4, "Vorname", "Nachname", "Neue Mail"), ParticipantType.Moderator, 6000));
 		List<Participant> deleteParticipants = new ArrayList<Participant>();
-		deleteParticipants.add(new Participant(4, new User(4, "Neuer", "Teil", "nehmer"), ParticipantType.Participant, 6000));
+		deleteParticipants.add(new Participant(4, new User(4, "Neuer", "Teil", "nehmer"), ParticipantType.Participant));
 		
 		DatenbankService.getInstance().saveTeilnehmer(addParticipants, updateParticipants, deleteParticipants, 4);
 	}

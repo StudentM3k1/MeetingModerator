@@ -2,8 +2,10 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Timer;
 
 import helper.MeetingContainerHelper;
+import helper.MeetingRunner;
 import model.enumerations.*;
 
 public class Meeting {
@@ -15,8 +17,10 @@ public class Meeting {
 	private MeetingStatus meetingStatus = MeetingStatus.Planned;
 	private long passedTime = 0;
 	private String ort;
-	private AgendaPoint runningPoint = new AgendaPoint();
+
 	private LocalDateTime lastChange = LocalDateTime.now();
+	private Timer runningMeetingManager;
+	private AgendaPoint runningAgendaPoint;
 
 	// Nur für interne Benutzung
 	public Meeting() {
@@ -24,13 +28,12 @@ public class Meeting {
 	}
 
 	public Meeting(long id, Agenda agenda, MeetingSettings settings, ArrayList<Participant> participants,
-			MeetingStatus meetingStatus, long passedTime, String ort) {
+			MeetingStatus meetingStatus, String ort) {
 		this.id = id;
 		this.agenda = agenda;
 		this.settings = settings;
 		this.participants = participants;
 		this.meetingStatus = meetingStatus;
-		this.passedTime = passedTime;
 		this.ort = ort;
 	}
 
@@ -70,87 +73,124 @@ public class Meeting {
 		this.id = id;
 	}
 
-	public void checkChanges(Meeting newMeeting)
-	{
+	public void checkChanges(Meeting newMeeting) throws Exception {
 		checkAgenda(newMeeting.getAgenda());
 		checkParticipants(newMeeting.getParticipants());
 	}
+
+	public void checkAgenda(Agenda newAgenda) throws Exception {
+		for (int i = 0; i < agenda.getAgendaPoints().size(); i++) {
+			if (!newAgenda.getAgendaPoints().contains(agenda.getAgendaPoints().get(i)))
+				removeMeetingAgendaPoint(agenda.getAgendaPoints().get(i));
+		}
+
+		for (int i = 0; i < newAgenda.getAgendaPoints().size(); i++) {
+			if (!agenda.getAgendaPoints().contains(newAgenda.getAgendaPoints().get(i)))
+				addMeetingAgendaPoint(newAgenda.getAgendaPoints().get(i));
+		}
+	}
+
+	public void checkParticipants(ArrayList<Participant> newParticipants) throws Exception {
+
+		for (int i = 0; i < participants.size(); i++) {
+			if (!newParticipants.contains(participants.get(i)))
+				removeParticipant(participants.get(i));
+		}
+
+		for (int i = 0; i < newParticipants.size(); i++) {
+			if (!participants.contains(newParticipants.get(i)))
+				addParticipant(newParticipants.get(i));
+		}
+	}
+
+	private void addMeetingAgendaPoint(AgendaPoint agendaPoint) throws Exception {
+		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
+		myContainer.addAddedAgendaPoints(agendaPoint);
+		agenda.getAgendaPoints().add(agendaPoint);
+	}
+
+	private void removeMeetingAgendaPoint(AgendaPoint agendaPoint) throws Exception {
+		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
+		myContainer.addRemovedAgendaPoints(agendaPoint);
+		agenda.getAgendaPoints().remove(agendaPoint);
+	}
+
+	private void addParticipant(Participant participant) throws Exception {
+		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
+		myContainer.addAddedParticipants(participant);
+		participants.add(participant);
+	}
+
+	private void removeParticipant(Participant participant) throws Exception {
+		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
+		myContainer.addRemovedParticipants(participant);
+		participants.remove(participant);
+	}
+
+	public void startMeeting() throws Exception {
+		setMeetingStatus(MeetingStatus.Running);
+		setLastChange(LocalDateTime.now());	
+		runningMeetingManager = new Timer();
+		runningMeetingManager.schedule(new MeetingRunner(this), 1000,1000);
+	}
 	
-	
-	public void checkAgenda(Agenda newAgenda) {
-		
-		
-		
-		
-		
-		
+	public void  MeetingTick()
+	{
+		passedTime += 1;
+		runningAgendaPoint.setRunningTime(runningAgendaPoint.getRunningTime() + 1 );
+		try
+		{
+			if (runningAgendaPoint.getRunningTime() >= runningAgendaPoint.getAvailableTime()) nextPoint();
+		}
+		catch (Exception e)
+		{
+			// Wird im nächsten Durchlauf erneut versucht.
+		}
 	}
 
-	public void checkParticipants(ArrayList<Participant> newParticipants) {
-
-		
-
-		
-		
-		
-	}
-
-	private void addMeetingAgendaPoint() {
-		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
-	}
-
-	private void removeMeetingAgendaPoint() {
-		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
-	}
-
-	private void addParticipant() {
-		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
-	}
-
-	private void removeParticipant() {
-		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
-	}
-
-	public void startMeeting() {
-
-		setMeetingStatus(MeetingStatus.Running);		
-		setLastChange(LocalDateTime.now());
-		setRunningPoint(nextPoint());
-
-	}
-
-	public AgendaPoint nextPoint() {
-		setLastChange(LocalDateTime.now());
-		AgendaPoint nextPoint = new AgendaPoint();
+	public AgendaPoint nextPoint() throws Exception {
+		runningAgendaPoint = new AgendaPoint();
 		for (AgendaPoint agendaPoint : agenda.getAgendaPoints()) {
 			if (agendaPoint.getStatus() == AgendaPointStatus.Running) {
-				agendaPoint.setStatus(AgendaPointStatus.Done);
-				// Nächsten Punkt suchen, der größer ist
-				nextPoint = agendaPoint;
-				for (AgendaPoint agendaPoint_ : agenda.getAgendaPoints()) {
-					if (agendaPoint_.getSort() <= nextPoint.getSort())
-						nextPoint = agendaPoint_;
-				}
-				nextPoint.setStatus(AgendaPointStatus.Running);
-				return nextPoint;
+				runningAgendaPoint = agendaPoint;
+				break;
 			}
 		}
 
-		// Wenn kein laufender Punkt gefunden wurde, niedrigsten suchen
-		if (agenda.getAgendaPoints().size() > 0) nextPoint = agenda.getAgendaPoints().get(0);
-		for (AgendaPoint agendaPoint : agenda.getAgendaPoints()) {
-			if (agendaPoint.getSort() <= nextPoint.getSort())
-				nextPoint = agendaPoint;
+		if (runningAgendaPoint.getId() == 0 || runningAgendaPoint.getDoneSpeaker().size() + 1 == participants.size()) {
+			setLastChange(LocalDateTime.now());
+			AgendaPoint nextPoint = new AgendaPoint();
+			runningAgendaPoint.setStatus(AgendaPointStatus.Done);
+
+			// Nächsten Punkt suchen, der größer ist
+			AgendaPoint next_Point = new AgendaPoint();
+			;
+			for (AgendaPoint agendaPoint_ : agenda.getAgendaPoints()) {
+				if (agendaPoint_.getSort() <= nextPoint.getSort())
+					next_Point = agendaPoint_;
+			}
+			if (nextPoint.getId() != 0) {
+				nextPoint.setStatus(AgendaPointStatus.Running);
+				AgendaPoint.setNextSpeaker(participants, nextPoint);			
+				MeetingContainerHelper.writeToDataBase(MeetingContainerHelper.identifyMeetingContainer(id));
+				return nextPoint;
+			}
+			closeMeeting();
+			return null;
 		}
-		if (nextPoint == agenda.getAgendaPoints().get(0)) return null;
-		return nextPoint;
+		else
+		{
+			runningAgendaPoint.setRunningTime(0);
+			AgendaPoint.setNextSpeaker(participants, runningAgendaPoint);	
+			return runningAgendaPoint;
+		}	
 	}
 
-	public void closeMeeting() {
-
-		setMeetingStatus(MeetingStatus.Done);	
+	public void closeMeeting() throws Exception {
+		runningMeetingManager.cancel();
+		setMeetingStatus(MeetingStatus.Done);
 		setLastChange(LocalDateTime.now());
-		setRunningPoint(new AgendaPoint());
+		MeetingContainerHelper.writeToDataBase(MeetingContainerHelper.identifyMeetingContainer(id));
 	}
 
 	public long getPassedTime() {
@@ -173,20 +213,18 @@ public class Meeting {
 		this.meetingStatus = meetingStatus;
 	}
 
-	public AgendaPoint getRunningPoint() {
-		return runningPoint;
-	}
-
-	public void setRunningPoint(AgendaPoint runningPoint) {
-		this.runningPoint = runningPoint;
-	}
-
 	public LocalDateTime getLastChange() {
 		return lastChange;
 	}
 
 	public void setLastChange(LocalDateTime lastChange) {
 		this.lastChange = lastChange;
+	}
+	
+	public AgendaPoint getRunningAgendaPoint()
+	{
+		return runningAgendaPoint;
+		
 	}
 
 }

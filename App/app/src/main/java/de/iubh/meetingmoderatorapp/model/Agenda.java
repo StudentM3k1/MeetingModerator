@@ -1,4 +1,4 @@
-package de.iubh.meetingmoderatorapp.model;
+package model;
 
 import java.util.ArrayList;
 
@@ -8,10 +8,10 @@ public class Agenda {
 	
 	private long id = 0;
 	
-	private ArrayList<AgendaPoint> agendaPoints = new ArrayList<>();
+	private ArrayList<AgendaPoint> agendaPoints = new ArrayList<AgendaPoint>();
 	
 	
-	// Nur fr interne Benutzung
+	// Nur für interne Benutzung
 	public Agenda()
 	{
 		
