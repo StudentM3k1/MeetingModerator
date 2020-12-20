@@ -13,22 +13,22 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import de.iubh.meetingmoderatorapp.R;
 
 public class Act_AddAgendaPoint extends AppCompatActivity {
-    static String GET_URL="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
+    static String GET_URL="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_add_agendapoint);
         AndroidThreeTen.init(this);
 
-        Button btnBackToAgenda = findViewById(R.id.btnBackToAgenda);
+        Button btnBackToAgenda = findViewById(R.id.btnToAgenda);
         btnBackToAgenda.setOnClickListener(v -> startActivity(new Intent(Act_AddAgendaPoint.this, Act_Agenda.class)));
 
-        Button btnAddAP = findViewById(R.id.btn_addPointToAgenda);
+        Button btnAddAP = findViewById(R.id.btnAddAgendapoint);
         btnAddAP.setOnClickListener(v -> {
             Intent i = new Intent(Act_AddAgendaPoint.this, Act_Agenda.class);
             String apTitle = findViewById(R.id.txtAgendapointTitle).toString();
             String apNote = findViewById(R.id.txtAgendapointNote).toString();
-            long availableTime = Long.parseLong(findViewById(R.id.txtAvailaleTime).toString());
+            long availableTime = Long.parseLong(findViewById(R.id.txtAvailaleTim).toString());
 
             i.putExtra("apTitle", apTitle);
             i.putExtra("apNote", apNote);

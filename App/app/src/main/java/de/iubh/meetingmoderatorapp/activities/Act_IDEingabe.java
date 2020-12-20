@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,24 +34,27 @@ public class Act_IDEingabe extends AppCompatActivity {
 
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
         btnJoinMeeting.setOnClickListener(v -> {
-            String id = findViewById(R.id.txtMeetingID).toString();
-            if(id.matches("")) {
-                Snackbar.make(findViewById(R.id.IDView), "Bitte Meeting-ID eingeben.", Snackbar.LENGTH_LONG).show();
-            } /*else {
+
+            EditText meetingId = findViewById(R.id.txtMeetingID);
+            String id = meetingId.getText().toString();
+            if(id.matches("[0-9]{1,6}")) {
                 HTTPClient client = new HTTPClient();
                 String meeting = client.getMeeting(GET_URL + id);
-                if(meeting.matches("")) {
-                    Snackbar.make(findViewById(R.id.IDView), "Server nicht erreichbar", Snackbar.LENGTH_LONG).show();
+                if(meeting == null) {
+                    Snackbar.make(findViewById(R.id.IDView), "ID ist falsch.", Snackbar.LENGTH_LONG).show();
                 }
                 if(meeting.startsWith("Err")) {
                     Snackbar.make(findViewById(R.id.IDView), meeting, Snackbar.LENGTH_LONG).show();
                 }
-               else {
+                else {
                     Intent i = new Intent(Act_IDEingabe.this, Act_Welcome.class);
                     i.putExtra("JSON", meeting);
                     startActivity(i);
                 }
-            }*/
+            } else {
+            Snackbar.make(findViewById(R.id.IDView), "Bitte Meeting-ID eingeben.", Snackbar.LENGTH_LONG).show();
+
+            }
         });
     }
 }

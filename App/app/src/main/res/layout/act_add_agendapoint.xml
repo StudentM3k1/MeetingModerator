@@ -48,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtAgendapointTitle" />
 
     <EditText
-        android:id="@+id/txtAvailaleTime"
+        android:id="@+id/txtAvailaleTim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -68,5 +68,5 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_addPointToAgenda"
         app:layout_constraintHorizontal_bias="0.42"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtAvailaleTime" />
+        app:layout_constraintTop_toBottomOf="@+id/txtAvailaleTim" />
 </androidx.constraintlayout.widget.ConstraintLayout>

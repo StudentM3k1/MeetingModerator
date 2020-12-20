@@ -20,7 +20,7 @@ import de.iubh.meetingmoderatorapp.model.Meeting;
 import de.iubh.meetingmoderatorapp.model.Participant;
 
 public class Act_Welcome extends AppCompatActivity {
-    static String GET_URL="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
+    static String GET_URL="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
     private RecyclerView recyTLN;
     private RecyclerView.Adapter tlnAdapter;
     private RecyclerView.LayoutManager tlnLayoutManger;
