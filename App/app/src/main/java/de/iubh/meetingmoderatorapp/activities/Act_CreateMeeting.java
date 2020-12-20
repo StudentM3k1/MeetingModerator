@@ -1,15 +1,32 @@
 package de.iubh.meetingmoderatorapp.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.json.JSONException;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 
 import java.util.ArrayList;
-import de.iubh.meetingmoderatorapp.model.*;
-import static de.iubh.meetingmoderatorapp.R.id.start;
 
-public class Act_CreateMeeting {    static String POST_URL ="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
+import de.iubh.meetingmoderatorapp.R;
+import de.iubh.meetingmoderatorapp.controller.HTTPClient;
+import de.iubh.meetingmoderatorapp.controller.JSONHelper;
+import de.iubh.meetingmoderatorapp.model.*;
+import de.iubh.meetingmoderatorapp.model.enumerations.MeetingStatus;
+import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
+
+import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
+
+public class Act_CreateMeeting extends AppCompatActivity {
+    static String POST_URL ="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +38,9 @@ public class Act_CreateMeeting {    static String POST_URL ="http://192.168.178.
 
         Participant p = new Participant(0,
                 new User(0, intent.getStringExtra("surname"),
-                intent.getStringExtra("lastname"),
-                intent.getStringExtra("mail")),
-                    ParticipantType.Participant,
+                        intent.getStringExtra("lastname"),
+                        intent.getStringExtra("mail")),
+                ParticipantType.Participant,
                 0);
 
         Button btnToAgenda = findViewById(R.id.btnToAgenda);
@@ -70,5 +87,4 @@ public class Act_CreateMeeting {    static String POST_URL ="http://192.168.178.
 
         });
     }
-
 }

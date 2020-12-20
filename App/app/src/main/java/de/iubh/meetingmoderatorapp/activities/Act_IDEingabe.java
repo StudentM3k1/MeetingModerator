@@ -11,11 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import de.iubh.meetingmoderatorapp.MainActivity;
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.HTTPClient;
-import de.iubh.meetingmoderatorapp.controller.JSONHelper;
-import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_IDEingabe extends AppCompatActivity {
     static String GET_URL="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
@@ -52,9 +49,10 @@ public class Act_IDEingabe extends AppCompatActivity {
                     startActivity(i);
                 }
             } else {
-            Snackbar.make(findViewById(R.id.IDView), "Bitte Meeting-ID eingeben.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.IDView), "Bitte Meeting-ID eingeben.", Snackbar.LENGTH_LONG).show();
 
             }
         });
     }
 }
+

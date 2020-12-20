@@ -1,10 +1,8 @@
 package de.iubh.meetingmoderatorapp.controller;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +14,7 @@ import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.model.Participant;
 
 public class TeilnehmerAdapter extends RecyclerView.Adapter<TeilnehmerAdapter.TeilnehmerViewHolder> {
-    private ArrayList<Participant> mParticipants;
+    private final ArrayList<Participant> mParticipants;
 
     public static class TeilnehmerViewHolder extends RecyclerView.ViewHolder {
         public TextView surname, lastname;

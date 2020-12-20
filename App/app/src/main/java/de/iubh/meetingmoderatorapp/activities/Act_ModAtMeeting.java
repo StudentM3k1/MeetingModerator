@@ -8,14 +8,18 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import de.iubh.meetingmoderatorapp.R;
 
-public class Act_PartiAtMeeting extends AppCompatActivity {
-    static String GET_URL="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/User/";
+public class Act_ModAtMeeting  extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_parti_at_meeting);
+        setContentView(R.layout.act_mod_at_meeting);
         AndroidThreeTen.init(this);
 
+        // zeitliche abfrage 2 x pro seconde ob changes existieren
+
+
+        // bei changes environment anpassen
 
 
     }

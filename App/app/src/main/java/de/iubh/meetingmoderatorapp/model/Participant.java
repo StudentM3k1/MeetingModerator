@@ -1,6 +1,6 @@
-package model;
+package de.iubh.meetingmoderatorapp.model;
 
-import model.enumerations.ParticipantType;
+import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 
 public class Participant {
 private	long id = 0;
@@ -15,7 +15,7 @@ private long usedTime  = 0;
 		this.usedTime = usedTime;
 		}
 		
-		// Nur für interne Benutzung
+		// Nur fï¿½r interne Benutzung
 		public Participant() {
 
 		}

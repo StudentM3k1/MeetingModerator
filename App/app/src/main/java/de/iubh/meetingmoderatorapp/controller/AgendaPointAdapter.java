@@ -14,7 +14,7 @@ import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.model.AgendaPoint;
 
 public class AgendaPointAdapter extends RecyclerView.Adapter<AgendaPointAdapter.AgendaPointViewHolder> {
-    private ArrayList<AgendaPoint> agendapoints;
+    private final ArrayList<AgendaPoint> agendapoints;
 
     public static class AgendaPointViewHolder extends RecyclerView.ViewHolder {
         public TextView apTitle;
