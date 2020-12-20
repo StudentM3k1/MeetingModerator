@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,65 +27,84 @@ import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 
 public class Act_CreateMeeting extends AppCompatActivity {
-    static String POST_URL ="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
+    private Meeting m = new Meeting();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_create_meeting);
         AndroidThreeTen.init(this);
 
+        EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
+        EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
+        EditText duration = findViewById(R.id.minCreateMeetingDuration);
+        EditText ort = findViewById(R.id.txtCreateMeetingOrt);
 
-        Intent intent = getIntent();
 
-        Participant p = new Participant(0,
-                new User(0, intent.getStringExtra("surname"),
-                        intent.getStringExtra("lastname"),
-                        intent.getStringExtra("mail")),
-                ParticipantType.Participant,
-                0);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+          m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
+          meetingTitle.setText(m.getSettings().getMeetingTitle());
+          startTime.setText(m.getSettings().getStartTime().toString());
+          //TODO NumberFormatting
+          duration.setText("240");
+          ort.setText(m.getOrt());
+        }
 
         Button btnToAgenda = findViewById(R.id.btnToAgenda);
-        btnToAgenda.setOnClickListener(v -> startActivity(new Intent(Act_CreateMeeting.this, Act_Agenda.class)));
+        btnToAgenda.setOnClickListener(v -> {
+            Intent i = (new Intent(Act_CreateMeeting.this, Act_Agenda.class));
+            try {
 
-        Button btnToAddParticipant = findViewById(btn_toAddParticipan);
-        btnToAddParticipant.setOnClickListener(v -> {
-            Intent i = new Intent(Act_CreateMeeting.this, Act_addParticipant.class);
+                m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
+                //TODO Zeit aus Layout ubernehmenr
+                m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55".toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                m.setOrt(ort.getText().toString());
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             startActivity(i);
         });
 
+        Button btnToAddParticipant = findViewById(btn_toAddParticipan);
+        btnToAddParticipant.setOnClickListener(v -> {
+            try {
+                Intent i = (new Intent(Act_CreateMeeting.this, Act_addParticipant.class));
+                m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
+                //TODO Zeit aus Layout ubernehmenr
+                m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                m.setOrt(ort.getText().toString());
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                startActivity(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
 
 
         Button btnCreateMeeting = findViewById(R.id.btn_createMeeting);
         btnCreateMeeting.setOnClickListener(v -> {
-
-
-            EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
-            String mT = meetingTitle.getText().toString();
-            EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
-            LocalDateTime sT = LocalDateTime.parse(startTime.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-            EditText duration = findViewById(R.id.minCreateMeetingDuration);
-            Long dura = Long.parseLong(duration.getText().toString());
-            EditText ot = findViewById(R.id.txtCreateMeetingOrt);
-            String ort = ot.getText().toString();
-
-            MeetingSettings ms = new MeetingSettings(0, mT, sT, dura, "0", "0");
-
-            ArrayList<AgendaPoint> agendaPoints = new ArrayList<>();
-            Agenda agenda = new Agenda(0, agendaPoints);
-
-            ArrayList<Participant> participants = new ArrayList<>();
-
-
-            Meeting m = new Meeting(0, agenda, ms, participants, MeetingStatus.getMeetingStatus(0), 0, ort);
-            String body;
+            m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
+            //TODO Zeit aus Layout ubernehmenr
+            m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+            m.setOrt(ort.getText().toString());
             try {
-                body = JSONHelper.MeetingToJSON(m);
                 HTTPClient client = new HTTPClient();
-                String s = client.postMeeting(POST_URL, body);
+                Meeting meetingResponse = JSONHelper
+                        .JSONToMeeting(client.postMeeting(JSONHelper.MeetingToJSON(m)));
+                TextView idRes = findViewById(R.id.IDResponse);
+                idRes.setText(meetingResponse.getSettings().getModeratorId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         });
     }
 }

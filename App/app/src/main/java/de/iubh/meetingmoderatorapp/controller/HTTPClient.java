@@ -22,31 +22,36 @@ import okhttp3.Response;
 
 public class HTTPClient {
     String m;
+    //static String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
+    static String URL ="http:10.0.2.2/MeetingModeratorServer/Meeting/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
 
 
     // POST Meeting to create
-    public String postMeeting(String url, String json) {
+    public String postMeeting(String json) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
-                .url(url)
+                .url(URL)
                 .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-
+                m = "Nope in postMeeting HTTPMethod";
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
-                assert response.body() != null;
-                m = response.body().string();
-
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
             }
         });
         return m;
@@ -55,7 +60,7 @@ public class HTTPClient {
     // GET Meeting per ID
     public String getMeeting(String url) {
         Request request = new Request.Builder()
-                .url(url)
+                .url(URL + url)
                 .get()
                 .build();
         client.newCall(request).enqueue(new Callback() {

@@ -4,15 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import org.json.JSONException;
+
 import de.iubh.meetingmoderatorapp.R;
+import de.iubh.meetingmoderatorapp.controller.JSONHelper;
+import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_addParticipant extends AppCompatActivity {
+    private Meeting m = new Meeting();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +26,12 @@ public class Act_addParticipant extends AppCompatActivity {
         setContentView(R.layout.act_add_participant);
         AndroidThreeTen.init(this);
 
+
+        EditText surname = findViewById(R.id.txtPartiFirstName);
+        EditText lastname = findViewById(R.id.txtPartiLastname);
+        EditText mail = findViewById(R.id.txtPartiMail);
         Button btnBack = findViewById(R.id.btnBackHome);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,16 +44,13 @@ public class Act_addParticipant extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Act_addParticipant.this, Act_CreateMeeting.class);
-                String surname = findViewById(R.id.txtPartiFirstName).toString();
-                String lastname = findViewById(R.id.txtPartiLastname).toString();
-                String mail = findViewById(R.id.txtPartiMail).toString();
-                Switch isMod = (Switch) findViewById(R.id.switchMod);
-                Boolean isso = isMod.isChecked();
 
-                i.putExtra("surname", surname);
-                i.putExtra("lastname", lastname);
-                i.putExtra("mail", mail);
-                i.putExtra("isMod", isso);
+                try {
+                    i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 startActivity(i);
 
             }

@@ -15,7 +15,6 @@ import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.HTTPClient;
 
 public class Act_IDEingabe extends AppCompatActivity {
-    static String GET_URL="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +35,7 @@ public class Act_IDEingabe extends AppCompatActivity {
             String id = meetingId.getText().toString();
             if(id.matches("[0-9]{1,6}")) {
                 HTTPClient client = new HTTPClient();
-                String meeting = client.getMeeting(GET_URL + id);
+                String meeting = client.getMeeting(id);
                 if(meeting == null) {
                     Snackbar.make(findViewById(R.id.IDView), "ID ist falsch.", Snackbar.LENGTH_LONG).show();
                 }
