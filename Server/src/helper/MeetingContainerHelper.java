@@ -13,7 +13,7 @@ import model.Participant;
 import model.enumerations.MeetingStatus;
 
 public class MeetingContainerHelper {
-	private static ArrayList<MeetingContainer> meetings;
+	private static ArrayList<MeetingContainer> meetings = new ArrayList<MeetingContainer>();
 	private static Timer garbageTimer;
 	private static DatenbankService dbService;
 

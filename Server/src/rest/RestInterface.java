@@ -29,7 +29,7 @@ public class RestInterface {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getMeetingParticipant(@PathParam("id") String id) throws Exception {
 		try {
-			String json_return = RestHelper.getMeeting(IdHelper.getTechnicalIdByParticipantId(id));
+			String json_return = RestHelper.getMeeting(IdHelper.getTechnicalIdByParticipantId(id), false);
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class RestInterface {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getMeetingModerator(@PathParam("id") String id) {
 		try {
-			String json_return = RestHelper.getMeeting(IdHelper.getTechnicalIdByModeratorId(id));
+			String json_return = RestHelper.getMeeting(IdHelper.getTechnicalIdByModeratorId(id), true);
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {

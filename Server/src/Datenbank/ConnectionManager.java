@@ -18,6 +18,7 @@ public class ConnectionManager {
 	
 	private static Connection GetConnection(boolean withDatabase) {
 		try {
+		    Class.forName("com.mysql.cj.jdbc.Driver");
 			ConnectionSettings settings = getSettings();
 			return DriverManager.getConnection(settings.getUrl() + (withDatabase ? settings.getDatabase() : ""), 
 					settings.getUser(), settings.getPassword());

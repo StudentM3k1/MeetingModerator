@@ -140,7 +140,7 @@ public class Meeting {
 		runningAgendaPoint.setRunningTime(runningAgendaPoint.getRunningTime() + 1 );
 		try
 		{
-			if (runningAgendaPoint.getRunningTime() >= runningAgendaPoint.getAvailableTime()) nextPoint();
+			if (runningAgendaPoint.getRunningTime() >= runningAgendaPoint.getAvailableTime() / participants.size()) nextPoint();
 		}
 		catch (Exception e)
 		{

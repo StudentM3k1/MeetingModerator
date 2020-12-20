@@ -7,14 +7,8 @@ import model.*;
 public final class RestHelper {
 
 	public static String createMeeting(String json) throws Exception {
-
 		Meeting meeting = JSONHelper.JSONToMeeting(json);
-
-		return JSONHelper.MeetingToJSON(meeting);
-		
-		
-		/*
-		
+				
 		if (meeting.getSettings().getStartTime().isAfter(LocalDateTime.now())
 				&& meeting.getSettings().getMeetingTitle() != null && !meeting.getSettings().getMeetingTitle().isEmpty()
 				&& meeting.getSettings().getDuration() > 60 && meeting.getAgenda().getAgendaPoints().size() > 0
@@ -25,7 +19,6 @@ public final class RestHelper {
 			DatenbankService dbService = DatenbankService.getInstance();
 			long id = 0;
 			try {
-				dbService.CreateDatabase();
 				id = dbService.addMeeting(meeting);
 			} catch (Exception e) {
 				throw new Exception("Datenbankzugriff fehlerhaft!");
@@ -36,11 +29,12 @@ public final class RestHelper {
 			return JSONHelper.MeetingToJSON(newMeeting);
 		} else {
 			throw new Exception("Meeting-Daten fehlerhaft!");
-		}*/
+		}
 	}
 
-	public static String getMeeting(long id) throws Exception {
+	public static String getMeeting(long id, boolean isModerator) throws Exception {
 		Meeting newMeeting = MeetingContainerHelper.getMeeting(id);
+		if (isModerator == false) newMeeting.getSettings().setModeratorId("0");
 		MeetingContainerHelper.releaseMeeting(newMeeting.getId());
 		return JSONHelper.MeetingToJSON(newMeeting);
 	}
