@@ -17,7 +17,7 @@ import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_IDEingabe extends AppCompatActivity {
-    static String GET_URL="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
+    static String GET_URL="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +34,11 @@ public class Act_IDEingabe extends AppCompatActivity {
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
         btnJoinMeeting.setOnClickListener(v -> {
             String id = findViewById(R.id.txtMeetingID).toString();
-            String url = GET_URL + id;
             if(id.matches("")) {
                 Snackbar.make(findViewById(R.id.IDView), "Bitte Meeting-ID eingeben.", Snackbar.LENGTH_LONG).show();
-            } else {
+            } /*else {
                 HTTPClient client = new HTTPClient();
-                String meeting = client.getMeeting(url);
+                String meeting = client.getMeeting(GET_URL + id);
                 if(meeting.matches("")) {
                     Snackbar.make(findViewById(R.id.IDView), "Server nicht erreichbar", Snackbar.LENGTH_LONG).show();
                 }
@@ -51,7 +50,7 @@ public class Act_IDEingabe extends AppCompatActivity {
                     i.putExtra("JSON", meeting);
                     startActivity(i);
                 }
-            }
+            }*/
         });
     }
 }

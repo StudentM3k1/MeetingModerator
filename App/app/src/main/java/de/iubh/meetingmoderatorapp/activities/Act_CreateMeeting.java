@@ -24,7 +24,7 @@ import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 
 public class Act_CreateMeeting extends AppCompatActivity {
-    static String POST_URL ="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
+    static String POST_URL ="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
