@@ -2,6 +2,7 @@ package de.iubh.meetingmoderatorapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.json.JSONException;
@@ -21,6 +23,8 @@ import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.*;
 
+import static de.iubh.meetingmoderatorapp.R.id.IDResponse;
+import static de.iubh.meetingmoderatorapp.R.id.btnMeetingEinwahl;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 
 public class Act_CreateMeeting extends AppCompatActivity {
@@ -43,7 +47,6 @@ public class Act_CreateMeeting extends AppCompatActivity {
         EditText ort = findViewById(R.id.txtCreateMeetingOrt);
 
 
-
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
           m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
@@ -52,8 +55,8 @@ public class Act_CreateMeeting extends AppCompatActivity {
           //TODO NumberFormatting
           duration.setText("240");
           ort.setText(m.getOrt());
-
         }
+
         recyTLN = findViewById(R.id.recyTln);
         recyTLN.setHasFixedSize(true);
         tlnLayoutManger = new LinearLayoutManager(this);
@@ -98,24 +101,41 @@ public class Act_CreateMeeting extends AppCompatActivity {
 
         Button btnCreateMeeting = findViewById(R.id.btn_createMeeting);
         btnCreateMeeting.setOnClickListener(v -> {
-            m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
+            /*m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
             //TODO Zeit aus Layout ubernehmenr
             //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
             m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
             m.setOrt(ort.getText().toString());
+             */
+            TextView idRes = findViewById(R.id.IDResponse);
+            Meeting meetingResponse = new Meeting();
+            HTTPClient client = new HTTPClient();
             try {
-                HTTPClient client = new HTTPClient();
-                Meeting meetingResponse = JSONHelper
-                        .JSONToMeeting(client.postMeeting(JSONHelper.MeetingToJSON(m)));
-                TextView idRes = findViewById(R.id.IDResponse);
-                idRes.setText(meetingResponse.getSettings().getModeratorId());
+                String meetRes = client.postMeeting(JSONHelper.MeetingToJSON(m));
+                if(meetRes != null){
+                    if(meetRes.startsWith("Err")){
+                        idRes.setText("Server Response: " + meetRes);
+                    }else{
+                        meetingResponse = JSONHelper.JSONToMeeting(meetRes);
+                    }
+                } else {
+                    idRes.setText("Server Response = null");
+                }
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            idRes.setText("Deine ModeratorID ist: " + meetingResponse.getSettings().getModeratorId());
         });
 
-
         Button btnToHome = findViewById(R.id.btnBackToHome);
+        btnToHome.setOnClickListener(v -> {
+            Intent i = (new Intent(Act_CreateMeeting.this, Act_Welcome.class));
+
+            startActivity(i);
+        });
 
 
     }
