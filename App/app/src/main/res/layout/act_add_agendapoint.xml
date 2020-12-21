@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -42,30 +43,29 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="AP Notiz"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtAgendapointTitle"
+        app:layout_constraintStart_toStartOf="@+id/txtAgendapointTitle"
         app:layout_constraintTop_toBottomOf="@+id/txtAgendapointTitle" />
-
-    <EditText
-        android:id="@+id/txtAvailaleTim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="availableTime"
-        android:inputType="numberSigned"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.805"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtAgendapointNote" />
 
     <Button
         android:id="@+id/btnBackToAgenda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="zurück"
         app:layout_constraintEnd_toStartOf="@+id/btn_addPointToAgenda"
         app:layout_constraintHorizontal_bias="0.42"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtAvailaleTim" />
+        app:layout_constraintTop_toBottomOf="@+id/txtAPDauer" />
+
+    <EditText
+        android:id="@+id/txtAPDauer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Agendapunkt Dauer"
+        android:inputType="textPersonName"
+        android:text="240"
+        app:layout_constraintEnd_toEndOf="@+id/txtAgendapointNote"
+        app:layout_constraintStart_toStartOf="@+id/txtAgendapointNote"
+        app:layout_constraintTop_toBottomOf="@+id/txtAgendapointNote" />
 </androidx.constraintlayout.widget.ConstraintLayout>

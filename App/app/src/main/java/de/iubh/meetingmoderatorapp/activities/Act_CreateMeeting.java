@@ -15,14 +15,10 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 
-import java.util.ArrayList;
-
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.HTTPClient;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.model.*;
-import de.iubh.meetingmoderatorapp.model.enumerations.MeetingStatus;
-import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 
@@ -56,12 +52,12 @@ public class Act_CreateMeeting extends AppCompatActivity {
 
         Button btnToAgenda = findViewById(R.id.btnToAgenda);
         btnToAgenda.setOnClickListener(v -> {
-            Intent i = (new Intent(Act_CreateMeeting.this, Act_Agenda.class));
+            Intent i = new Intent(Act_CreateMeeting.this, Act_Agenda.class);
             try {
 
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 //TODO Zeit aus Layout ubernehmenr
-                m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55".toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55".toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
@@ -79,7 +75,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 //TODO Zeit aus Layout ubernehmenr
                 m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+               // m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
                 startActivity(i);
@@ -93,7 +89,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
         btnCreateMeeting.setOnClickListener(v -> {
             m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
             //TODO Zeit aus Layout ubernehmenr
-            m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
             m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
             m.setOrt(ort.getText().toString());
             try {
@@ -106,5 +102,10 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+
+
+        Button btnToHome = findViewById(R.id.btnBackToHome);
+
+
     }
 }

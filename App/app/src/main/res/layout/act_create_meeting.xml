@@ -11,14 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="203dp"
-        android:layout_marginTop="530dp"
         android:layout_marginEnd="115dp"
-        android:layout_marginBottom="153dp"
         android:text="Create it"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/IDResponse" />
 
     <TextView
         android:id="@+id/textView"
@@ -109,4 +108,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt" />
+
+    <Button
+        android:id="@+id/btnBackToHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="zurück"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_createMeeting"
+        app:layout_constraintEnd_toStartOf="@+id/btn_createMeeting"
+        app:layout_constraintHorizontal_bias="0.594"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_createMeeting" />
 </androidx.constraintlayout.widget.ConstraintLayout>

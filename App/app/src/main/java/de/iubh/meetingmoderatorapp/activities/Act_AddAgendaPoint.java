@@ -3,6 +3,7 @@ package de.iubh.meetingmoderatorapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,16 +20,24 @@ import de.iubh.meetingmoderatorapp.model.enumerations.AgendaPointStatus;
 public class Act_AddAgendaPoint  extends AppCompatActivity {
 
     private Meeting m = new Meeting();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_add_agendapoint);
         AndroidThreeTen.init(this);
 
+        EditText apTitle = findViewById(R.id.txtAgendapointTitle);
+        EditText apNote = findViewById(R.id.txtAgendapointNote);
+        EditText apTime = findViewById(R.id.txtAPDauer);
+
         Bundle extras = getIntent().getExtras();
         if(extras!= null) {
             m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
         }
+
 
         Button btnBackToAgenda = findViewById(R.id.btnBackToAgenda);
         btnBackToAgenda.setOnClickListener(v -> {
@@ -45,26 +54,25 @@ public class Act_AddAgendaPoint  extends AppCompatActivity {
         Button btnAddAP = findViewById(R.id.btn_addPointToAgenda);
         btnAddAP.setOnClickListener(v -> {
             Intent i = new Intent(Act_AddAgendaPoint.this, Act_Agenda.class);
-            String apTitle = findViewById(R.id.txtAgendapointTitle).toString();
-            String apNote = findViewById(R.id.txtAgendapointNote).toString();
-            long availableTime = Long.parseLong(findViewById(R.id.txtAvailaleTim).toString());
+
+
             AgendaPoint ap = new AgendaPoint(
                     m.getAgenda()
                     .getAgendaPoints()
                             .size()+1,
-                    apTitle,
-                    apNote,
-                    availableTime,
+                    apTitle.getText().toString(),
+                    apNote.getText().toString(),
+                    Long.parseLong(apTime.getText().toString()),
                     AgendaPointStatus.Planned,
                     0);
             m.getAgenda().getAgendaPoints().add(ap);
             try {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
-                startActivity(i);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            startActivity(i);
         });
 
 

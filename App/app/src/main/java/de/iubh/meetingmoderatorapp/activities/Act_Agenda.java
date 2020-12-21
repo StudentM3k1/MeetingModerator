@@ -34,9 +34,9 @@ public class Act_Agenda extends AppCompatActivity {
         // Aufbau RecyView
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            String EinwahlJson = extras.getString("JSON");
+            String json = extras.getString("JSON");
 
-            m = JSONHelper.JSONToMeeting(EinwahlJson);
+            m = JSONHelper.JSONToMeeting(json);
 
             recyAP = findViewById(R.id.recyAP);
             recyAP.setHasFixedSize(true);
@@ -51,14 +51,14 @@ public class Act_Agenda extends AppCompatActivity {
 
         // Button zu Activitz AddAgendapoint
         Button btnAddAgendapoint = findViewById(R.id.btnAddAgendapoint);
-        btnAddAgendapoint.setOnClickListener(v -> {
+        btnAddAgendapoint.setOnClickListener(v ->        {
+            Intent i = new Intent(Act_Agenda.this, Act_AddAgendaPoint.class);
             try {
-                Intent i = new Intent(Act_Agenda.this, Act_AddAgendaPoint.class);
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
-                startActivity(i);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            startActivity(i);
         });
 
     }
