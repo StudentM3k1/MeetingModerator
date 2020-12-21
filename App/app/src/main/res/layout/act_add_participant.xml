@@ -13,16 +13,14 @@
         android:ems="10"
         android:hint="mail"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtPartiLastname"
+        app:layout_constraintStart_toStartOf="@+id/txtPartiLastname"
         app:layout_constraintTop_toBottomOf="@+id/txtPartiLastname" />
 
     <EditText
         android:id="@+id/txtPartiFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="86dp"
-        android:layout_marginEnd="116dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Vorname"
@@ -34,48 +32,31 @@
         android:id="@+id/txtPartiLastname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="116dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Nachname"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtPartiFirstName"
+        app:layout_constraintStart_toStartOf="@+id/txtPartiFirstName"
         app:layout_constraintTop_toBottomOf="@+id/txtPartiFirstName" />
 
     <Button
         android:id="@+id/btnAddParti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="41dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="4dp"
         android:text="Add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchMod" />
+        app:layout_constraintEnd_toEndOf="@+id/txtPartiMail"
+        app:layout_constraintTop_toBottomOf="@+id/txtPartiMail" />
 
     <Button
         android:id="@+id/btnBackHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="71dp"
         android:text="zurück"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddParti"
-        app:layout_constraintHorizontal_bias="0.117"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchMod" />
-
-    <Switch
-        android:id="@+id/switchMod"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="166dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="157dp"
-        android:text="Moderator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.708"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPartiMail" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnAddParti"
+        app:layout_constraintStart_toStartOf="@+id/txtPartiMail"
+        app:layout_constraintTop_toTopOf="@+id/btnAddParti" />
 
     <TextView
         android:id="@+id/textView4"

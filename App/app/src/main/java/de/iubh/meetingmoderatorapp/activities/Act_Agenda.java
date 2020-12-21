@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
-import de.iubh.meetingmoderatorapp.model.AgendaPoint;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_Agenda extends AppCompatActivity {
@@ -25,6 +24,7 @@ public class Act_Agenda extends AppCompatActivity {
     private RecyclerView.Adapter apAdapter;
     private RecyclerView.LayoutManager apLayoutManger;
     private Meeting m = new Meeting();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +49,23 @@ public class Act_Agenda extends AppCompatActivity {
 
 
 
-        // Button zu Activitz AddAgendapoint
+        // Button zu Activity AddAgendapoint
         Button btnAddAgendapoint = findViewById(R.id.btnAddAgendapoint);
         btnAddAgendapoint.setOnClickListener(v ->        {
             Intent i = new Intent(Act_Agenda.this, Act_AddAgendaPoint.class);
+            try {
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            startActivity(i);
+        });
+
+
+        // Button zu Activity CreateMeeting
+        Button btnToMeetingCreation = findViewById(R.id.btnToMeetingCreation);
+        btnToMeetingCreation.setOnClickListener(v ->        {
+            Intent i = new Intent(Act_Agenda.this, Act_CreateMeeting.class);
             try {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {

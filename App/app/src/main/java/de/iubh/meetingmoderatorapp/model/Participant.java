@@ -8,7 +8,7 @@ private User user = new User();
 private ParticipantType type = ParticipantType.Participant;
 private long usedTime  = 0;
 		
-		public Participant(long id,User user,ParticipantType type,long usedTime){
+		public Participant(long id, User user, ParticipantType type, long usedTime){
 		this.id =id;
 		this.user =user;
 		this.type =type;
