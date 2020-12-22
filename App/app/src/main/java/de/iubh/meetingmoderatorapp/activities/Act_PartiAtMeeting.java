@@ -35,6 +35,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
         TextView verbleibendeGesamtzeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
         TextView verbleibendeAPZeit = findViewById(R.id.txtVerbleibendeAPZeit);
         TextView verbleibendeSprechZeit = findViewById(R.id.txtVerbleibendeSprechZeit);
+        TextView aktuSprecher = findViewById(R.id.txtAktuSprecher);
         TextView partiGruss = findViewById(R.id.txtPartiGruss);
         TextView partiSprechNote = findViewById(R.id.txtPartiSprechzeit);
 
@@ -45,7 +46,6 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-
             surname = extras.getString("surname");
             lastname = extras.getString("lastname");
             String json = extras.getString("JSON");
@@ -73,9 +73,12 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
 
         HTTPClient client = new HTTPClient();
 
-        // TODO Make button only visible when aktuSpeaker == User
+        client.getUserChange(meetingID);
+
 
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
+        // TODO Make button only visible when aktuSpeaker == User
+        btnEndSpeak.setVisibility(View.VISIBLE);
         btnEndSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

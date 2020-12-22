@@ -2,7 +2,6 @@ package de.iubh.meetingmoderatorapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,10 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.json.JSONException;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 
 import de.iubh.meetingmoderatorapp.R;
@@ -23,8 +23,6 @@ import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.*;
 
-import static de.iubh.meetingmoderatorapp.R.id.IDResponse;
-import static de.iubh.meetingmoderatorapp.R.id.btnMeetingEinwahl;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 
 public class Act_CreateMeeting extends AppCompatActivity {
@@ -38,9 +36,10 @@ public class Act_CreateMeeting extends AppCompatActivity {
         setContentView(R.layout.act_create_meeting);
         AndroidThreeTen.init(this);
         RecyclerView recyTLN;
-        RecyclerView.Adapter tlnAdapter;
+        TeilnehmerAdapter tlnAdapter;
         RecyclerView.LayoutManager tlnLayoutManger;
         EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
+        EditText startDate = findViewById(R.id.timeCreateMeetingStartDate);
         EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
         EditText duration = findViewById(R.id.minCreateMeetingDuration);
         EditText ort = findViewById(R.id.txtCreateMeetingOrt);
@@ -87,7 +86,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 //TODO Zeit aus Layout ubernehmenr
-                //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString(), DateTimeFormatter.ofPattern("yyyy-MM--dd")));
                // m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
@@ -110,21 +109,26 @@ public class Act_CreateMeeting extends AppCompatActivity {
             Meeting meetingResponse = new Meeting();
             HTTPClient client = new HTTPClient();
             try {
-                String meetRes = client.postMeeting(JSONHelper.MeetingToJSON(m));
-                if(meetRes != null){
-                    if(meetRes.startsWith("Err")){
-                        idRes.setText("Server Response: " + meetRes);
+                client.postMeeting(JSONHelper.MeetingToJSON(m));
+
+while (client.getResponseReceived() == false)
+{
+}
+                    if (client.getResponseCode() != 200){
+                        idRes.setText("Server Response: " + Integer.toString(client.getResponseCode()));
                     }else{
-                        meetingResponse = JSONHelper.JSONToMeeting(meetRes);
+                        meetingResponse = JSONHelper.JSONToMeeting(client.getResponseBody());
                     }
-                } else {
-                    idRes.setText("Server Response = null");
-                }
 
-
-            } catch (JSONException e) {
+            } catch (Exception e) {
+                // Message : Servererror?
                 e.printStackTrace();
             }
+
+
+
+
+
             modId = meetingResponse.getSettings().getModeratorId();
             idRes.setText("Deine ModeratorID ist: " + meetingResponse.getSettings().getModeratorId());
         });
