@@ -28,9 +28,6 @@ import static de.iubh.meetingmoderatorapp.R.id.btnMeetingEinwahl;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 
 public class Act_CreateMeeting extends AppCompatActivity {
-    private RecyclerView recyTLN;
-    private RecyclerView.Adapter tlnAdapter;
-    private RecyclerView.LayoutManager tlnLayoutManger;
     private Meeting m = new Meeting();
     private String modId;
 
@@ -40,7 +37,9 @@ public class Act_CreateMeeting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_create_meeting);
         AndroidThreeTen.init(this);
-
+        RecyclerView recyTLN;
+        RecyclerView.Adapter tlnAdapter;
+        RecyclerView.LayoutManager tlnLayoutManger;
         EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
         EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
         EditText duration = findViewById(R.id.minCreateMeetingDuration);

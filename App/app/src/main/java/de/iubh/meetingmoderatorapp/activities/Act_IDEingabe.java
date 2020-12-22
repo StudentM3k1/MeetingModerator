@@ -21,7 +21,6 @@ import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_IDEingabe extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,33 +32,32 @@ public class Act_IDEingabe extends AppCompatActivity {
             meetingId.setText(extras.getString("modId"));
         }
 
-
         Button btnToCreateMeeting = findViewById(R.id.btn_createNewMeeting);
         btnToCreateMeeting.setOnClickListener(v -> {
             Intent i = new Intent(Act_IDEingabe.this, Act_CreateMeeting.class);
             startActivity(i);
         });
 
-
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
         btnJoinMeeting.setOnClickListener(v -> {
-
             String id = meetingId.getText().toString();
             if(id.matches("[0-9]{1,6}")) {
                 HTTPClient client = new HTTPClient();
                 String meeting = client.getMeeting(id);
-
-
                 if(meeting == null) {
-                    Snackbar.make(findViewById(R.id.IDView), "Die MeetingID ist falsch.", Snackbar.LENGTH_LONG).show();
-                }
-                if(meeting.startsWith("Err")) {
-                    Snackbar.make(findViewById(R.id.IDView), meeting, Snackbar.LENGTH_LONG).show();
-                }
-                else {
-
-                    Meeting m = new Meeting();
-                    m = JSONHelper.JSONToMeeting(meeting);
+                    Snackbar.make(
+                            findViewById(R.id.IDView),
+                            "Die MeetingID ist falsch.",
+                            Snackbar.LENGTH_LONG)
+                            .show();
+                } else  if(meeting.startsWith("Err")) {
+                    Snackbar.make(
+                            findViewById(R.id.IDView),
+                            meeting,
+                            Snackbar.LENGTH_LONG)
+                            .show();
+                } else {
+                    Meeting m = JSONHelper.JSONToMeeting(meeting);
                     if(id.equals(m.getSettings().getModeratorId())){
                         Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
                         try {
@@ -67,7 +65,6 @@ public class Act_IDEingabe extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                         startActivity(i);
                     } else if (id.equals(m.getSettings().getParticipantId())){
                         Intent i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
@@ -76,15 +73,21 @@ public class Act_IDEingabe extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Snackbar.make(findViewById(R.id.IDView), "Die MeetingID konnte nicht verarbeitet werden.", Snackbar.LENGTH_LONG).show();
-
+                        startActivity(i);
+                    } else {
+                        Snackbar.make(
+                                findViewById(R.id.IDView),
+                                "Die MeetingID konnte nicht verarbeitet werden",
+                                Snackbar.LENGTH_LONG)
+                                .show();
                     }
-
                 }
             } else {
-                Snackbar.make(findViewById(R.id.IDView), "Bitte Meeting-ID eingeben.", Snackbar.LENGTH_LONG).show();
-
+                Snackbar.make(
+                        findViewById(R.id.IDView),
+                        "Bitte Meeting-ID eingeben.",
+                        Snackbar.LENGTH_LONG)
+                        .show();
             }
         });
     }

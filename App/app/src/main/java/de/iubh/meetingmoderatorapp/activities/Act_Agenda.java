@@ -20,9 +20,7 @@ import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_Agenda extends AppCompatActivity {
-    private RecyclerView recyAP;
-    private RecyclerView.Adapter apAdapter;
-    private RecyclerView.LayoutManager apLayoutManger;
+
     private Meeting m = new Meeting();
 
     @Override
@@ -30,6 +28,12 @@ public class Act_Agenda extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_see_agenda);
         AndroidThreeTen.init(this);
+
+        RecyclerView recyAP;
+        RecyclerView.Adapter apAdapter;
+        RecyclerView.LayoutManager apLayoutManger;
+
+
 
         // Aufbau RecyView
         Bundle extras = getIntent().getExtras();

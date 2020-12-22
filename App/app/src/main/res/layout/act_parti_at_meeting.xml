@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/txtMeetingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PartiAtMeeting"
@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:text="Restzeit Meeting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintStart_toStartOf="@+id/txtMeetingTitle"
+        app:layout_constraintTop_toBottomOf="@+id/txtMeetingTitle" />
 
     <TextView
         android:id="@+id/txtVerbleibendeAPZeit"
@@ -72,7 +72,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyPartiPoints"
         android:layout_width="385dp"
         android:layout_height="456dp"
         android:layout_marginBottom="8dp"
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:text="Du bist mit Sprechen dran, Deine übrige Zeit ist: 0000 Minuten"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/recyPartiPoints"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />

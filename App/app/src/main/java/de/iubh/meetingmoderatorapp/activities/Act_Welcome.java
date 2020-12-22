@@ -18,15 +18,17 @@ import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_Welcome extends AppCompatActivity {
-    private RecyclerView recyTLN;
-    private RecyclerView.Adapter tlnAdapter;
-    private RecyclerView.LayoutManager tlnLayoutManger;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_id_eingabe);
         AndroidThreeTen.init(this);
+
+        RecyclerView recyTLN;
+        TeilnehmerAdapter tlnAdapter;
+        RecyclerView.LayoutManager tlnLayoutManger;
 
         Bundle extras = getIntent().getExtras();
         String EinwahlJson = extras.getString("JSON");
@@ -41,17 +43,17 @@ public class Act_Welcome extends AppCompatActivity {
         recyTLN.setLayoutManager(tlnLayoutManger);
         recyTLN.setAdapter(tlnAdapter);
 
-        /*
+
         tlnAdapter.setOnItemClickListener(new TeilnehmerAdapter.OnItemClickListener() {
 
-                                              @Override
-                                              public void onItemClick(int pos) {
-                                                  Intent i = (new Intent(Act_Welcome.this, Act_PartiAtMeeting.class));
+              @Override
+              public void onItemClick(int pos) {
+                  Intent i = (new Intent(Act_Welcome.this, Act_PartiAtMeeting.class));
 
-                                                  startActivity(i);
-                                              }
-                                          });
-*/
+                  startActivity(i);
+              }
+          });
+
         Button voyeurBtn = findViewById(R.id.btnVoyeurButton);
         voyeurBtn.setOnClickListener(v -> {
             Intent i = (new Intent(Act_Welcome.this, Act_IDEingabe.class));
