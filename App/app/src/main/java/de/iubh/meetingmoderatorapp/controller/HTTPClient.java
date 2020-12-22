@@ -88,9 +88,10 @@ public class HTTPClient {
 
     // POST Next User
     public String postNextUser(String id) {
+        RequestBody body = RequestBody.create(JSON, id);
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Next")
-                .post()
+                .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -115,9 +116,10 @@ public class HTTPClient {
 
     // POST Moderator Next
     public String postNextModerator(String id) {
+        RequestBody body = RequestBody.create(JSON, id);
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Next")
-                .post()
+                .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override

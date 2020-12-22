@@ -34,13 +34,13 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         // bei changes environment anpassen
 
-        TextView meetingTitle = findViewById(R.id.txtMeetingTitle);
-        TextView aktuAP = findViewById(R.id.aktuAP);
-        TextView verbleibendeGesamtzeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
-        TextView verbleibendeAPZeit = findViewById(R.id.txtVerbleibendeAPZeit);
+        TextView meetingTitle = findViewById(R.id.txtModMeetingTitle);
+        TextView aktuAP = findViewById(R.id.aktuAPMod);
+        TextView verbleibendeGesamtzeit = findViewById(R.id.txtModVerbleibendeGesamtzeit);
+        TextView verbleibendeAPZeit = findViewById(R.id.txtModVerbleibendeAPZeit);
         TextView verbleibendeSprechZeit = findViewById(R.id.txtVerbleibendeSprechZeit);
-        TextView partiGruss = findViewById(R.id.txtPartiGruss);
-        TextView partiSprechNote = findViewById(R.id.txtPartiSprechzeit);
+        TextView modGruss = findViewById(R.id.txtModGruss);
+        TextView modSprechNote = findViewById(R.id.txtModSprechzeit);
 
 
         RecyclerView recyAP;
@@ -66,7 +66,8 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         meetingID = Long.toString(m.getId());
         meetingTitle.setText(m.getSettings().getMeetingTitle());
-        partiGruss.setText("Hallo " + surname + " " + lastname + "Willkommen im Meeting.");
+        //modGruss.setText("Hallo " + surname + " " + lastname + "Willkommen im Meeting.");
+        modGruss.setText("Hallo Moderator, willkommen im Meeting.");
 
 
 
