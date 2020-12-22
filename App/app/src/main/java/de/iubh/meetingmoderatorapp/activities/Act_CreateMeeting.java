@@ -1,74 +1,145 @@
 package de.iubh.meetingmoderatorapp.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.json.JSONException;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 
-import java.util.ArrayList;
+import de.iubh.meetingmoderatorapp.R;
+import de.iubh.meetingmoderatorapp.controller.HTTPClient;
+import de.iubh.meetingmoderatorapp.controller.JSONHelper;
+import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.*;
-import static de.iubh.meetingmoderatorapp.R.id.start;
 
-public class Act_CreateMeeting {    static String POST_URL ="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
+import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
+
+public class Act_CreateMeeting extends AppCompatActivity {
+    private Meeting m = new Meeting();
+    private String modId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_create_meeting);
         AndroidThreeTen.init(this);
+        RecyclerView recyTLN;
+        TeilnehmerAdapter tlnAdapter;
+        RecyclerView.LayoutManager tlnLayoutManger;
+        EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
+        EditText startDate = findViewById(R.id.timeCreateMeetingStartDate);
+        EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
+        EditText duration = findViewById(R.id.minCreateMeetingDuration);
+        EditText ort = findViewById(R.id.txtCreateMeetingOrt);
 
 
-        Intent intent = getIntent();
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+          m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
+          meetingTitle.setText(m.getSettings().getMeetingTitle());
+          startTime.setText(m.getSettings().getStartTime().toString());
+          //TODO NumberFormatting
+          duration.setText("240");
+          ort.setText(m.getOrt());
+        }
 
-        Participant p = new Participant(0,
-                new User(0, intent.getStringExtra("surname"),
-                intent.getStringExtra("lastname"),
-                intent.getStringExtra("mail")),
-                    ParticipantType.Participant,
-                0);
+        recyTLN = findViewById(R.id.recyTln);
+        recyTLN.setHasFixedSize(true);
+        tlnLayoutManger = new LinearLayoutManager(this);
+        tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
+
+        recyTLN.setLayoutManager(tlnLayoutManger);
+        recyTLN.setAdapter(tlnAdapter);
+
 
         Button btnToAgenda = findViewById(R.id.btnToAgenda);
-        btnToAgenda.setOnClickListener(v -> startActivity(new Intent(Act_CreateMeeting.this, Act_Agenda.class)));
+        btnToAgenda.setOnClickListener(v -> {
+            Intent i = new Intent(Act_CreateMeeting.this, Act_Agenda.class);
+            try {
+                m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
+                //TODO Zeit aus Layout ubernehmenr
+                //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55".toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                m.setOrt(ort.getText().toString());
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            startActivity(i);
+        });
 
         Button btnToAddParticipant = findViewById(btn_toAddParticipan);
         btnToAddParticipant.setOnClickListener(v -> {
-            Intent i = new Intent(Act_CreateMeeting.this, Act_addParticipant.class);
+            Intent i = (new Intent(Act_CreateMeeting.this, Act_addParticipant.class));
+            try {
+                m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
+                //TODO Zeit aus Layout ubernehmenr
+                m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString(), DateTimeFormatter.ofPattern("yyyy-MM--dd")));
+               // m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                m.setOrt(ort.getText().toString());
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             startActivity(i);
         });
 
 
-
         Button btnCreateMeeting = findViewById(R.id.btn_createMeeting);
         btnCreateMeeting.setOnClickListener(v -> {
-
-
-            EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
-            String mT = meetingTitle.getText().toString();
-            EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
-            LocalDateTime sT = LocalDateTime.parse(startTime.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-            EditText duration = findViewById(R.id.minCreateMeetingDuration);
-            Long dura = Long.parseLong(duration.getText().toString());
-            EditText ot = findViewById(R.id.txtCreateMeetingOrt);
-            String ort = ot.getText().toString();
-
-            MeetingSettings ms = new MeetingSettings(0, mT, sT, dura, "0", "0");
-
-            ArrayList<AgendaPoint> agendaPoints = new ArrayList<>();
-            Agenda agenda = new Agenda(0, agendaPoints);
-
-            ArrayList<Participant> participants = new ArrayList<>();
-
-
-            Meeting m = new Meeting(0, agenda, ms, participants, MeetingStatus.getMeetingStatus(0), 0, ort);
-            String body;
+            /*m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
+            //TODO Zeit aus Layout ubernehmenr
+            //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+            m.setOrt(ort.getText().toString());
+             */
+            TextView idRes = findViewById(R.id.IDResponse);
+            Meeting meetingResponse = new Meeting();
+            HTTPClient client = new HTTPClient();
             try {
-                body = JSONHelper.MeetingToJSON(m);
-                HTTPClient client = new HTTPClient();
-                String s = client.postMeeting(POST_URL, body);
-            } catch (JSONException e) {
+                client.postMeeting(JSONHelper.MeetingToJSON(m));
+
+while (client.getResponseReceived() == false)
+{
+}
+                    if (client.getResponseCode() != 200){
+                        idRes.setText("Server Response: " + Integer.toString(client.getResponseCode()));
+                    }else{
+                        meetingResponse = JSONHelper.JSONToMeeting(client.getResponseBody());
+                    }
+
+            } catch (Exception e) {
+                // Message : Servererror?
                 e.printStackTrace();
             }
 
-        });
-    }
 
+
+
+
+            modId = meetingResponse.getSettings().getModeratorId();
+            idRes.setText("Deine ModeratorID ist: " + meetingResponse.getSettings().getModeratorId());
+        });
+
+        Button btnToHome = findViewById(R.id.btnBackToHome);
+        btnToHome.setOnClickListener(v -> {
+            Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
+                i.putExtra("modId", modId);
+            startActivity(i);
+        });
+
+
+    }
 }

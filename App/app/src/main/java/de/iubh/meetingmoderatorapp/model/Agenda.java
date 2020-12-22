@@ -1,17 +1,15 @@
-package model;
+package de.iubh.meetingmoderatorapp.model;
 
 import java.util.ArrayList;
 
 public class Agenda {
-	
-	
-	
+
 	private long id = 0;
 	
 	private ArrayList<AgendaPoint> agendaPoints = new ArrayList<AgendaPoint>();
 	
 	
-	// Nur für interne Benutzung
+	// Nur fÃ¼r interne Benutzung
 	public Agenda()
 	{
 		

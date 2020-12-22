@@ -2,8 +2,9 @@ package de.iubh.meetingmoderatorapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,19 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import java.util.ArrayList;
+
+import org.json.JSONException;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
-import de.iubh.meetingmoderatorapp.model.Participant;
 
 public class Act_Welcome extends AppCompatActivity {
-    static String GET_URL="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
-    private RecyclerView recyTLN;
-    private RecyclerView.Adapter tlnAdapter;
-    private RecyclerView.LayoutManager tlnLayoutManger;
+    TextView surname;
+    TextView lastname;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +31,14 @@ public class Act_Welcome extends AppCompatActivity {
         setContentView(R.layout.act_id_eingabe);
         AndroidThreeTen.init(this);
 
-        Bundle extras = getIntent().getExtras();
-        String EinwahlJson = extras.getString("JSON");
+        RecyclerView recyTLN;
+        TeilnehmerAdapter tlnAdapter;
+        RecyclerView.LayoutManager tlnLayoutManger;
 
-        Meeting m = JSONHelper.JSONToMeeting(EinwahlJson);
+        Bundle extras = getIntent().getExtras();
+        String json = extras.getString("JSON");
+
+        Meeting m = JSONHelper.JSONToMeeting(json);
 
         recyTLN = findViewById(R.id.recyTeilnehmerliste);
         recyTLN.setHasFixedSize(true);
@@ -44,6 +48,26 @@ public class Act_Welcome extends AppCompatActivity {
         recyTLN.setLayoutManager(tlnLayoutManger);
         recyTLN.setAdapter(tlnAdapter);
 
+
+        tlnAdapter.setOnItemClickListener(pos -> {
+            Intent i = (new Intent(Act_Welcome.this, Act_PartiAtMeeting.class));
+            try {
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                surname = findViewById(R.id.txtWelcSur);
+                lastname = findViewById(R.id.txtWelcLast);
+                i.putExtra("surname", surname.getText().toString());
+                i.putExtra("lastname", lastname.getText().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            startActivity(i);
+        });
+
+        Button voyeurBtn = findViewById(R.id.btnVoyeurButton);
+        voyeurBtn.setOnClickListener(v -> {
+            Intent i = (new Intent(Act_Welcome.this, Act_IDEingabe.class));
+            startActivity(i);
+        });
     }
 }
 

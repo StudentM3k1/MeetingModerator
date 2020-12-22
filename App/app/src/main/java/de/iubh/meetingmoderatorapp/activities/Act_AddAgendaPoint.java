@@ -1,29 +1,80 @@
 package de.iubh.meetingmoderatorapp.activities;
 
-public class Act_AddAgendaPoint {    static String GET_URL="http://192.168.178.110:8080/MeetingModeratorServer/Meeting/";
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.json.JSONException;
+
+import de.iubh.meetingmoderatorapp.R;
+import de.iubh.meetingmoderatorapp.controller.JSONHelper;
+import de.iubh.meetingmoderatorapp.model.AgendaPoint;
+import de.iubh.meetingmoderatorapp.model.Meeting;
+import de.iubh.meetingmoderatorapp.model.enumerations.AgendaPointStatus;
+
+public class Act_AddAgendaPoint  extends AppCompatActivity {
+
+    private Meeting m = new Meeting();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_add_agendapoint);
         AndroidThreeTen.init(this);
 
-        Button btnBackToAgenda = findViewById(R.id.btnToAgenda);
-        btnBackToAgenda.setOnClickListener(v -> startActivity(new Intent(Act_AddAgendaPoint.this, Act_Agenda.class)));
+        EditText apTitle = findViewById(R.id.txtAgendapointTitle);
+        EditText apNote = findViewById(R.id.txtAgendapointNote);
+        EditText apTime = findViewById(R.id.txtAPDauer);
 
-        Button btnAddAP = findViewById(R.id.btnAddAgendapoint);
+        Bundle extras = getIntent().getExtras();
+        if(extras!= null) {
+            m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
+        }
+
+
+        Button btnBackToAgenda = findViewById(R.id.btnBackToAgenda);
+        btnBackToAgenda.setOnClickListener(v -> {
+            try {
+                Intent i = new Intent(Act_AddAgendaPoint.this, Act_Agenda.class);
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                startActivity(i);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Button btnAddAP = findViewById(R.id.btn_addPointToAgenda);
         btnAddAP.setOnClickListener(v -> {
             Intent i = new Intent(Act_AddAgendaPoint.this, Act_Agenda.class);
-            String apTitle = findViewById(R.id.txtAgendapointTitle).toString();
-            String apNote = findViewById(R.id.txtAgendapointNote).toString();
-            long availableTime = Long.parseLong(findViewById(R.id.txtAvailaleTim).toString());
 
-            i.putExtra("apTitle", apTitle);
-            i.putExtra("apNote", apNote);
-            i.putExtra("availableTime", availableTime);
+
+            AgendaPoint ap = new AgendaPoint(
+                    m.getAgenda()
+                    .getAgendaPoints()
+                            .size()+1,
+                    apTitle.getText().toString(),
+                    apNote.getText().toString(),
+                    Long.parseLong(apTime.getText().toString()),
+                    AgendaPointStatus.Planned,
+                    0);
+            m.getAgenda().getAgendaPoints().add(ap);
+            try {
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             startActivity(i);
         });
 
 
     }
-
 }
