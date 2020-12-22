@@ -13,13 +13,22 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.HTTPClient;
+import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 
 public class Act_IDEingabe extends AppCompatActivity {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_id_eingabe);
         AndroidThreeTen.init(this);
+        EditText meetingId = findViewById(R.id.txtMeetingID);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            meetingId.setText(extras.getString("modId"));
+        }
+
 
         Button btnToCreateMeeting = findViewById(R.id.btn_createNewMeeting);
         btnToCreateMeeting.setOnClickListener(v -> {
@@ -31,7 +40,6 @@ public class Act_IDEingabe extends AppCompatActivity {
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
         btnJoinMeeting.setOnClickListener(v -> {
 
-            EditText meetingId = findViewById(R.id.txtMeetingID);
             String id = meetingId.getText().toString();
             if(id.matches("[0-9]{1,6}")) {
                 HTTPClient client = new HTTPClient();
@@ -43,6 +51,13 @@ public class Act_IDEingabe extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.IDView), meeting, Snackbar.LENGTH_LONG).show();
                 }
                 else {
+                    //if ModID start ModAtMeeting
+                        // Act_MeetingPreStart
+                            //Act_ModAtMeeting
+                    //else STart PartiAtMeeting
+                        // Act_Welcome --> Auswahl des Teilnehmers
+                            // Act_PartiAtMeeting
+
                     Intent i = new Intent(Act_IDEingabe.this, Act_Welcome.class);
                     i.putExtra("JSON", meeting);
                     startActivity(i);

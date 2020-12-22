@@ -23,7 +23,7 @@ import okhttp3.Response;
 public class HTTPClient {
     String m;
     //static String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
-    static String URL ="http:10.0.2.2/MeetingModeratorServer/Meeting/";
+    static String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 

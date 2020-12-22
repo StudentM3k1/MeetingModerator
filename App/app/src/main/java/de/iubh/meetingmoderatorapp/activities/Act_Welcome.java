@@ -1,6 +1,9 @@
 package de.iubh.meetingmoderatorapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,7 +18,6 @@ import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_Welcome extends AppCompatActivity {
-    static String GET_URL="http://10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     private RecyclerView recyTLN;
     private RecyclerView.Adapter tlnAdapter;
     private RecyclerView.LayoutManager tlnLayoutManger;
@@ -39,6 +41,13 @@ public class Act_Welcome extends AppCompatActivity {
         recyTLN.setLayoutManager(tlnLayoutManger);
         recyTLN.setAdapter(tlnAdapter);
 
+
+
+        Button voyeurBtn = findViewById(R.id.btnVoyeurButton);
+        voyeurBtn.setOnClickListener(v -> {
+            Intent i = (new Intent(Act_Welcome.this, Act_IDEingabe.class));
+            startActivity(i);
+        });
     }
 }
 

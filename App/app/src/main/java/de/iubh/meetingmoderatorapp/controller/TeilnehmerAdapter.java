@@ -14,7 +14,7 @@ import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.model.Participant;
 
 public class TeilnehmerAdapter extends RecyclerView.Adapter<TeilnehmerAdapter.TeilnehmerViewHolder> {
-    private final ArrayList<Participant> mParticipants;
+    private final ArrayList<Participant> participants;
 
     public static class TeilnehmerViewHolder extends RecyclerView.ViewHolder {
         public TextView surname, lastname;
@@ -25,9 +25,7 @@ public class TeilnehmerAdapter extends RecyclerView.Adapter<TeilnehmerAdapter.Te
         }
     }
 
-    public TeilnehmerAdapter(ArrayList<Participant> participants) {
-        mParticipants = participants;
-    }
+    public TeilnehmerAdapter(ArrayList<Participant> mParticipants) {participants = mParticipants;}
 
     @NonNull
     @Override
@@ -38,15 +36,14 @@ public class TeilnehmerAdapter extends RecyclerView.Adapter<TeilnehmerAdapter.Te
 
     @Override
     public void onBindViewHolder(@NonNull TeilnehmerAdapter.TeilnehmerViewHolder holder, int position) {
-        Participant teilnehmer = mParticipants.get(position);
+        Participant teilnehmer = participants.get(position);
         holder.surname.setText(teilnehmer.getUser().getFirstname());
         holder.lastname.setText(teilnehmer.getUser().getLastname());
     }
 
     @Override
     public int getItemCount() {
-        return mParticipants.size();
+        return participants.size();
     }
-
 
 }

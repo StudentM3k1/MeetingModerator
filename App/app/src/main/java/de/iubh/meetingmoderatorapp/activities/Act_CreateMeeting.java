@@ -32,7 +32,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
     private RecyclerView.Adapter tlnAdapter;
     private RecyclerView.LayoutManager tlnLayoutManger;
     private Meeting m = new Meeting();
-
+    private String modId;
 
 
     @Override
@@ -126,14 +126,14 @@ public class Act_CreateMeeting extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            modId = meetingResponse.getSettings().getModeratorId();
             idRes.setText("Deine ModeratorID ist: " + meetingResponse.getSettings().getModeratorId());
         });
 
         Button btnToHome = findViewById(R.id.btnBackToHome);
         btnToHome.setOnClickListener(v -> {
-            Intent i = (new Intent(Act_CreateMeeting.this, Act_Welcome.class));
-
+            Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
+                i.putExtra("modId", modId);
             startActivity(i);
         });
 
