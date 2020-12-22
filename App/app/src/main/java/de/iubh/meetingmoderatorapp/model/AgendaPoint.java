@@ -1,25 +1,30 @@
 package de.iubh.meetingmoderatorapp.model;
 
+import java.util.ArrayList;
+
 import de.iubh.meetingmoderatorapp.model.enumerations.AgendaPointStatus;
 
 public class AgendaPoint {
 
-	private long id = 0;
-	private String title = "";
-	private Participant responsible = new Participant();
-	private String note = "";
-	private long availableTime = 0;
+	private long id;
+	private String title = new String();
+	private String note = new String();
+	private long availableTime;
 	private AgendaPointStatus status = AgendaPointStatus.Planned;
-	private long sort = 0;
+	private long sort;
 
-	// Nur f�r interne Benutzung
+	private Participant actualSpeaker = new Participant();
+	private ArrayList<Participant> doneSpeaker = new ArrayList<Participant>();
+	private long runningTime;
+
+	// Nur für interne Benutzung
 	public AgendaPoint() {
-		
+
 	}
 
 
 	public AgendaPoint(long id,String title ,String note,long availableTime ,AgendaPointStatus status, long sort) {
-	
+
 		this.id =id;
 		this.title=title;
 		this.note=note;
@@ -27,8 +32,8 @@ public class AgendaPoint {
 		this.status = status;
 		this.setSort(sort);
 	}
-	
-	
+
+
 	public long getId() {
 		return id;
 	}
@@ -40,12 +45,6 @@ public class AgendaPoint {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public Participant getResponsible() {
-		return responsible;
-	}
-	public void setResponsible(Participant responsible) {
-		this.responsible = responsible;
 	}
 	public String getNote() {
 		return note;
@@ -59,11 +58,11 @@ public class AgendaPoint {
 	public void setStatus(AgendaPointStatus status) {
 		this.status = status;
 	}
-		
+
 	public long getAvailableTime() {
 		return availableTime;
 	}
-		
+
 	public void setAvailableTime(long availableTime) {
 		this.availableTime = availableTime;
 	}
@@ -75,5 +74,67 @@ public class AgendaPoint {
 	public void setSort(long sort) {
 		this.sort = sort;
 	}
+
+
+	public Participant getActualSpeaker() {
+		return actualSpeaker;
+	}
+
+
+	public void setActualSpeaker(Participant actualSpeaker) {
+		this.actualSpeaker = actualSpeaker;
+	}
+
+
+	public ArrayList<Participant> getDoneSpeaker() {
+		return doneSpeaker;
+	}
+
+
+	public void setDoneSpeaker(ArrayList<Participant> doneSpeaker) {
+		this.doneSpeaker = doneSpeaker;
+	}
+
+	public boolean equals(AgendaPoint agendaPoint)
+	{
+		if (this.id == agendaPoint.getId() &&
+				this.title.equals(agendaPoint.getTitle()) &&
+				this.note.equals(agendaPoint.getNote()) &&
+				this.availableTime == agendaPoint.getAvailableTime() &&
+				this.status == agendaPoint.getStatus() &&
+				this.sort == agendaPoint.getSort()				)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
+	public long getRunningTime() {
+		return runningTime;
+	}
+
+
+	public void setRunningTime(long runningTime) {
+		this.runningTime = runningTime;
+	}
+
+	public static Participant setNextSpeaker(ArrayList<Participant> all_participants, AgendaPoint agendaPoint)
+	{
+		agendaPoint.getDoneSpeaker().add(agendaPoint.getActualSpeaker());
+		for (Participant participant : all_participants)
+		{
+			if (!agendaPoint.getDoneSpeaker().contains(participant))
+			{
+				agendaPoint.setActualSpeaker(participant);
+				return participant;
+			}
+		}
+		return null;
+	}
+
+
 }
- 

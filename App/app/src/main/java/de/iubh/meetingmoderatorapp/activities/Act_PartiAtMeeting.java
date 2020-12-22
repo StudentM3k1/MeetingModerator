@@ -49,7 +49,11 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
             surname = extras.getString("surname");
             lastname = extras.getString("lastname");
             String json = extras.getString("JSON");
-            m = JSONHelper.JSONToMeeting(json);
+            try {
+
+            m = JSONHelper.JSONToMeeting(json);}catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
             recyAP = findViewById(R.id.recyPartiPoints);

@@ -18,7 +18,7 @@ import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_ModPreMeeting extends AppCompatActivity {
     String meetingID;
-
+    Meeting m;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,12 @@ public class Act_ModPreMeeting extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String json = extras.getString("JSON");
 
-        Meeting m = JSONHelper.JSONToMeeting(json);
+try {
+            m = JSONHelper.JSONToMeeting(json);
+}
+    catch (Exception e) {
+        e.printStackTrace();
+    }
         HTTPClient client = new HTTPClient();
         Button btnStartMeeting = findViewById(R.id.btnStartMeeting);
         btnStartMeeting.setOnClickListener(v -> {
@@ -41,12 +46,16 @@ public class Act_ModPreMeeting extends AppCompatActivity {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
             }
 
             Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
             try {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
                 e.printStackTrace();
             }
             startActivity(i);

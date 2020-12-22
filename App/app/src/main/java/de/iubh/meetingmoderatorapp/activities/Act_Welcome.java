@@ -20,10 +20,12 @@ import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
+
+
 public class Act_Welcome extends AppCompatActivity {
     TextView surname;
     TextView lastname;
-
+    Meeting m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +39,13 @@ public class Act_Welcome extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         String json = extras.getString("JSON");
+try {
 
-        Meeting m = JSONHelper.JSONToMeeting(json);
+
+     m = JSONHelper.JSONToMeeting(json);
+}catch (Exception e) {
+    e.printStackTrace();
+}
 
         recyTLN = findViewById(R.id.recyTeilnehmerliste);
         recyTLN.setHasFixedSize(true);
@@ -58,6 +65,8 @@ public class Act_Welcome extends AppCompatActivity {
                 i.putExtra("surname", surname.getText().toString());
                 i.putExtra("lastname", lastname.getText().toString());
             } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
                 e.printStackTrace();
             }
             startActivity(i);

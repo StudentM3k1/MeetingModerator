@@ -68,9 +68,7 @@ public class HTTPClient {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() == 200) {
-                    responseBody = response.body().string();
-                }
+                responseBody = response.body().string();
                 responseCode = response.code();
                 responseReceived = true;
             }
@@ -89,6 +87,7 @@ public class HTTPClient {
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
 
+                responseReceived = true;
             }
 
             @Override
@@ -100,6 +99,8 @@ public class HTTPClient {
                 } else {
                    responseBody ="";
                }
+                responseCode = response.code();
+                responseReceived = true;
             }
         });
         return responseBody;

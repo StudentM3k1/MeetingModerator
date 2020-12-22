@@ -3,21 +3,19 @@ package de.iubh.meetingmoderatorapp.model;
 import org.threeten.bp.LocalDateTime;
 
 public class MeetingSettings {
-	private long id = 0;
-	private String meetingTitle = "";
+	private String meetingTitle = new String();
 	private LocalDateTime startTime = LocalDateTime.now();
 	private long duration = 0;
-	private String moderatorId = "";
-	private String participantId = "";
+	private String moderatorId = new String();
+	private String participantId = new String();
 
-// Nur f�r interne Benutzung
+	// Nur für interne Benutzung
 	public MeetingSettings() {
 
 	}
 
-	public MeetingSettings(long id, String meetingTitle, LocalDateTime startTime, long duration, String moderatorId,
-			String participantId) {
-		this.id = id;
+	public MeetingSettings( String meetingTitle, LocalDateTime startTime, long duration, String moderatorId,
+							String participantId) {
 		this.meetingTitle = meetingTitle;
 		this.startTime = startTime;
 		this.duration = duration;
@@ -25,13 +23,6 @@ public class MeetingSettings {
 		this.participantId = participantId;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getMeetingTitle() {
 		return meetingTitle;

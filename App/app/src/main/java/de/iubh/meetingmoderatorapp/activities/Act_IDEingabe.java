@@ -57,12 +57,20 @@ public class Act_IDEingabe extends AppCompatActivity {
                             Snackbar.LENGTH_LONG)
                             .show();
                 } else {
-                    Meeting m = JSONHelper.JSONToMeeting(meeting);
+                    Meeting m = null;
+                    try {
+
+                        m = JSONHelper.JSONToMeeting(meeting);
+                    }                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     if(id.equals(m.getSettings().getModeratorId())){
                         Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
                         try {
                             i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        }catch (Exception e) {
                             e.printStackTrace();
                         }
                         startActivity(i);
@@ -71,6 +79,8 @@ public class Act_IDEingabe extends AppCompatActivity {
                         try {
                             i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        }catch (Exception e) {
                             e.printStackTrace();
                         }
                         startActivity(i);

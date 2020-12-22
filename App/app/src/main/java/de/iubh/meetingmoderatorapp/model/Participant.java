@@ -3,53 +3,44 @@ package de.iubh.meetingmoderatorapp.model;
 import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 
 public class Participant {
-private	long id = 0;
-private User user = new User();
-private ParticipantType type = ParticipantType.Participant;
-private long usedTime  = 0;
-		
-		public Participant(long id, User user, ParticipantType type, long usedTime){
+	private	long id;
+	private User user = new User();
+	private ParticipantType type = ParticipantType.Participant;
+
+	public Participant(long id,User user,ParticipantType type){
 		this.id =id;
 		this.user =user;
 		this.type =type;
-		this.usedTime = usedTime;
-		}
-		
-		// Nur f�r interne Benutzung
-		public Participant() {
 
-		}
+	}
 
-		public long getId() {
-			return id;
-		}
+	// Nur für interne Benutzung
+	public Participant() {
 
-		public void setId(long id) {
-			this.id = id;
-		}
+	}
 
-		public User getUser() {
-			return user;
-		}
+	public long getId() {
+		return id;
+	}
 
-		public void setUser(User user) {
-			this.user = user;
-		}
+	public void setId(long id) {
+		this.id = id;
+	}
 
-		public ParticipantType getType() {
-			return type;
-		}
+	public User getUser() {
+		return user;
+	}
 
-		public void setType(ParticipantType type) {
-			this.type = type;
-		}
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-		public long getUsedTime() {
-			return usedTime;
-		}
+	public ParticipantType getType() {
+		return type;
+	}
 
-		public void setUsedTime(long usedTime) {
-			this.usedTime = usedTime;
-		}
+	public void setType(ParticipantType type) {
+		this.type = type;
+	}
 }
 

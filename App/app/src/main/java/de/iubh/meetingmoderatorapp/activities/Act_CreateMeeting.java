@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.json.JSONException;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -24,6 +25,7 @@ import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.*;
 
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
+import static de.iubh.meetingmoderatorapp.R.id.start;
 
 public class Act_CreateMeeting extends AppCompatActivity {
     private Meeting m = new Meeting();
@@ -47,7 +49,11 @@ public class Act_CreateMeeting extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-          m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
+            try{
+          m = JSONHelper.JSONToMeeting(extras.getString("JSON"));}
+          catch (Exception e) {
+                e.printStackTrace();
+            }
           meetingTitle.setText(m.getSettings().getMeetingTitle());
           startTime.setText(m.getSettings().getStartTime().toString());
           //TODO NumberFormatting
@@ -76,6 +82,8 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             startActivity(i);
         });
@@ -86,11 +94,18 @@ public class Act_CreateMeeting extends AppCompatActivity {
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 //TODO Zeit aus Layout ubernehmenr
-                m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString(), DateTimeFormatter.ofPattern("yyyy-MM--dd")));
-               // m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                //String stDate = startDate.getText().toString();
+                //LocalDate date = LocalDate.parse(stDate, dtf);
+                //m.getSettings().setStartTime(date);
+                //m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
+
+
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
                 e.printStackTrace();
             }
             startActivity(i);
@@ -103,13 +118,17 @@ public class Act_CreateMeeting extends AppCompatActivity {
             //TODO Zeit aus Layout ubernehmenr
             //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
             m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+            */
             m.setOrt(ort.getText().toString());
-             */
+
+
             TextView idRes = findViewById(R.id.IDResponse);
             Meeting meetingResponse = new Meeting();
             HTTPClient client = new HTTPClient();
             try {
                 client.postMeeting(JSONHelper.MeetingToJSON(m));
+
+
 
 while (client.getResponseReceived() == false)
 {

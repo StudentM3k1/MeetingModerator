@@ -61,8 +61,12 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
             surname = extras.getString("surname");
             lastname = extras.getString("lastname");
             String json = extras.getString("JSON");
+            try {
+
             m = JSONHelper.JSONToMeeting(json);
-        }
+        }catch (Exception e) {
+                e.printStackTrace();
+            }}
 
         recyAP = findViewById(R.id.recyPartiPoints);
         recyAP.setHasFixedSize(true);
@@ -91,7 +95,10 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
                 j = JSONHelper.MeetingToJSON(m);
             } catch (JSONException e) {
                 e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
             }
+
             client.postNextModerator(j, meetingID);
         });
     }

@@ -39,9 +39,12 @@ public class Act_Agenda extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             String json = extras.getString("JSON");
-
-            m = JSONHelper.JSONToMeeting(json);
-
+try {
+        m = JSONHelper.JSONToMeeting(json);
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+    }
             recyAP = findViewById(R.id.recyAP);
             recyAP.setHasFixedSize(true);
             apLayoutManger = new LinearLayoutManager(this);
@@ -61,6 +64,8 @@ public class Act_Agenda extends AppCompatActivity {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {
                 e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
             }
             startActivity(i);
         });
@@ -73,6 +78,8 @@ public class Act_Agenda extends AppCompatActivity {
             try {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
                 e.printStackTrace();
             }
             startActivity(i);
