@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,12 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 
+import org.json.JSONException;
+
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_Welcome extends AppCompatActivity {
+    TextView surname;
+    TextView lastname;
 
 
     @Override
@@ -44,15 +49,19 @@ public class Act_Welcome extends AppCompatActivity {
         recyTLN.setAdapter(tlnAdapter);
 
 
-        tlnAdapter.setOnItemClickListener(new TeilnehmerAdapter.OnItemClickListener() {
-
-              @Override
-              public void onItemClick(int pos) {
-                  Intent i = (new Intent(Act_Welcome.this, Act_PartiAtMeeting.class));
-
-                  startActivity(i);
-              }
-          });
+        tlnAdapter.setOnItemClickListener(pos -> {
+            Intent i = (new Intent(Act_Welcome.this, Act_PartiAtMeeting.class));
+            try {
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                surname = findViewById(R.id.txtWelcSur);
+                lastname = findViewById(R.id.txtWelcLast);
+                i.putExtra("surname", surname.getText().toString());
+                i.putExtra("lastname", lastname.getText().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            startActivity(i);
+        });
 
         Button voyeurBtn = findViewById(R.id.btnVoyeurButton);
         voyeurBtn.setOnClickListener(v -> {

@@ -83,4 +83,60 @@ public class HTTPClient {
         });
         return m;
     }
+
+
+
+    // POST Next User
+    public String postNextUser(String id) {
+        Request request = new Request.Builder()
+                .url(URL + "/Moderator/" + id + "/Next")
+                .post()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                m = "Err: Nope in postMeeting HTTPMethod";
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
+
+    // POST Moderator Next
+    public String postNextModerator(String id) {
+        Request request = new Request.Builder()
+                .url(URL + "/Moderator/" + id + "/Next")
+                .post()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                m = "Err: Nope in postMeeting HTTPMethod";
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
 }
