@@ -11,7 +11,7 @@ public class Agenda {
 	private ArrayList<AgendaPoint> agendaPoints = new ArrayList<AgendaPoint>();
 	
 	
-	// Nur für interne Benutzung
+	// Nur fÃ¼r interne Benutzung
 	public Agenda()
 	{
 		
