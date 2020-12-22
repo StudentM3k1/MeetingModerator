@@ -41,7 +41,9 @@ public class Act_Welcome extends AppCompatActivity {
         recyTLN.setLayoutManager(tlnLayoutManger);
         recyTLN.setAdapter(tlnAdapter);
 
+        /*
         tlnAdapter.setOnItemClickListener(new TeilnehmerAdapter.OnItemClickListener() {
+
                                               @Override
                                               public void onItemClick(int pos) {
                                                   Intent i = (new Intent(Act_Welcome.this, Act_PartiAtMeeting.class));
@@ -49,7 +51,7 @@ public class Act_Welcome extends AppCompatActivity {
                                                   startActivity(i);
                                               }
                                           });
-
+*/
         Button voyeurBtn = findViewById(R.id.btnVoyeurButton);
         voyeurBtn.setOnClickListener(v -> {
             Intent i = (new Intent(Act_Welcome.this, Act_IDEingabe.class));
