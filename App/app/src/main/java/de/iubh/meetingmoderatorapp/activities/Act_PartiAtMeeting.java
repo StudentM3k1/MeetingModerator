@@ -73,7 +73,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
 
         HTTPClient client = new HTTPClient();
 
-
+        // TODO Make button only visible when aktuSpeaker == User
 
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
         btnEndSpeak.setOnClickListener(new View.OnClickListener() {

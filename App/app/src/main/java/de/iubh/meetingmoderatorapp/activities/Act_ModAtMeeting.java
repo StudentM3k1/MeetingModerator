@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import org.json.JSONException;
+
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
 import de.iubh.meetingmoderatorapp.controller.HTTPClient;
@@ -21,7 +23,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
     Meeting m = new Meeting();
     String surname;
     String lastname;
-    String  meetingID;
+    String meetingID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +31,6 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         setContentView(R.layout.act_mod_at_meeting);
         AndroidThreeTen.init(this);
 
-        // zeitliche abfrage 2 x pro seconde ob changes existieren
-
-
-        // bei changes environment anpassen
 
         TextView meetingTitle = findViewById(R.id.txtModMeetingTitle);
         TextView aktuAP = findViewById(R.id.aktuAPMod);
@@ -79,11 +77,14 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
 
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
-        btnEndSpeak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                client.postNextModerator(meetingID);
+        btnEndSpeak.setOnClickListener(v -> {
+            String j = null;
+            try {
+                j = JSONHelper.MeetingToJSON(m);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            client.postNextModerator(j, meetingID);
         });
     }
 }

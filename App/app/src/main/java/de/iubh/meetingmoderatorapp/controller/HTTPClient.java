@@ -8,6 +8,8 @@ import androidx.appcompat.widget.ActionBarContextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
 import de.iubh.meetingmoderatorapp.activities.Act_IDEingabe;
@@ -85,6 +87,188 @@ public class HTTPClient {
     }
 
 
+    // GET State for User
+    public String getUserChange(String id) {
+        Request request = new Request.Builder()
+                .url(URL + "/User/" + id + "/Change")
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
+
+    // GET State for Mod
+    public String getModChange(String id) {
+        Request request = new Request.Builder()
+                .url(URL + "/Moderator/" + id + "/Change")
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
+
+
+    // GET State for User
+    public String getUserState(String id) {
+        Request request = new Request.Builder()
+                .url(URL + "/User/" + id + "/State")
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
+
+    // GET State for Mod
+    public String getModState(String id) {
+        Request request = new Request.Builder()
+                .url(URL + "/Moderator/" + id + "/State")
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
+
+
+    // GET Sync for User
+    public String getUserSync(String id) {
+        Request request = new Request.Builder()
+                .url(URL + "/User/" + id + "/Start")
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
+
+    // GET Sync for Mod
+    public String getModSync(String id) {
+        Request request = new Request.Builder()
+                .url(URL + "/Moderator/" + id + "/Start")
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
+
+
+
+    // POST Moderator Start
+    public String postStartModerator(String json, String id) {
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(URL + "/Moderator/" + id + "/Start")
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                m = "Err: Nope in postMeeting HTTPMethod";
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    m = "Err: HTTP Code: " + response.code();
+                } else if (response.code() == 200) {
+                    m = response.body().string();
+                } else {
+                    m="";
+                }
+            }
+        });
+        return m;
+    }
+
 
     // POST Next User
     public String postNextUser(String id) {
@@ -115,8 +299,8 @@ public class HTTPClient {
     }
 
     // POST Moderator Next
-    public String postNextModerator(String id) {
-        RequestBody body = RequestBody.create(JSON, id);
+    public String postNextModerator(String json, String id) {
+        RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Next")
                 .post(body)

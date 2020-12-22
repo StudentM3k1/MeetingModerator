@@ -36,9 +36,9 @@ public class Act_Welcome extends AppCompatActivity {
         RecyclerView.LayoutManager tlnLayoutManger;
 
         Bundle extras = getIntent().getExtras();
-        String EinwahlJson = extras.getString("JSON");
+        String json = extras.getString("JSON");
 
-        Meeting m = JSONHelper.JSONToMeeting(EinwahlJson);
+        Meeting m = JSONHelper.JSONToMeeting(json);
 
         recyTLN = findViewById(R.id.recyTeilnehmerliste);
         recyTLN.setHasFixedSize(true);
