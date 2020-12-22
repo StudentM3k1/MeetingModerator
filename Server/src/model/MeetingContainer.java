@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class MeetingContainer {
 	
 
-	private int currentAccess = 0;
+	private int currentAccess;
 	private Meeting old_meeting;
 	private Meeting meeting;
 	private LocalDateTime timeStamp;

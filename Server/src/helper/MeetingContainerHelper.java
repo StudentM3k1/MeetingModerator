@@ -36,17 +36,17 @@ public class MeetingContainerHelper {
 			if (meetingContainer.getMeeting().getId() == id) {
 				meetingContainer.increaseCurrentAccess();
 				meetingContainer.setTimeStamp();
+				meetings.add(meetingContainer);
 				return meetingContainer.getMeeting();
 			}
 		}
-
 		if (dbService == null)
 			dbService = DatenbankService.getInstance();
 		
 		MeetingContainer newMeetingContainer = new MeetingContainer(dbService.getMeeting(id));
-
 		newMeetingContainer.increaseCurrentAccess();
 		newMeetingContainer.setTimeStamp();
+		meetings.add(newMeetingContainer);
 		return newMeetingContainer.getMeeting();
 	}
 

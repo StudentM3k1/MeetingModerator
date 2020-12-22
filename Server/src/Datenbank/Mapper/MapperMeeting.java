@@ -33,7 +33,7 @@ public class MapperMeeting {
 		}
 		agenda.setAgendaPoints(agendaPoints);		
 		
-		model.MeetingSettings settings = new model.MeetingSettings(meeting.MeetingId, meeting.Bezeichnung, meeting.Datum, 
+		model.MeetingSettings settings = new model.MeetingSettings(meeting.Bezeichnung, meeting.Datum, 
 				meeting.Gesamtdauer, meeting.ModeratorVerbindungsId, meeting.VerbindungsId);
 				
 		ArrayList<Participant> participants = new ArrayList<Participant>();

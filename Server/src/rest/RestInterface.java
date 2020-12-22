@@ -10,7 +10,14 @@ import helper.*;
 
 @Path("/Meeting")
 public class RestInterface {
-
+	
+	@GET
+	@Path("/Ping")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response Ping() {
+		return Response.ok().build();
+	}
+	
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })

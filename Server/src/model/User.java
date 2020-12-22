@@ -2,7 +2,7 @@ package model;
 
 public class User {
 	
-	private long id =0;
+	private long id;
 	private String firstname = new String();
 	private String lastname = new String();
 	private String mail = new String();

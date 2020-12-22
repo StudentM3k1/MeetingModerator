@@ -6,17 +6,16 @@ import model.enumerations.AgendaPointStatus;
 
 public class AgendaPoint {
 
-	private long id = 0;
+	private long id;
 	private String title = new String();
-	private Participant responsible = new Participant();
 	private String note = new String();
-	private long availableTime = 0;
+	private long availableTime;
 	private AgendaPointStatus status = AgendaPointStatus.Planned;
-	private long sort = 0;
+	private long sort;
 	
 	private Participant actualSpeaker = new Participant();
 	private ArrayList<Participant> doneSpeaker = new ArrayList<Participant>();
-	private long runningTime = 0;
+	private long runningTime;
 
 	// Nur für interne Benutzung
 	public AgendaPoint() {
@@ -46,12 +45,6 @@ public class AgendaPoint {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public Participant getResponsible() {
-		return responsible;
-	}
-	public void setResponsible(Participant responsible) {
-		this.responsible = responsible;
 	}
 	public String getNote() {
 		return note;
@@ -102,9 +95,24 @@ public class AgendaPoint {
 		this.doneSpeaker = doneSpeaker;
 	}
 	
+	public boolean equals(AgendaPoint agendaPoint)
+	{
+			if (this.id == agendaPoint.getId() &&
+				this.title.equals(agendaPoint.getTitle()) &&
+				this.note.equals(agendaPoint.getNote()) &&
+				this.availableTime == agendaPoint.getAvailableTime() &&
+				this.status == agendaPoint.getStatus() &&
+				this.sort == agendaPoint.getSort()				)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}	
+	}
 
-
-
+	
 	public long getRunningTime() {
 		return runningTime;
 	}

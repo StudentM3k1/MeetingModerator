@@ -18,7 +18,6 @@ public class JSONHelper {
 		jsonobj.put("ort", meeting.getOrt());
 
 		JSONObject meetingSettings = new JSONObject();
-		meetingSettings.put("id", meeting.getSettings().getId());
 		meetingSettings.put("meetingTitle", meeting.getSettings().getMeetingTitle());
 		meetingSettings.put("startTime", meeting.getSettings().getStartTime());
 		meetingSettings.put("duration", meeting.getSettings().getDuration());
@@ -28,7 +27,6 @@ public class JSONHelper {
 		jsonobj.put("meetingSettings", meetingSettings);
 
 		JSONObject agenda = new JSONObject();
-		agenda.put("id", meeting.getAgenda().getId());
 		JSONArray agenda_points = new JSONArray();
 		for (AgendaPoint agendaPoint : meeting.getAgenda().getAgendaPoints()) {
 			JSONObject agendaPoint_json = new JSONObject();
@@ -86,7 +84,6 @@ public class JSONHelper {
 			meeting.setOrt(json_obj.getString("ort"));
 
 			JSONObject json_settings = json_obj.getJSONObject("meetingSettings");
-			settings.setId(json_settings.getLong("id"));
 			settings.setDuration(json_settings.getLong("duration"));
 			settings.setParticipantId(json_settings.getString("participantId"));
 			settings.setModeratorId(json_settings.getString("moderatorId"));
@@ -94,7 +91,6 @@ public class JSONHelper {
 			settings.setStartTime(LocalDateTime.ofEpochSecond(json_settings.getLong("startTime"), 0, ZoneOffset.UTC));
 
 			JSONObject json_agenda = json_obj.getJSONObject("agenda");
-			agenda.setId(json_agenda.getLong("id"));
 			JSONArray json_agendaPoints = json_agenda.getJSONArray("agendaPoints");
 			for (int i = 0; i < json_agendaPoints.length(); i++) {
 				AgendaPoint agendaPoint = new AgendaPoint();

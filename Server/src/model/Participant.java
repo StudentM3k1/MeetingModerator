@@ -3,7 +3,7 @@ package model;
 import model.enumerations.ParticipantType;
 
 public class Participant {
-private	long id = 0;
+private	long id;
 private User user = new User();
 private ParticipantType type = ParticipantType.Participant;
 		

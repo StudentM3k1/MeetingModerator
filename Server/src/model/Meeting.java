@@ -10,12 +10,12 @@ import model.enumerations.*;
 
 public class Meeting {
 
-	private long id = 0;
+	private long id;
 	private Agenda agenda = new Agenda();
 	private MeetingSettings settings = new MeetingSettings();
 	private ArrayList<Participant> participants = new ArrayList<Participant>();
 	private MeetingStatus meetingStatus = MeetingStatus.Planned;
-	private long passedTime = 0;
+	private long passedTime;
 	private String ort;
 
 	private LocalDateTime lastChange = LocalDateTime.now();
@@ -130,6 +130,7 @@ public class Meeting {
 	public void startMeeting() throws Exception {
 		setMeetingStatus(MeetingStatus.Running);
 		setLastChange(LocalDateTime.now());	
+		nextPoint();
 		runningMeetingManager = new Timer();
 		runningMeetingManager.schedule(new MeetingRunner(this), 1000,1000);
 	}
@@ -159,15 +160,15 @@ public class Meeting {
 
 		if (runningAgendaPoint.getId() == 0 || runningAgendaPoint.getDoneSpeaker().size() + 1 == participants.size()) {
 			setLastChange(LocalDateTime.now());
-			AgendaPoint nextPoint = new AgendaPoint();
+
 			runningAgendaPoint.setStatus(AgendaPointStatus.Done);
 
 			// Nächsten Punkt suchen, der größer ist
-			AgendaPoint next_Point = new AgendaPoint();
-			;
+			AgendaPoint nextPoint = new AgendaPoint();
+	
 			for (AgendaPoint agendaPoint_ : agenda.getAgendaPoints()) {
 				if (agendaPoint_.getSort() <= nextPoint.getSort())
-					next_Point = agendaPoint_;
+					nextPoint = agendaPoint_;
 			}
 			if (nextPoint.getId() != 0) {
 				nextPoint.setStatus(AgendaPointStatus.Running);
