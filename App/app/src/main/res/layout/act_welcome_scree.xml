@@ -17,11 +17,22 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyTeilnehmerliste"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="361dp"
+        android:layout_height="485dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.11" />
+
+    <Button
+        android:id="@+id/btnVoyeurButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="nur Zuschauen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyTeilnehmerliste" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

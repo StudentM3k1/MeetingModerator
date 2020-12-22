@@ -1,7 +1,7 @@
-package model;
+package de.iubh.meetingmoderatorapp.model;
 
 import java.util.ArrayList;
-import model.enumerations.*;
+import de.iubh.meetingmoderatorapp.model.enumerations.*;
 
 public class Meeting {
 
@@ -13,7 +13,7 @@ public class Meeting {
     private long passedTime = 0;
     private String ort;
 
-	// Nur für interne Benutzung
+	// Nur fï¿½r interne Benutzung
 	public Meeting()
 	{
 
