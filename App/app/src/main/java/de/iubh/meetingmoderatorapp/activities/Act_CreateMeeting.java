@@ -55,7 +55,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 e.printStackTrace();
             }
           meetingTitle.setText(m.getSettings().getMeetingTitle());
-            startDate.setText(m.getSettings().getStartTime().toString().substring(0,10));
+          startDate.setText(m.getSettings().getStartTime().toString().substring(0,10));
           startTime.setText(m.getSettings().getStartTime().toString().substring(11));
           duration.setText("240");
           ort.setText(m.getOrt());
@@ -93,7 +93,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
-                //m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
 
 
@@ -109,25 +109,18 @@ public class Act_CreateMeeting extends AppCompatActivity {
 
         Button btnCreateMeeting = findViewById(R.id.btn_createMeeting);
         btnCreateMeeting.setOnClickListener(v -> {
-            /*m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-            //TODO Zeit aus Layout ubernehmenr
-            //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
+            m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
             m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
-            */
             m.setOrt(ort.getText().toString());
-
-
             TextView idRes = findViewById(R.id.IDResponse);
             Meeting meetingResponse = new Meeting();
             HTTPClient client = new HTTPClient();
             try {
                 client.postMeeting(JSONHelper.MeetingToJSON(m));
-
-
-
-while (client.getResponseReceived() == false)
-{
-}
+                while (client.getResponseReceived() == false)
+                {
+                }
                     if (client.getResponseCode() != 200){
                         idRes.setText("Server Response: " + Integer.toString(client.getResponseCode()));
                     }else{
@@ -139,10 +132,6 @@ while (client.getResponseReceived() == false)
                 e.printStackTrace();
             }
 
-
-
-
-
             modId = meetingResponse.getSettings().getModeratorId();
             idRes.setText("Deine ModeratorID ist: " + meetingResponse.getSettings().getModeratorId());
         });
@@ -153,7 +142,6 @@ while (client.getResponseReceived() == false)
                 i.putExtra("modId", modId);
             startActivity(i);
         });
-
 
     }
 }

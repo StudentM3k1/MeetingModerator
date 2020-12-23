@@ -40,7 +40,6 @@ public class Act_addParticipant extends AppCompatActivity {
         EditText surname = findViewById(R.id.txtPartiFirstName);
         EditText lastname = findViewById(R.id.txtPartiLastname);
         EditText mail = findViewById(R.id.txtPartiMail);
-        Button btnBack = findViewById(R.id.btnBackHome);
 
 
         Bundle extras = getIntent().getExtras();
@@ -54,13 +53,17 @@ public class Act_addParticipant extends AppCompatActivity {
             }
         }
 
-
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Act_addParticipant.this, Act_CreateMeeting.class));
+        Button btnBack = findViewById(R.id.btnBackHome);
+        btnBack.setOnClickListener(v -> {
+            Intent i = new Intent(Act_addParticipant.this, Act_CreateMeeting.class);
+            try {
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            startActivity(i);
         });
 
         Button btnAddParti = findViewById(R.id.btnAddParti);
