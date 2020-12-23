@@ -55,8 +55,8 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 e.printStackTrace();
             }
           meetingTitle.setText(m.getSettings().getMeetingTitle());
-          startTime.setText(m.getSettings().getStartTime().toString());
-          //TODO NumberFormatting
+            startDate.setText(m.getSettings().getStartTime().toString().substring(0,10));
+          startTime.setText(m.getSettings().getStartTime().toString().substring(11));
           duration.setText("240");
           ort.setText(m.getOrt());
         }
@@ -75,8 +75,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
             Intent i = new Intent(Act_CreateMeeting.this, Act_Agenda.class);
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-                //TODO Zeit aus Layout ubernehmenr
-                //m.getSettings().setStartTime(LocalDateTime.parse("20.12.20 12:20 11:55".toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
@@ -93,11 +92,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
             Intent i = (new Intent(Act_CreateMeeting.this, Act_addParticipant.class));
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-                //TODO Zeit aus Layout ubernehmenr
-                //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                //String stDate = startDate.getText().toString();
-                //LocalDate date = LocalDate.parse(stDate, dtf);
-                //m.getSettings().setStartTime(date);
+                m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
                 //m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
 
