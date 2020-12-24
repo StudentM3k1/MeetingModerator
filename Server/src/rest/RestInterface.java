@@ -27,7 +27,7 @@ public class RestInterface {
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -40,7 +40,7 @@ public class RestInterface {
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -53,7 +53,7 @@ public class RestInterface {
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -66,7 +66,7 @@ public class RestInterface {
 			RestHelper.setMeeting(IdHelper.getTechnicalIdByModeratorId(id), json);
 			return Response.ok().build();
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -79,7 +79,7 @@ public class RestInterface {
 			String json_return = RestHelper.getRunningAgendaLastChange(IdHelper.getTechnicalIdByParticipantId(id));
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -92,7 +92,7 @@ public class RestInterface {
 			String json_return = RestHelper.getRunningAgendaLastChange(IdHelper.getTechnicalIdByModeratorId(id));
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 
 	}
@@ -107,7 +107,7 @@ public class RestInterface {
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -121,7 +121,7 @@ public class RestInterface {
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -135,7 +135,7 @@ public class RestInterface {
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -149,7 +149,7 @@ public class RestInterface {
 			return Response.ok(json_return, MediaType.APPLICATION_JSON).build();
 
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -162,7 +162,7 @@ public class RestInterface {
 			RestHelper.startMeeting(IdHelper.getTechnicalIdByModeratorId(id));
 			return Response.ok().build();
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -175,7 +175,7 @@ public class RestInterface {
 			RestHelper.nextAgendaPoint(IdHelper.getTechnicalIdByParticipantId(id));
 			return Response.ok().build();
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 
@@ -189,7 +189,7 @@ public class RestInterface {
 			RestHelper.nextAgendaPoint(IdHelper.getTechnicalIdByModeratorId(id));
 			return Response.ok().build();
 		} catch (Exception e) {
-			return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 }
