@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/modMeetView"
     android:background="@drawable/background"
     android:layout_width="match_parent"
@@ -65,43 +66,45 @@
 
     <Button
         android:id="@+id/btnModSprechenBeenden"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
         android:text="Sprechen beenden"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyPartiPoints"
-        android:layout_width="385dp"
-        android:layout_height="456dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="367dp"
+        android:layout_height="331dp"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toTopOf="@+id/btnModSprechenBeenden"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtModGruss"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Hallo User, nachfolgend die noch kommeden Agendapunkte"
+        android:layout_width="349dp"
+        android:layout_height="27dp"
+        android:text="Kommende Agendapunkte:"
         app:layout_constraintBottom_toTopOf="@+id/txtModSprechzeit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModAktuSprecher"
-        app:layout_constraintVertical_bias="0.303" />
+        app:layout_constraintVertical_bias="0.431" />
 
     <TextView
         android:id="@+id/txtModSprechzeit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_width="388dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="28dp"
         android:text="Du bist mit Sprechen dran, Deine übrige Zeit ist: 0000 Minuten"
         app:layout_constraintBottom_toTopOf="@+id/recyPartiPoints"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

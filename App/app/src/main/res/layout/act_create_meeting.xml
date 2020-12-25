@@ -9,12 +9,11 @@
 
     <Button
         android:id="@+id/btn_createMeeting"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="203dp"
-        android:layout_marginEnd="115dp"
-        android:text="Create it"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="4dp"
+        android:text="Meeting erstellen"
+        app:layout_constraintBottom_toTopOf="@+id/btnBackToHome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -24,28 +23,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Create Meeting"
+        android:text="Meeting erstellen"
+        android:textSize="24sp"
+        android:textColor="@color/design_default_color_primary_variant"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnToAgenda"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:text="zur Agenda"
         app:layout_constraintBottom_toTopOf="@+id/btn_toAddParticipan"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_toAddParticipan"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Teilnehmer"
+        android:layout_marginBottom="12dp"
+        android:text="Teilnehmer hinzufügen"
         app:layout_constraintBottom_toTopOf="@+id/btn_createMeeting"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -54,7 +59,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:text="MeetingTitle"
+        android:text="Meetingtitel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -115,20 +120,19 @@
 
     <Button
         android:id="@+id/btnBackToHome"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="zurück"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_createMeeting"
+        android:layout_marginBottom="40dp"
+        android:text="Zurück"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_createMeeting"
-        app:layout_constraintHorizontal_bias="0.747"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_createMeeting"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyTln"
-        android:layout_width="376dp"
-        android:layout_height="288dp"
+        android:layout_width="308dp"
+        android:layout_height="258dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
         app:layout_constraintEnd_toEndOf="parent"
