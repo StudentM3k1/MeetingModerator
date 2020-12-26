@@ -118,9 +118,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
             HTTPClient client = new HTTPClient();
             try {
                 client.postMeeting(JSONHelper.MeetingToJSON(m));
-                while (client.getResponseReceived() == false)
-                {
-                }
+                while (!client.getResponseReceived()) {}
                     if (client.getResponseCode() != 200){
                         idRes.setText("Server Response: " + Integer.toString(client.getResponseCode()));
                     }else{

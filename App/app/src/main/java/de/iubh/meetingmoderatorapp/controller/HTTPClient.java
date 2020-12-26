@@ -50,6 +50,22 @@ public class HTTPClient {
         else return responseCode;
     }
 
+    Callback resCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            e.printStackTrace();
+            responseCode = 410;
+            responseReceived = true;
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            responseBody = response.body().string();
+            responseCode = response.code();
+            responseReceived = true;
+        }
+    };
+
     // POST Meeting to create
     public void postMeeting(String json) {
         responseReceived = false;
@@ -58,199 +74,74 @@ public class HTTPClient {
                 .url(URL)
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                responseCode = 410;
-                responseReceived = true;
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                responseBody = response.body().string();
-                responseCode = response.code();
-                responseReceived = true;
-            }
-        });
-        
+        client.newCall(request).enqueue(resCallback);
     }
 
     // GET Meeting per ID
-    public String getMeeting(String url) {
+    public void getMeeting(String url) {
         Request request = new Request.Builder()
                 .url(URL + url)
                 .get()
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                responseCode = 410;
-                responseReceived = true;
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-               responseBody = response.body().toString();
-                responseCode = response.code();
-                responseReceived = true;
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
 
 
     // GET Change for User
-    public String getUserChange(String id) {
+    public void getUserChange(String id) {
         Request request = new Request.Builder()
                 .url(URL + "/User/" + id + "/Change")
                 .get()
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                responseCode = 410;
-                responseReceived = true;
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                responseBody = response.body().toString();
-                responseCode = response.code();
-                responseReceived = true;
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
 
     // GET Change for Mod
-    public String getModChange(String id) {
+    public void getModChange(String id) {
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Change")
                 .get()
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                responseCode = 410;
-                responseReceived = true;
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                responseBody = response.body().toString();
-                responseCode = response.code();
-                responseReceived = true;
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
 
 
     // GET State for User
-    public String getUserState(String id) {
+    public void getUserState(String id) {
         Request request = new Request.Builder()
                 .url(URL + "/User/" + id + "/State")
                 .get()
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
-                }
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
 
     // GET State for Mod
-    public String getModState(String id) {
+    public void getModState(String id) {
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/State")
                 .get()
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
-                }
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
 
 
     // GET Sync for User
-    public String getUserSync(String id) {
+    public void getUserSync(String id) {
         Request request = new Request.Builder()
                 .url(URL + "/User/" + id + "/Start")
                 .get()
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
-                }
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
 
     // GET Sync for Mod
-    public String getModSync(String id) {
+    public void getModSync(String id) {
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Start")
                 .get()
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
-                }
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
-
 
 
     // POST Moderator Start
@@ -261,77 +152,26 @@ public class HTTPClient {
                 .url(URL + "/Moderator/" + id + "/Start")
                 .post(body)
                 .build();
-              client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                    responseCode = 410;
-                    responseReceived = true;
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    responseBody = response.body().string();
-                    responseCode = response.code();
-                    responseReceived = true;
-                }
-              });
+        client.newCall(request).enqueue(resCallback);
     }
 
-
     // POST Next User
-    public String postNextUser(String id) {
+    public void postNextUser(String id) {
         RequestBody body = RequestBody.create(JSON, id);
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Next")
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                responseBody = "Err: Nope in postMeeting HTTPMethod";
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
-                }
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
 
     // POST Moderator Next
-    public String postNextModerator(String json, String id) {
+    public void postNextModerator(String json, String id) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Next")
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                responseBody = "Err: Nope in postMeeting HTTPMethod";
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
-                }
-            }
-        });
-        return responseBody;
+        client.newCall(request).enqueue(resCallback);
     }
 }

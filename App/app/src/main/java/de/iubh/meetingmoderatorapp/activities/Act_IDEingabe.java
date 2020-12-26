@@ -50,24 +50,20 @@ public class Act_IDEingabe extends AppCompatActivity {
                         .show();
             } else {
                 HTTPClient client = new HTTPClient();
-                while (client.getResponseReceived() == false) {
-                }
+                while (!client.getResponseReceived()) {}
+                client.getMeeting(id);
                 try {
-                    if (client.getResponseCode() == 200) {
-                        String meeting = client.getMeeting(id);
-                        Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
-                        try {
-                            i.putExtra("JSON", meeting);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        startActivity(i);
-                    } else {
+                    if(client.getResponseCode() != 200) {
                         Snackbar.make(
                                 findViewById(R.id.IDView),
                                 "Die MeetingID konnte nicht verarbeitet werden",
                                 Snackbar.LENGTH_LONG)
                                 .show();
+                    } else {
+                        String meeting = client.getResponseBody();
+                        Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
+                        i.putExtra("JSON", meeting);
+                        startActivity(i);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
