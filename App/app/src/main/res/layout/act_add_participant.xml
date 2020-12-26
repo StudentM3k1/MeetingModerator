@@ -9,55 +9,64 @@
 
     <EditText
         android:id="@+id/txtPartiMail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:hint="mail"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/txtPartiLastname"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtPartiLastname"
         app:layout_constraintTop_toBottomOf="@+id/txtPartiLastname" />
 
     <EditText
         android:id="@+id/txtPartiFirstName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Vorname"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <EditText
         android:id="@+id/txtPartiLastname"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Nachname"
         app:layout_constraintEnd_toEndOf="@+id/txtPartiFirstName"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtPartiFirstName"
         app:layout_constraintTop_toBottomOf="@+id/txtPartiFirstName" />
 
     <Button
         android:id="@+id/btnAddParti"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="32dp"
         android:text="Add"
-        app:layout_constraintEnd_toEndOf="@+id/txtPartiMail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPartiMail" />
 
     <Button
         android:id="@+id/btnBackHome"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="zurück"
-        app:layout_constraintBottom_toBottomOf="@+id/btnAddParti"
-        app:layout_constraintStart_toStartOf="@+id/txtPartiMail"
-        app:layout_constraintTop_toTopOf="@+id/btnAddParti" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddParti"
+        app:layout_constraintVertical_bias="0.635" />
 
     <TextView
         android:id="@+id/textView4"
@@ -65,6 +74,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Teilnehmer hinzufügen"
+        android:textSize="24sp"
+        android:textColor="@color/design_default_color_primary_variant"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
