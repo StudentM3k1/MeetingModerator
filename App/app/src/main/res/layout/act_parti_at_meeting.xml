@@ -137,8 +137,6 @@
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recyPartiPoints"
-        app:layout_constraintBottom_toTopOf="@+id/recyPartiPoints"
         app:layout_constraintBottom_toTopOf="@+id/recyPartiPreMeeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
