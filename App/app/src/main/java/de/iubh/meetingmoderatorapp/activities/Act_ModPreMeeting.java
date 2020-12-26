@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import org.json.JSONException;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
-import de.iubh.meetingmoderatorapp.controller.HTTPClient;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
+import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
@@ -31,71 +30,48 @@ public class Act_ModPreMeeting extends AppCompatActivity {
         setContentView(R.layout.act_parti_at_meeting);
         AndroidThreeTen.init(this);
 
-        RecyclerView recyAP;
-        AgendaPointAdapter apAdapter;
-        RecyclerView.LayoutManager apLayoutManger;
-
-        RecyclerView recyTLN;
-        TeilnehmerAdapter tlnAdapter;
-        RecyclerView.LayoutManager tlnLayoutManger;
+        MeetingHelper mh = new MeetingHelper();
+        View sbView = findViewById(R.id.snackbarView);
 
         Bundle extras = getIntent().getExtras();
-        String json = extras.getString("JSON");
-
-        try {
-            m = JSONHelper.JSONToMeeting(json);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(extras != null) {
+            meetingID = extras.getString("meetingID");
+            try {
+                m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        HTTPClient client = new HTTPClient();
 
 
-            // Aufbau RecyView AgendaPoint
-            recyAP = findViewById(R.id.recyAP);
-            recyAP.setHasFixedSize(true);
-            apLayoutManger = new LinearLayoutManager(this);
-            apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
 
-            recyAP.setLayoutManager(apLayoutManger);
-            recyAP.setAdapter(apAdapter);
+        // Aufbau RecyView AgendaPoint
+        RecyclerView recyAP = findViewById(R.id.recyApPreMeeting);
+        AgendaPointAdapter apAdapter;
+        RecyclerView.LayoutManager apLayoutManger;
+        //recyAP.setHasFixedSize(true);
+        apLayoutManger = new LinearLayoutManager(this);
+        apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
+        recyAP.setLayoutManager(apLayoutManger);
+        recyAP.setAdapter(apAdapter);
 
 
         // Aufbau RecyView Participant
-
-        recyTLN = findViewById(R.id.recyTln);
+        RecyclerView recyTLN = findViewById(R.id.recyPartiPreMeeting);
+        TeilnehmerAdapter tlnAdapter;
+        RecyclerView.LayoutManager tlnLayoutManger;
         recyTLN.setHasFixedSize(true);
         tlnLayoutManger = new LinearLayoutManager(this);
         tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
-
         recyTLN.setLayoutManager(tlnLayoutManger);
         recyTLN.setAdapter(tlnAdapter);
 
         Button btnStartMeeting = findViewById(R.id.btnStartMeeting);
         btnStartMeeting.setOnClickListener(v -> {
             Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
-
-            try {
-                String j = JSONHelper.MeetingToJSON(m);
-                meetingID = Long.toString(m.getId());
-                if(j != null){
-                    client.postStartModerator(j, meetingID);
-                    while (client.getResponseReceived() == false) {        }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
+            i.putExtra("meetingID", Long.toString(m.getId()));
+            mh.startMeetingMod(m, meetingID, sbView);
             startActivity(i);
 
         });

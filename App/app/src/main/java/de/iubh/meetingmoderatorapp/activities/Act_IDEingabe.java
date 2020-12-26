@@ -17,6 +17,7 @@ import org.json.JSONException;
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.HTTPClient;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
+import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_IDEingabe extends AppCompatActivity {
@@ -26,10 +27,13 @@ public class Act_IDEingabe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_id_eingabe);
         AndroidThreeTen.init(this);
-        EditText meetingId = findViewById(R.id.txtMeetingID);
+
+        MeetingHelper mh = new MeetingHelper();
+        EditText meetingID = findViewById(R.id.txtMeetingID);
+        View sbView = findViewById(R.id.snackbarView);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            meetingId.setText(extras.getString("modId"));
+            meetingID.setText(extras.getString("modId"));
         }
 
         Button btnToCreateMeeting = findViewById(R.id.btn_createNewMeeting);
@@ -40,34 +44,19 @@ public class Act_IDEingabe extends AppCompatActivity {
 
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
         btnJoinMeeting.setOnClickListener(v -> {
-            String id = meetingId.getText().toString();
+            String id = meetingID.getText().toString();
 
-            if (id == null) {
+            if (id == "") {
                 Snackbar.make(
-                        findViewById(R.id.IDView),
+                        findViewById(R.id.idSnack),
                         "Bitte Meeting-ID eingeben.",
                         Snackbar.LENGTH_LONG)
                         .show();
             } else {
-                HTTPClient client = new HTTPClient();
-                while (!client.getResponseReceived()) {}
-                client.getMeeting(id);
-                try {
-                    if(client.getResponseCode() != 200) {
-                        Snackbar.make(
-                                findViewById(R.id.IDView),
-                                "Die MeetingID konnte nicht verarbeitet werden",
-                                Snackbar.LENGTH_LONG)
-                                .show();
-                    } else {
-                        String meeting = client.getResponseBody();
-                        Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
-                        i.putExtra("JSON", meeting);
-                        startActivity(i);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
+                i.putExtra("JSON", mh.getMeetingString(id, sbView));
+                i.putExtra("meetingID", id);
+                startActivity(i);
             }
         });
     }

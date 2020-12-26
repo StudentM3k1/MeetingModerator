@@ -1,5 +1,6 @@
 package de.iubh.meetingmoderatorapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -43,6 +44,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         AndroidThreeTen.init(this);
 
         MeetingHelper mh = new MeetingHelper();
+        View sbView = findViewById(R.id.snackbar);
 
         TextView meetingTitle = findViewById(R.id.txtModMeetingTitle);
         TextView aktuAP = findViewById(R.id.aktuAPMod);
@@ -54,63 +56,53 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         TextView modSprechNote = findViewById(R.id.txtModSprechzeit);
 
 
-        RecyclerView recyAP;
-        AgendaPointAdapter apAdapter;
-        RecyclerView.LayoutManager apLayoutManger;
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String json = extras.getString("JSON");
-            try {
-                m = JSONHelper.JSONToMeeting(json);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            meetingID = extras.getString("meetingID");
         }
 
+        m = mh.updateMeetingMod(meetingID, sbView);
+        meetingTitle.setText(m.getSettings().getMeetingTitle());
+        modGruss.setText("Hallo Moderator, willkommen im Meeting.");
+
         // Aufbau RecyclerView
+        AgendaPointAdapter apAdapter;
+        RecyclerView recyAP;
+        RecyclerView.LayoutManager apLayoutManger;
         recyAP = findViewById(R.id.recyPartiPreMeeting);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
-
         recyAP.setLayoutManager(apLayoutManger);
         recyAP.setAdapter(apAdapter);
 
-        meetingID = Long.toString(m.getId());
-        meetingTitle.setText(m.getSettings().getMeetingTitle());
-        modGruss.setText("Hallo Moderator, willkommen im Meeting.");
 
-        View sbView = findViewById(R.id.snackbar);
-
-
-        // verbleibende Gesamtzeit
-        passedTime = mh.syncServer(meetingID, sbView);
+        // verbleibende Gesamtzeit anzeigen und runter zählen
+        passedTime = mh.syncModServer(meetingID, sbView);
         new CountDownTimer(m.getSettings().getDuration(), 1000){
             @Override
             public void onTick(long millisUntilFinished) {
                 verbleibendeGesamtzeit.setText(String.valueOf(m.getSettings().getDuration() - passedTime));
                 passedTime++;
-
             }
 
             @Override
             public void onFinish() {
-
                 verbleibendeGesamtzeit.setText("Meeting Ende");
-                // Aufrufen der
+                Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
+                startActivity(i);
             }
         }.start();
 
 
         //Change
         LocalDateTime lastLocalChange = null;
-        LocalDateTime lastServerChange = mh.getLastChange(meetingID, sbView);
+        LocalDateTime lastServerChange = mh.getLastChangeMod(meetingID, sbView);
+        curAp = mh.getAgendapointMod(meetingID, sbView);
         while (lastServerChange == lastLocalChange) {
-
              // aktueller AP
-             curAp = mh.getAgendapoint(meetingID, sbView);
             aktuAP.setText(curAp.getTitle());
+            // Zeit des AP runterzählen
             new CountDownTimer(curAp.getAvailableTime(), 1000){
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -121,50 +113,48 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     verbleibendeAPZeit.setText("Agendapunkt Ende");
+                    // neuen Agendapunkt anfordern
+                    mh.nextModAgendapoint(m, meetingID, sbView);
                 }
             }.start();
 
             aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
-            //TODO verbleibende Sprechzeit anzeigen und runter zählen
 
-
-            lastServerChange = mh.getLastChange(meetingID, sbView);
-
-            if(lastServerChange != lastLocalChange) {
-
-                curAp = mh.getAgendapoint(meetingID, sbView);
-                m = mh.updateMeeting(meetingID, sbView);
+            lastServerChange = mh.getLastChangeMod(meetingID, sbView);
+            // Changes unterschiedlich, aber noch Agendapunktvorhanden
+            if(lastServerChange != lastLocalChange && !m.getAgenda().getAgendaPoints().isEmpty()) {
+                //neuen Agendapunkt setzen
+                curAp = mh.getAgendapointMod(meetingID, sbView);
+                //Meeting updaten
+                m = mh.updateMeetingMod(meetingID, sbView);
+                // Change updaten
                 lastLocalChange = lastServerChange;
 
+            } else {
 
+                //Meeting beenden
+                Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
+                startActivity(i);
             }
         }
 
 
-
+        // nächster Teilnehmer
         Button btnStartSpeak = findViewById(R.id.btnModSprechenStarten);
         btnStartSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // push APState to server
+                //TODO nicht ganz richtig....
+
+                mh.startMeetingMod(m, meetingID,sbView);
 
             }
         });
 
-
+        // nächster Agendapunkt
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
         btnEndSpeak.setOnClickListener(v -> {
-            HTTPClient client = new HTTPClient();
-            String j = null;
-            try {
-                j = JSONHelper.MeetingToJSON(m);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            client.postNextModerator(j, meetingID);
+            mh.nextModAgendapoint(m, meetingID, sbView);
         });
         }
 
