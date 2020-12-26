@@ -143,7 +143,6 @@ public class HTTPClient {
         client.newCall(request).enqueue(resCallback);
     }
 
-
     // POST Moderator Start
     public void postStartModerator(String json, String id) {
         responseReceived = false;

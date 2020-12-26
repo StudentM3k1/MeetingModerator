@@ -29,7 +29,7 @@ import de.iubh.meetingmoderatorapp.model.AgendaPoint;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_ModAtMeeting  extends AppCompatActivity {
-    Meeting m = new Meeting();
+    Meeting m = null;
     AgendaPoint curAp = null;
     String meetingID;
     long passedTime;
@@ -81,31 +81,35 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         meetingTitle.setText(m.getSettings().getMeetingTitle());
         modGruss.setText("Hallo Moderator, willkommen im Meeting.");
 
+        View sbView = findViewById(R.id.snackbar);
 
 
         // verbleibende Gesamtzeit
-        passedTime = mh.syncServer(meetingID, findViewById(R.id.snackbar));
+        passedTime = mh.syncServer(meetingID, sbView);
         new CountDownTimer(m.getSettings().getDuration(), 1000){
             @Override
             public void onTick(long millisUntilFinished) {
                 verbleibendeGesamtzeit.setText(String.valueOf(m.getSettings().getDuration() - passedTime));
                 passedTime++;
+
             }
 
             @Override
             public void onFinish() {
+
                 verbleibendeGesamtzeit.setText("Meeting Ende");
+                // Aufrufen der
             }
         }.start();
 
 
         //Change
         LocalDateTime lastLocalChange = null;
-        LocalDateTime lastServerChange = mh.getLastChange(meetingID, findViewById(R.id.snackbar));
+        LocalDateTime lastServerChange = mh.getLastChange(meetingID, sbView);
         while (lastServerChange == lastLocalChange) {
 
-         // aktueller AP
-         curAp = mh.getAgendapoint(meetingID, findViewById(R.id.snackbar));
+             // aktueller AP
+             curAp = mh.getAgendapoint(meetingID, sbView);
             aktuAP.setText(curAp.getTitle());
             new CountDownTimer(curAp.getAvailableTime(), 1000){
                 @Override
@@ -124,12 +128,12 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
             //TODO verbleibende Sprechzeit anzeigen und runter zählen
 
 
-            lastServerChange = mh.getLastChange(meetingID, findViewById(R.id.snackbar));
+            lastServerChange = mh.getLastChange(meetingID, sbView);
 
             if(lastServerChange != lastLocalChange) {
 
-                curAp = mh.getAgendapoint(meetingID, findViewById(R.id.snackbar));
-                m = mh.updateMeeting(meetingID, findViewById(R.id.snackbar));
+                curAp = mh.getAgendapoint(meetingID, sbView);
+                m = mh.updateMeeting(meetingID, sbView);
                 lastLocalChange = lastServerChange;
 
 
