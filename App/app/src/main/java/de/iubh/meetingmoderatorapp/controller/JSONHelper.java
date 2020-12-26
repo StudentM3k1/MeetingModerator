@@ -9,8 +9,7 @@ import de.iubh.meetingmoderatorapp.model.enumerations.*;
 
 public class JSONHelper {
 
-
-    public static String MeetingToJSON(Meeting meeting) throws Exception {
+    public static String MeetingToJSON(Meeting meeting)  throws JSONException {
 
         JSONObject jsonobj = new JSONObject();
         jsonobj.put("id", meeting.getId());
@@ -34,6 +33,7 @@ public class JSONHelper {
             agendaPoint_json.put("id", agendaPoint.getId());
             agendaPoint_json.put("title", agendaPoint.getTitle());
             agendaPoint_json.put("note", agendaPoint.getNote());
+            agendaPoint_json.put("sort", agendaPoint.getSort());
             agendaPoint_json.put("availableTime", agendaPoint.getAvailableTime());
             agendaPoint_json.put("status", AgendaPointStatus.getInt(agendaPoint.getStatus()));
 
@@ -101,6 +101,7 @@ public class JSONHelper {
                 agendaPoint.setNote(json_agendaPoint.getString("note"));
                 agendaPoint.setAvailableTime(json_agendaPoint.getLong("availableTime"));
                 agendaPoint.setStatus(AgendaPointStatus.getAgendaPointStatus(json_agendaPoint.getInt("status")));
+                agendaPoint.setSort(json_agendaPoint.getLong("sort"));
                 User user = new User();
                 Participant participant = new Participant();
                 JSONObject json_participant = json_agendaPoint.getJSONObject("actualSpeaker");
@@ -149,29 +150,42 @@ public class JSONHelper {
         return meeting;
     }
 
-    public static LocalDateTime JSONToLastChange(String json)throws Exception {
+    public static LocalDateTime JSONToLastChange(String json) throws JSONException  {
         JSONObject jsonobj = new JSONObject(json);
         return LocalDateTime.ofEpochSecond(jsonobj.getLong("lastChange"), 0, ZoneOffset.UTC);
     }
 
-    public static String LastChangeToJSON(LocalDateTime localDateTime) throws Exception {
+    public static String LastChangeToJSON(LocalDateTime localDateTime)  throws JSONException {
         JSONObject jsonobj = new JSONObject();
         jsonobj.put("lastChange", localDateTime.toEpochSecond(ZoneOffset.UTC));
         return jsonobj.toString();
     }
 
-    public static String StateToJSON(AgendaPoint agendaPoint) throws Exception{
+    public static String StateToJSON(AgendaPoint agendaPoint) throws JSONException  {
         JSONObject jsonobj = new JSONObject();
         jsonobj.put("id", agendaPoint.getId());
         jsonobj.put("title", agendaPoint.getTitle());
         jsonobj.put("note", agendaPoint.getNote());
         jsonobj.put("availableTime", agendaPoint.getAvailableTime());
         jsonobj.put("status", AgendaPointStatus.getInt(agendaPoint.getStatus()));
+        jsonobj.put("sort", agendaPoint.getSort());
+
+        JSONObject participant = new JSONObject();
+        JSONObject user = new JSONObject();
+        user.put("id", agendaPoint.getActualSpeaker().getUser().getId());
+        user.put("firstname", agendaPoint.getActualSpeaker().getUser().getFirstname());
+        user.put("lastname", agendaPoint.getActualSpeaker().getUser().getLastname());
+        user.put("mail", agendaPoint.getActualSpeaker().getUser().getMail());
+        participant.put("user", user);
+        participant.put("id", agendaPoint.getActualSpeaker().getId());
+        participant.put("type", ParticipantType.getInt(agendaPoint.getActualSpeaker().getType()));
+        jsonobj.put("actualSpeaker", participant);
+
         return jsonobj.toString();
 
     }
 
-    public static AgendaPoint JSONToState(String json) throws Exception{
+    public static AgendaPoint JSONToState(String json) throws JSONException  {
         AgendaPoint agendaPoint = new AgendaPoint();
         JSONObject json_agendaPoint = new JSONObject(json);
         agendaPoint.setId(json_agendaPoint.getLong("id"));
@@ -179,19 +193,32 @@ public class JSONHelper {
         agendaPoint.setNote(json_agendaPoint.getString("note"));
         agendaPoint.setAvailableTime(json_agendaPoint.getLong("availableTime"));
         agendaPoint.setStatus(AgendaPointStatus.getAgendaPointStatus(json_agendaPoint.getInt("status")));
+        agendaPoint.setSort(json_agendaPoint.getLong("sort"));
+
+        User user = new User();
+        Participant participant = new Participant();
+        JSONObject json_participant = json_agendaPoint.getJSONObject("actualSpeaker");
+        participant.setId(json_participant.getLong("id"));
+        participant.setType(ParticipantType.getParticipantType(json_participant.getInt("type")));
+        JSONObject json_user = json_participant.getJSONObject("user");
+        user.setFirstname(json_user.getString("firstname"));
+        user.setId(json_user.getLong("id"));
+        user.setLastname(json_user.getString("lastname"));
+        user.setMail(json_user.getString("mail"));
+        participant.setUser(user);
+        agendaPoint.setActualSpeaker(participant);
         return agendaPoint;
     }
 
-    public static long JSONToSync(String json) throws Exception{
+    public static long JSONToSync(String json) throws JSONException {
         JSONObject jsonobj = new JSONObject(json);
         return jsonobj.getLong("passedTime");
     }
 
-    public static String SyncToJSON(long ticks)throws Exception {
+    public static String SyncToJSON(long ticks)  throws JSONException {
         JSONObject jsonobj = new JSONObject();
         jsonobj.put("passedTime", ticks);
         return jsonobj.toString();
     }
-
 
 }

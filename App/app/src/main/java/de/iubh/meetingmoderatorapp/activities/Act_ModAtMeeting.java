@@ -1,6 +1,7 @@
 package de.iubh.meetingmoderatorapp.activities;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
@@ -16,21 +17,23 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import org.json.JSONException;
 import org.threeten.bp.LocalDateTime;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
 import de.iubh.meetingmoderatorapp.controller.HTTPClient;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
+import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
+import de.iubh.meetingmoderatorapp.model.AgendaPoint;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_ModAtMeeting  extends AppCompatActivity {
     Meeting m = new Meeting();
-    HTTPClient client = new HTTPClient();
-    String surname;
-    String lastname;
+    AgendaPoint curAp = null;
     String meetingID;
-    Handler changeReqHandler = new Handler();
-    Runnable runnable;
-    int delay = 5000;
+    long passedTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         setContentView(R.layout.act_mod_at_meeting);
         AndroidThreeTen.init(this);
 
+        MeetingHelper mh = new MeetingHelper();
 
         TextView meetingTitle = findViewById(R.id.txtModMeetingTitle);
         TextView aktuAP = findViewById(R.id.aktuAPMod);
@@ -64,7 +68,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
             }
         }
 
-
+        // Aufbau RecyclerView
         recyAP = findViewById(R.id.recyPartiPreMeeting);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
@@ -77,50 +81,60 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         meetingTitle.setText(m.getSettings().getMeetingTitle());
         modGruss.setText("Hallo Moderator, willkommen im Meeting.");
 
-        HTTPClient client = new HTTPClient();
 
 
-        // Synchro
-        long passedTime;
-        try {
-            client.getModSync(meetingID);
-            while(!client.getResponseReceived()) {}
-            if(client.getResponseCode() != 200) {
-                Snackbar.make(
-                        findViewById(R.id.snackbar),
-                        "ServerSync fehlgeschlagen",
-                        Snackbar.LENGTH_LONG)
-                        .show();
-            } else {
-                passedTime = JSONHelper.JSONToSync(client.getResponseBody());
+        // verbleibende Gesamtzeit
+        passedTime = mh.syncServer(meetingID, findViewById(R.id.snackbar));
+        new CountDownTimer(m.getSettings().getDuration(), 1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+                verbleibendeGesamtzeit.setText(String.valueOf(m.getSettings().getDuration() - passedTime));
+                passedTime++;
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+            @Override
+            public void onFinish() {
+                verbleibendeGesamtzeit.setText("Meeting Ende");
+            }
+        }.start();
 
 
         //Change
-        LocalDateTime lastLocalChange;
-        try {
-            client.getModChange(meetingID);
-            while(!client.getResponseReceived()) {}
-            if(client.getResponseCode() != 200) {
-                Snackbar.make(
-                        findViewById(R.id.snackbar),
-                        "ServerChangeReq fehlgeschlagen",
-                        Snackbar.LENGTH_LONG)
-                        .show();
-            } else {
-                lastLocalChange = JSONHelper.JSONToLastChange(client.getResponseBody());
+        LocalDateTime lastLocalChange = null;
+        LocalDateTime lastServerChange = mh.getLastChange(meetingID, findViewById(R.id.snackbar));
+        while (lastServerChange == lastLocalChange) {
+
+         // aktueller AP
+         curAp = mh.getAgendapoint(meetingID, findViewById(R.id.snackbar));
+            aktuAP.setText(curAp.getTitle());
+            new CountDownTimer(curAp.getAvailableTime(), 1000){
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    verbleibendeAPZeit.setText(String.valueOf(curAp.getAvailableTime() - passedTime));
+                    passedTime++;
+                }
+
+                @Override
+                public void onFinish() {
+                    verbleibendeAPZeit.setText("Agendapunkt Ende");
+                }
+            }.start();
+
+            aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
+            //TODO verbleibende Sprechzeit anzeigen und runter zählen
+
+
+            lastServerChange = mh.getLastChange(meetingID, findViewById(R.id.snackbar));
+
+            if(lastServerChange != lastLocalChange) {
+
+                curAp = mh.getAgendapoint(meetingID, findViewById(R.id.snackbar));
+                m = mh.updateMeeting(meetingID, findViewById(R.id.snackbar));
+                lastLocalChange = lastServerChange;
+
+
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
-
 
 
 
@@ -136,6 +150,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
         btnEndSpeak.setOnClickListener(v -> {
+            HTTPClient client = new HTTPClient();
             String j = null;
             try {
                 j = JSONHelper.MeetingToJSON(m);
@@ -148,17 +163,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
             client.postNextModerator(j, meetingID);
         });
         }
-/*
-        LocalDateTime lastChange = null;
-        String serverChange;
-        String localChange = "";
-        serverChange = client.getModChange(Long.toString(m.getId()));
-        try {
-                localChange = JSONHelper.LastChangeToJSON(lastChange);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            */
+
 
 
 }
