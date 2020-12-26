@@ -3,7 +3,6 @@ package de.iubh.meetingmoderatorapp.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,7 +55,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
             }
         }
 
-            recyAP = findViewById(R.id.recyPartiPoints);
+            recyAP = findViewById(R.id.recyPartiPreMeeting);
             recyAP.setHasFixedSize(true);
             apLayoutManger = new LinearLayoutManager(this);
             apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());

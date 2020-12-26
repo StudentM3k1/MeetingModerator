@@ -2,10 +2,8 @@ package de.iubh.meetingmoderatorapp.activities;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.json.JSONException;
-
-import java.net.HttpCookie;
-import java.time.LocalDateTime;
+import org.threeten.bp.LocalDateTime;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
@@ -57,18 +53,17 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         RecyclerView.LayoutManager apLayoutManger;
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            surname = extras.getString("surname");
-            lastname = extras.getString("lastname");
+        if (extras != null) {
             String json = extras.getString("JSON");
             try {
-
-            m = JSONHelper.JSONToMeeting(json);
-        }catch (Exception e) {
+                m = JSONHelper.JSONToMeeting(json);
+            } catch (Exception e) {
                 e.printStackTrace();
-            }}
+            }
+        }
 
-        recyAP = findViewById(R.id.recyPartiPoints);
+
+        recyAP = findViewById(R.id.recyPartiPreMeeting);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
@@ -78,15 +73,9 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         meetingID = Long.toString(m.getId());
         meetingTitle.setText(m.getSettings().getMeetingTitle());
-        //modGruss.setText("Hallo " + surname + " " + lastname + "Willkommen im Meeting.");
         modGruss.setText("Hallo Moderator, willkommen im Meeting.");
 
-
-
-
         HTTPClient client = new HTTPClient();
-
-
 
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
         btnEndSpeak.setOnClickListener(v -> {
@@ -95,29 +84,24 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
                 j = JSONHelper.MeetingToJSON(m);
             } catch (JSONException e) {
                 e.printStackTrace();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             client.postNextModerator(j, meetingID);
         });
-    }
-
-    @Override
-    protected void onResume() {
-        changeReqHandler.postDelayed(runnable = new Runnable() {
-            public void run() {
-                changeReqHandler.postDelayed(runnable, delay);
-
-                client.getUserChange(meetingID);
+        }
+/*
+        LocalDateTime lastChange = null;
+        String serverChange;
+        String localChange = "";
+        serverChange = client.getModChange(Long.toString(m.getId()));
+        try {
+                localChange = JSONHelper.LastChangeToJSON(lastChange);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }, delay);
-        super.onResume();
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        changeReqHandler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
-    }
+            */
+
 
 }

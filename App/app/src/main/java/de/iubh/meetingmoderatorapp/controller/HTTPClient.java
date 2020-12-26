@@ -24,9 +24,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HTTPClient {
-    static String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
+    //static String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
     //static String URL="http://15.237.128.178/MeetingModeratorServer/Meeting/";
-    //static String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
+    static String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
@@ -86,19 +86,13 @@ public class HTTPClient {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-
+                responseCode = 410;
                 responseReceived = true;
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-               if(response.code() != 200) {
-                   responseBody = "Err: HTTP Code: " + response.code();
-               } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                   responseBody ="";
-               }
+               responseBody = response.body().toString();
                 responseCode = response.code();
                 responseReceived = true;
             }
@@ -107,7 +101,7 @@ public class HTTPClient {
     }
 
 
-    // GET State for User
+    // GET Change for User
     public String getUserChange(String id) {
         Request request = new Request.Builder()
                 .url(URL + "/User/" + id + "/Change")
@@ -117,22 +111,21 @@ public class HTTPClient {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
+                responseCode = 410;
+                responseReceived = true;
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
-                }
+                responseBody = response.body().toString();
+                responseCode = response.code();
+                responseReceived = true;
             }
         });
         return responseBody;
     }
 
-    // GET State for Mod
+    // GET Change for Mod
     public String getModChange(String id) {
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Change")
@@ -142,16 +135,15 @@ public class HTTPClient {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
+                responseCode = 410;
+                responseReceived = true;
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
-                }
+                responseBody = response.body().toString();
+                responseCode = response.code();
+                responseReceived = true;
             }
         });
         return responseBody;
@@ -262,31 +254,28 @@ public class HTTPClient {
 
 
     // POST Moderator Start
-    public String postStartModerator(String json, String id) {
+    public void postStartModerator(String json, String id) {
+        responseReceived = false;
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(URL + "/Moderator/" + id + "/Start")
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                responseBody = "Err: Nope in postMeeting HTTPMethod";
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    responseBody = "Err: HTTP Code: " + response.code();
-                } else if (response.code() == 200) {
-                    responseBody = response.body().string();
-                } else {
-                    responseBody ="";
+              client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                    responseCode = 410;
+                    responseReceived = true;
                 }
-            }
-        });
-        return responseBody;
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    responseBody = response.body().string();
+                    responseCode = response.code();
+                    responseReceived = true;
+                }
+              });
     }
 
 

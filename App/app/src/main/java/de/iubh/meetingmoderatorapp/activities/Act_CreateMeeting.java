@@ -37,9 +37,11 @@ public class Act_CreateMeeting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_create_meeting);
         AndroidThreeTen.init(this);
+
         RecyclerView recyTLN;
         TeilnehmerAdapter tlnAdapter;
         RecyclerView.LayoutManager tlnLayoutManger;
+
         EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
         EditText startDate = findViewById(R.id.timeCreateMeetingStartDate);
         EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
@@ -95,8 +97,6 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
-
-
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {
                 e.printStackTrace();

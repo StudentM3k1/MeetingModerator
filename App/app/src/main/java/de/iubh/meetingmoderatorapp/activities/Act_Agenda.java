@@ -30,21 +30,19 @@ public class Act_Agenda extends AppCompatActivity {
         AndroidThreeTen.init(this);
 
         RecyclerView recyAP;
-        RecyclerView.Adapter apAdapter;
+        AgendaPointAdapter apAdapter;
         RecyclerView.LayoutManager apLayoutManger;
 
-
-
-        // Aufbau RecyView
+        // Aufbau RecyView Agendapoint
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             String json = extras.getString("JSON");
-try {
-        m = JSONHelper.JSONToMeeting(json);
-    }
-    catch (Exception e) {
-        e.printStackTrace();
-    }
+            try {
+                m = JSONHelper.JSONToMeeting(json);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
             recyAP = findViewById(R.id.recyAP);
             recyAP.setHasFixedSize(true);
             apLayoutManger = new LinearLayoutManager(this);

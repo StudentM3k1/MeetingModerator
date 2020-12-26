@@ -28,7 +28,7 @@ public class Act_IDEingabe extends AppCompatActivity {
         AndroidThreeTen.init(this);
         EditText meetingId = findViewById(R.id.txtMeetingID);
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             meetingId.setText(extras.getString("modId"));
         }
 
@@ -41,46 +41,24 @@ public class Act_IDEingabe extends AppCompatActivity {
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
         btnJoinMeeting.setOnClickListener(v -> {
             String id = meetingId.getText().toString();
-            if(id.matches("[0-9]{1,6}")) {
-                HTTPClient client = new HTTPClient();
-                String meeting = client.getMeeting(id);
-                if(meeting == null) {
-                    Snackbar.make(
-                            findViewById(R.id.IDView),
-                            "Die MeetingID ist falsch.",
-                            Snackbar.LENGTH_LONG)
-                            .show();
-                } else  if(meeting.startsWith("Err")) {
-                    Snackbar.make(
-                            findViewById(R.id.IDView),
-                            meeting,
-                            Snackbar.LENGTH_LONG)
-                            .show();
-                } else {
-                    Meeting m = null;
-                    try {
 
-                        m = JSONHelper.JSONToMeeting(meeting);
-                    }                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    if(id.equals(m.getSettings().getModeratorId())){
+            if (id == null) {
+                Snackbar.make(
+                        findViewById(R.id.IDView),
+                        "Bitte Meeting-ID eingeben.",
+                        Snackbar.LENGTH_LONG)
+                        .show();
+            } else {
+                HTTPClient client = new HTTPClient();
+                while (client.getResponseReceived() == false) {
+                }
+                try {
+                    if (client.getResponseCode() == 200) {
+                        String meeting = client.getMeeting(id);
                         Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
                         try {
-                            i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        startActivity(i);
-                    } else if (id.equals(m.getSettings().getParticipantId())){
-                        Intent i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
-                        try {
-                            i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }catch (Exception e) {
+                            i.putExtra("JSON", meeting);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         startActivity(i);
@@ -91,15 +69,14 @@ public class Act_IDEingabe extends AppCompatActivity {
                                 Snackbar.LENGTH_LONG)
                                 .show();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } else {
-                Snackbar.make(
-                        findViewById(R.id.IDView),
-                        "Bitte Meeting-ID eingeben.",
-                        Snackbar.LENGTH_LONG)
-                        .show();
             }
         });
     }
 }
+
+
+
 
