@@ -3,7 +3,6 @@ package de.iubh.meetingmoderatorapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,19 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import org.json.JSONException;
 import org.threeten.bp.LocalDateTime;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
-import de.iubh.meetingmoderatorapp.controller.HTTPClient;
-import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.model.AgendaPoint;
 import de.iubh.meetingmoderatorapp.model.Meeting;
@@ -73,8 +66,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
-        recyAP.setLayoutManager(apLayoutManger);
-        recyAP.setAdapter(apAdapter);
+
 
 
         // verbleibende Gesamtzeit anzeigen und runter zählen
@@ -97,10 +89,11 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         //Change
         LocalDateTime lastLocalChange = null;
-        LocalDateTime lastServerChange = mh.getLastChangeMod(meetingID, sbView);
+        LocalDateTime lastServerChange;
         curAp = mh.getAgendapointMod(meetingID, sbView);
-        while (lastServerChange == lastLocalChange) {
-             // aktueller AP
+        while (!m.getAgenda().getAgendaPoints().isEmpty()) {
+            recyAP.setLayoutManager(apLayoutManger);
+            recyAP.setAdapter(apAdapter);
             aktuAP.setText(curAp.getTitle());
             // Zeit des AP runterzählen
             new CountDownTimer(curAp.getAvailableTime(), 1000){
@@ -122,7 +115,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
             lastServerChange = mh.getLastChangeMod(meetingID, sbView);
             // Changes unterschiedlich, aber noch Agendapunktvorhanden
-            if(lastServerChange != lastLocalChange && !m.getAgenda().getAgendaPoints().isEmpty()) {
+            if(lastServerChange != lastLocalChange) {
                 //neuen Agendapunkt setzen
                 curAp = mh.getAgendapointMod(meetingID, sbView);
                 //Meeting updaten
@@ -130,14 +123,10 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
                 // Change updaten
                 lastLocalChange = lastServerChange;
 
-            } else {
-
-                //Meeting beenden
-                Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
-                startActivity(i);
             }
         }
-
+        //Meeting beenden
+        endMeeting();
 
         // nächster Teilnehmer
         Button btnStartSpeak = findViewById(R.id.btnModSprechenStarten);
@@ -158,6 +147,9 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         });
         }
 
-
+    public void endMeeting(){
+        Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
+        startActivity(i);
+    }
 
 }

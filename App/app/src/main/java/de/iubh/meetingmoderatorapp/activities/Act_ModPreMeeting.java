@@ -43,9 +43,6 @@ public class Act_ModPreMeeting extends AppCompatActivity {
             }
         }
 
-
-
-
         // Aufbau RecyView AgendaPoint
         RecyclerView recyAP = findViewById(R.id.recyApPreMeeting);
         AgendaPointAdapter apAdapter;

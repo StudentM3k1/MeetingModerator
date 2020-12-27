@@ -16,11 +16,36 @@ import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class MeetingHelper {
 
+    public Meeting postMeetingMod (Meeting m, View snackbarview) {
+        String meeting;
+        HTTPClient client = new HTTPClient();
+        try {
+            meeting = JSONHelper.MeetingToJSON(m);
+            client.postMeeting(meeting);
+            while(!client.getResponseReceived()) {}
+            if(client.getResponseCode() != 200) {
+                Snackbar.make(
+                        snackbarview,
+                        "Meeting Update konte nicht geladen werden",
+                        Snackbar.LENGTH_LONG)
+                        .show();
+
+            } else {
+                m = JSONHelper.JSONToMeeting(client.getResponseBody());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return m;
+    }
+
     public Meeting updateMeetingMod (String meetingID, View snackbarview) {
         Meeting meeting = null;
         HTTPClient client = new HTTPClient();
         try {
-            client.getModState(meetingID);
+            client.getMeeting(meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
@@ -41,10 +66,9 @@ public class MeetingHelper {
     }
 
     public String getMeetingString (String meetingID, View snackbarview) {
-        Meeting meeting = null;
         HTTPClient client = new HTTPClient();
         try {
-            client.getModState(meetingID);
+            client.getMeeting(meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
@@ -197,7 +221,7 @@ public class MeetingHelper {
         AgendaPoint ap = null;
         HTTPClient client = new HTTPClient();
         try {
-            client.getModState(meetingID);
+            client.getUserState(meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
@@ -221,7 +245,7 @@ public class MeetingHelper {
         LocalDateTime lastLocalChange = null;
         HTTPClient client = new HTTPClient();
         try {
-            client.getModChange(meetingID);
+            client.getUserChange(meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
@@ -244,7 +268,7 @@ public class MeetingHelper {
         long passTime = 0;
         HTTPClient client = new HTTPClient();
         try {
-            client.getModSync(meetingID);
+            client.getUserSync(meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
@@ -262,11 +286,10 @@ public class MeetingHelper {
         return passTime;
     }
 
-    public void nextUserAgendapoint(Meeting m, String meetingID, View snackbarview){
+    public void nextUserAgendapoint(String meetingID, View snackbarview){
         HTTPClient client = new HTTPClient();
         try {
-            String mJson = JSONHelper.MeetingToJSON(m);
-            client.postNextModerator(mJson, meetingID);
+            client.postNextUser(meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
