@@ -61,7 +61,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
         partiGruss.setText("Hallo " + surname + " " + lastname + "Willkommen im Meeting.");
 
         //Aufbau RecyView Agendapoints
-        RecyclerView recyAP = findViewById(R.id.recyPartiPreMeeting);
+        RecyclerView recyAP = findViewById(R.id.recyPartiPreMeetingMod);
         AgendaPointAdapter apAdapter;
         RecyclerView.LayoutManager apLayoutManger;
         recyAP.setHasFixedSize(true);

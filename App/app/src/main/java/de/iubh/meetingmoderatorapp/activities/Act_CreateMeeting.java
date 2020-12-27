@@ -17,6 +17,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import org.json.JSONException;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;
 
 
@@ -32,7 +33,6 @@ import static de.iubh.meetingmoderatorapp.R.id.start;
 
 public class Act_CreateMeeting extends AppCompatActivity {
     private Meeting m = new Meeting();
-    private String meetingID;
     private String modId;
 
     @Override
@@ -109,17 +109,20 @@ public class Act_CreateMeeting extends AppCompatActivity {
         btnCreateMeeting.setOnClickListener(v -> {
             m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
             m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
-            m.getSettings().setDuration(Long.parseLong(duration.getText().toString())*60000);
+            m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
             m.setOrt(ort.getText().toString());
             TextView idRes = findViewById(R.id.IDResponse);
             Meeting meetingResponse = mh.postMeetingMod(m, sbView);
 
             modId = meetingResponse.getSettings().getModeratorId();
+
+            //TODO Mailversand an Partis mit deren ID.
             idRes.setText(
                     "Deine ModeratorID ist: "
                             + modId
-                            +"/nDie MeetingID der User ist: "
-                            + meetingResponse.getSettings().getParticipantId());
+                            +"\nDie MeetingID der User ist: "
+                            + meetingResponse.getSettings().getParticipantId()
+                            +"\nDie ID's bitte notieren.");
         });
 
         Button btnToHome = findViewById(R.id.btnBackToHome);

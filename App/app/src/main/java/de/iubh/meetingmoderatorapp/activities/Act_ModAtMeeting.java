@@ -62,7 +62,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         AgendaPointAdapter apAdapter;
         RecyclerView recyAP;
         RecyclerView.LayoutManager apLayoutManger;
-        recyAP = findViewById(R.id.recyPartiPreMeeting);
+        recyAP = findViewById(R.id.recyPartiPreMeetingMod);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());

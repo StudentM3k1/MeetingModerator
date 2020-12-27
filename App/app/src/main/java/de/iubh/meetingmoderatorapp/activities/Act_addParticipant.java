@@ -25,9 +25,6 @@ import de.iubh.meetingmoderatorapp.model.enumerations.AgendaPointStatus;
 import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 
 public class Act_addParticipant extends AppCompatActivity {
-    private RecyclerView recyTLN;
-    private RecyclerView.Adapter tlnAdapter;
-    private RecyclerView.LayoutManager tlnLayoutManger;
     private Meeting m = new Meeting();
 
     @Override
@@ -58,8 +55,6 @@ public class Act_addParticipant extends AppCompatActivity {
             Intent i = new Intent(Act_addParticipant.this, Act_CreateMeeting.class);
             try {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
-            } catch (JSONException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
