@@ -73,10 +73,8 @@ public class JSONHelper {
 	public static Meeting JSONToMeeting(String json) throws Exception{
 		Meeting meeting = new Meeting();
 		MeetingSettings settings = new MeetingSettings();
-
 		Agenda agenda = new Agenda();
-		ArrayList<Participant> p = new ArrayList<Participant>();
-
+		
 		try {
 			JSONObject json_obj = new JSONObject(json);
 			meeting.setPassedTime(json_obj.getLong("passedTime"));

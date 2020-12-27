@@ -25,7 +25,7 @@ public final class RestHelper {
 			}
 
 			Meeting newMeeting = MeetingContainerHelper.getMeeting(id);
-			MeetingContainerHelper.releaseMeeting(newMeeting.getId());
+			MeetingContainerHelper.releaseMeeting(id);
 			return JSONHelper.MeetingToJSON(newMeeting);
 		} else {
 			throw new Exception("Meeting-Daten fehlerhaft!");
@@ -35,7 +35,7 @@ public final class RestHelper {
 	public static String getMeeting(long id, boolean isModerator) throws Exception {
 		Meeting newMeeting = MeetingContainerHelper.getMeeting(id);
 		if (isModerator == false) newMeeting.getSettings().setModeratorId("0");
-		MeetingContainerHelper.releaseMeeting(newMeeting.getId());
+		MeetingContainerHelper.releaseMeeting(id);
 		return JSONHelper.MeetingToJSON(newMeeting);
 	}
 
@@ -43,25 +43,25 @@ public final class RestHelper {
 		Meeting newMeeting = JSONHelper.JSONToMeeting(json);
 		Meeting meeting = MeetingContainerHelper.getMeeting(id);
 		meeting.checkChanges(newMeeting);
-		MeetingContainerHelper.releaseMeeting(newMeeting.getId());
+		MeetingContainerHelper.releaseMeeting(id);
 	}
 
 	public static String getRunningAgendaLastChange(long id) throws Exception {
 		Meeting newMeeting = MeetingContainerHelper.getMeeting(id);
-		MeetingContainerHelper.releaseMeeting(newMeeting.getId());
+		MeetingContainerHelper.releaseMeeting(id);
 		return JSONHelper.LastChangeToJSON(newMeeting.getLastChange());
 	}
 
 	public static String getRunningAgenda(long id)  throws Exception{
 		Meeting newMeeting = MeetingContainerHelper.getMeeting(id);
-		MeetingContainerHelper.releaseMeeting(newMeeting.getId());
+		MeetingContainerHelper.releaseMeeting(id);
 		return JSONHelper.StateToJSON(newMeeting.getRunningAgendaPoint());
 	}
 
 	public static String getSyncTime(long id) throws Exception {
 
 		Meeting newMeeting = MeetingContainerHelper.getMeeting(id);
-		MeetingContainerHelper.releaseMeeting(newMeeting.getId());
+		MeetingContainerHelper.releaseMeeting(id);
 		return JSONHelper.SyncToJSON(newMeeting.getPassedTime());
 	}
 
@@ -73,6 +73,6 @@ public final class RestHelper {
 	public static void nextAgendaPoint(long id) throws Exception {
 		Meeting newMeeting = MeetingContainerHelper.getMeeting(id);
 		newMeeting.nextPoint();
-		MeetingContainerHelper.releaseMeeting(newMeeting.getId());
+		MeetingContainerHelper.releaseMeeting(id);
 	}
 }
