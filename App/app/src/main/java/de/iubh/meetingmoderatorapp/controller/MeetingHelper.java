@@ -26,18 +26,15 @@ public class MeetingHelper {
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
                         snackbarview,
-                        "Meeting Update konte nicht geladen werden",
+                        "Meeting Update konte nicht geladen werden " + client.getResponseCode() + " " + client.getResponseBody(),
                         Snackbar.LENGTH_LONG)
                         .show();
-
             } else {
                 m = JSONHelper.JSONToMeeting(client.getResponseBody());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return m;
     }
 
@@ -178,7 +175,7 @@ public class MeetingHelper {
         HTTPClient client = new HTTPClient();
         try {
             String mJson = JSONHelper.MeetingToJSON(m);
-            client.postNextModerator(mJson, meetingID);
+            client.postStartModerator(mJson, meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(

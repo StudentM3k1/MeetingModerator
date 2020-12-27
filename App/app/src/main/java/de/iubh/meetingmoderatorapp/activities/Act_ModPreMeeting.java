@@ -42,37 +42,41 @@ public class Act_ModPreMeeting extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        if(m != null) {
+            // Aufbau RecyView AgendaPoint
+            RecyclerView recyAP = findViewById(R.id.recyApPreMeetingMod);
+            AgendaPointAdapter apAdapter;
+            RecyclerView.LayoutManager apLayoutManger;
+            //recyAP.setHasFixedSize(true);
+            apLayoutManger = new LinearLayoutManager(this);
+            apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
+            recyAP.setLayoutManager(apLayoutManger);
+            recyAP.setAdapter(apAdapter);
 
-        // Aufbau RecyView AgendaPoint
-        RecyclerView recyAP = findViewById(R.id.recyApPreMeeting);
-        AgendaPointAdapter apAdapter;
-        RecyclerView.LayoutManager apLayoutManger;
-        //recyAP.setHasFixedSize(true);
-        apLayoutManger = new LinearLayoutManager(this);
-        apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
-        recyAP.setLayoutManager(apLayoutManger);
-        recyAP.setAdapter(apAdapter);
 
+            // Aufbau RecyView Participant
+            RecyclerView recyTLN = findViewById(R.id.recyPartiPreMeetingMod);
+            TeilnehmerAdapter tlnAdapter;
+            RecyclerView.LayoutManager tlnLayoutManger;
+            recyTLN.setHasFixedSize(true);
+            tlnLayoutManger = new LinearLayoutManager(this);
+            tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
+            recyTLN.setLayoutManager(tlnLayoutManger);
+            recyTLN.setAdapter(tlnAdapter);
 
-        // Aufbau RecyView Participant
-        RecyclerView recyTLN = findViewById(R.id.recyPartiPreMeeting);
-        TeilnehmerAdapter tlnAdapter;
-        RecyclerView.LayoutManager tlnLayoutManger;
-        recyTLN.setHasFixedSize(true);
-        tlnLayoutManger = new LinearLayoutManager(this);
-        tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
-        recyTLN.setLayoutManager(tlnLayoutManger);
-        recyTLN.setAdapter(tlnAdapter);
+            Button btnStartMeeting = findViewById(R.id.btnStartMeetingMod);
+            btnStartMeeting.setOnClickListener(v -> {
+                Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
+                i.putExtra("meetingID", Long.toString(m.getId()));
+                mh.startMeetingMod(m, meetingID, sbView);
+                startActivity(i);
 
-        Button btnStartMeeting = findViewById(R.id.btnStartMeeting);
-        btnStartMeeting.setOnClickListener(v -> {
-            Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
-            i.putExtra("meetingID", Long.toString(m.getId()));
-            mh.startMeetingMod(m, meetingID, sbView);
-            startActivity(i);
-
-        });
+            });
         }
+        }
+
+
+
 
     }
 

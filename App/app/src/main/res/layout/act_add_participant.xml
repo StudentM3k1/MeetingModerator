@@ -15,6 +15,7 @@
         android:ems="10"
         android:hint="mail"
         android:inputType="textEmailAddress"
+        android:text="parti@meeting.com"
         app:layout_constraintEnd_toEndOf="@+id/txtPartiLastname"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtPartiLastname"

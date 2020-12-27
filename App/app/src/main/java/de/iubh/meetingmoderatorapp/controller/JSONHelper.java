@@ -19,7 +19,7 @@ public class JSONHelper {
 
         JSONObject meetingSettings = new JSONObject();
         meetingSettings.put("meetingTitle", meeting.getSettings().getMeetingTitle());
-        meetingSettings.put("startTime", meeting.getSettings().getStartTime());
+        meetingSettings.put("startTime", meeting.getSettings().getStartTime().toString().substring(0,10) + meeting.getSettings().getStartTime().toString().substring(11));
         meetingSettings.put("duration", meeting.getSettings().getDuration());
         meetingSettings.put("moderatorId", meeting.getSettings().getModeratorId());
         meetingSettings.put("participantId", meeting.getSettings().getParticipantId());

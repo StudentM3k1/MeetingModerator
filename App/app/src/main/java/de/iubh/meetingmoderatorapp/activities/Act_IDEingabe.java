@@ -13,9 +13,10 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
+import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_IDEingabe extends AppCompatActivity {
-
+    Meeting m = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +26,15 @@ public class Act_IDEingabe extends AppCompatActivity {
         MeetingHelper mh = new MeetingHelper();
         EditText meetingID = findViewById(R.id.txtMeetingID);
         View sbView = findViewById(R.id.snackbarView);
+
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            meetingID.setText(extras.getString("modId"));
+            String modId = extras.getString("modId");
+            meetingID.setText(modId);
+            m = mh.updateMeetingMod(modId, sbView);
         }
+
 
         Button btnToCreateMeeting = findViewById(R.id.btn_createNewMeeting);
         btnToCreateMeeting.setOnClickListener(v -> {
@@ -47,10 +53,21 @@ public class Act_IDEingabe extends AppCompatActivity {
                         Snackbar.LENGTH_LONG)
                         .show();
             } else {
-                Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
-                i.putExtra("JSON", mh.getMeetingString(id, sbView));
-                i.putExtra("meetingID", id);
-                startActivity(i);
+                //if id equals ModID --> ModPreMeeting
+                if(id.equals(m.getSettings().getModeratorId())){
+                    Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
+                    i.putExtra("JSON", mh.getMeetingString(id, sbView));
+                    i.putExtra("meetingID", id);
+                    startActivity(i);
+                } else {
+                    Intent i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
+                    i.putExtra("JSON", mh.getMeetingString(id, sbView));
+                    i.putExtra("meetingID", id);
+                    startActivity(i);
+                }
+
+
+                // else PartiPreMeeting (Welcome.act)
             }
         });
     }
