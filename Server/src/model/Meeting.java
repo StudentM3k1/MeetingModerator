@@ -191,6 +191,7 @@ public class Meeting {
 
 	public void closeMeeting() throws Exception {
 		runningMeetingManager.cancel();
+		runningAgendaPoint.setId(0);
 		setMeetingStatus(MeetingStatus.Done);
 		setLastChange(LocalDateTime.now());
 		MeetingContainerHelper.writeToDataBase(MeetingContainerHelper.identifyMeetingContainer(id));
