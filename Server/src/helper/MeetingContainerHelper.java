@@ -42,7 +42,7 @@ public class MeetingContainerHelper {
 		}
 		if (dbService == null)
 			dbService = DatenbankService.getInstance();
-		
+
 		MeetingContainer newMeetingContainer = new MeetingContainer(dbService.getMeeting(id));
 		newMeetingContainer.increaseCurrentAccess();
 		newMeetingContainer.setTimeStamp();
@@ -56,7 +56,8 @@ public class MeetingContainerHelper {
 			if (meetings.get(i).getMeeting().getId() == id) {
 				matchingMeeting = meetings.get(i);
 				matchingMeeting.decreaseCurrentAccess();
-				if (matchingMeeting.getMeeting().getMeetingStatus() != MeetingStatus.Running) {
+				if (matchingMeeting.getMeeting().getMeetingStatus() != MeetingStatus.Running
+						&& matchingMeeting.getCurrentAccess() == 0) {
 					writeToDataBase(matchingMeeting);
 					meetings.remove(i);
 				}
@@ -75,8 +76,9 @@ public class MeetingContainerHelper {
 	}
 
 	public static void writeToDataBase(MeetingContainer meetingContainer) throws Exception {
-		if (dbService == null)
+		if (dbService == null) {
 			dbService = DatenbankService.getInstance();
+		}
 
 		dbService.saveTeilnehmer(meetingContainer.getAddedParticipants(), new ArrayList<Participant>(),
 				meetingContainer.getRemovedParticipants(), meetingContainer.getMeeting().getId());

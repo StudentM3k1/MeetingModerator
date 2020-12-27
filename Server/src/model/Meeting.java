@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import javax.accessibility.AccessibleStateSet;
+
 import helper.MeetingContainerHelper;
 import helper.MeetingRunner;
 import model.enumerations.*;
@@ -74,57 +76,105 @@ public class Meeting {
 	}
 
 	public void checkChanges(Meeting newMeeting) throws Exception {
-		checkAgenda(newMeeting.getAgenda());
-		checkParticipants(newMeeting.getParticipants());
+		if (meetingStatus == MeetingStatus.Planned) {
+			checkAgenda(newMeeting.getAgenda());
+			checkParticipants(newMeeting.getParticipants());
+		} else {
+			throw new Exception ("Keine Änderungen mehr möglich");
+		}
 	}
 
 	public void checkAgenda(Agenda newAgenda) throws Exception {
-		for (int i = 0; i < agenda.getAgendaPoints().size(); i++) {
-			if (!newAgenda.getAgendaPoints().contains(agenda.getAgendaPoints().get(i)))
-				removeMeetingAgendaPoint(agenda.getAgendaPoints().get(i));
+
+		boolean present = false;
+
+		// Prüfen, ob Agendapunkt entfernt
+		for (int old_i = 0; old_i < agenda.getAgendaPoints().size(); old_i++) {
+			present = false;
+			for (int new_i = 0; new_i < newAgenda.getAgendaPoints().size(); new_i++) {
+				if (agenda.getAgendaPoints().get(old_i).equals(newAgenda.getAgendaPoints().get(new_i))) {
+					present = true;
+					break;
+				}
+			}
+
+			if (present == false) {
+				removeMeetingAgendaPoint(agenda.getAgendaPoints().get(old_i));
+			}
 		}
 
-		for (int i = 0; i < newAgenda.getAgendaPoints().size(); i++) {
-			if (!agenda.getAgendaPoints().contains(newAgenda.getAgendaPoints().get(i)))
-				addMeetingAgendaPoint(newAgenda.getAgendaPoints().get(i));
+		// Prüfen, ob Agendapunkt hinzugefügt
+		for (int new_i = 0; new_i < newAgenda.getAgendaPoints().size(); new_i++) {
+			present = false;
+			for (int old_i = 0; old_i < agenda.getAgendaPoints().size(); old_i++) {
+
+				if (newAgenda.getAgendaPoints().get(new_i).equals(agenda.getAgendaPoints().get(old_i))) {
+					present = true;
+					break;
+				}
+			}
+
+			if (present == false) {
+				addMeetingAgendaPoint(agenda.getAgendaPoints().get(new_i));
+			}
 		}
 	}
 
 	public void checkParticipants(ArrayList<Participant> newParticipants) throws Exception {
 
-		for (int i = 0; i < participants.size(); i++) {
-			if (!newParticipants.contains(participants.get(i)))
-				removeParticipant(participants.get(i));
-		}
+		boolean present = false;
 
-		for (int i = 0; i < newParticipants.size(); i++) {
-			if (!participants.contains(newParticipants.get(i)))
-				addParticipant(newParticipants.get(i));
+		// Prüfen, ob Teilnehmer hinzugefügt
+		for (int new_i = 0; new_i < newParticipants.size(); new_i++) {
+			present = false;
+			for (int old_i = 0; old_i < participants.size(); old_i++) {
+
+				if (newParticipants.get(new_i).equals(participants.get(old_i))) {
+					present = true;
+					break;
+				}
+			}
+			if (present == false) {
+				addParticipant(newParticipants.get(new_i));
+			}
+		}
+		
+		// Prüfen, ob Teilnehmer entfernt
+		for (int old_i = 0; old_i < participants.size(); old_i++) {
+			present = false;
+			for (int new_i = 0; new_i < newParticipants.size(); new_i++) {
+				if (participants.get(old_i).equals(newParticipants.get(new_i))) {
+					present = true;
+					break;
+				}
+			}
+			if (present == false) {
+				removeParticipant(participants.get(old_i));
+			}
 		}
 	}
 
 	private void addMeetingAgendaPoint(AgendaPoint agendaPoint) throws Exception {
 		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
+		agendaPoint.setId(0);
 		myContainer.addAddedAgendaPoints(agendaPoint);
-		agenda.getAgendaPoints().add(agendaPoint);
 	}
 
 	private void removeMeetingAgendaPoint(AgendaPoint agendaPoint) throws Exception {
 		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
 		myContainer.addRemovedAgendaPoints(agendaPoint);
-		agenda.getAgendaPoints().remove(agendaPoint);
 	}
 
 	private void addParticipant(Participant participant) throws Exception {
 		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
+		participant.setId(0);
+		participant.getUser().setId(0);
 		myContainer.addAddedParticipants(participant);
-		participants.add(participant);
 	}
 
 	private void removeParticipant(Participant participant) throws Exception {
 		MeetingContainer myContainer = MeetingContainerHelper.identifyMeetingContainer(id);
 		myContainer.addRemovedParticipants(participant);
-		participants.remove(participant);
 	}
 
 	public void startMeeting() throws Exception {
@@ -151,6 +201,8 @@ public class Meeting {
 
 	public void nextPoint() throws Exception {
 		runningAgendaPoint = new AgendaPoint();
+		setLastChange(LocalDateTime.now());
+
 		// Nach laufendem AgendaPunkt suchen
 		for (AgendaPoint agendaPoint : agenda.getAgendaPoints()) {
 			if (agendaPoint.getStatus() == AgendaPointStatus.Running) {
@@ -159,7 +211,8 @@ public class Meeting {
 			}
 		}
 
-		// Wenn kein laufender Agendapunkt gefunden, oder alle Sprecher gesprochen haben -> Nächsten Punkt
+		// Wenn kein laufender Agendapunkt gefunden, oder alle Sprecher gesprochen haben
+		// -> Nächsten Punkt
 		if (runningAgendaPoint.getId() == 0 || runningAgendaPoint.getDoneSpeaker().size() == participants.size()) {
 			setLastChange(LocalDateTime.now());
 
@@ -181,8 +234,8 @@ public class Meeting {
 				nextPoint.setAvailableTime(nextPoint.getAvailableTime() / participants.size());
 				runningAgendaPoint = nextPoint;
 				MeetingContainerHelper.writeToDataBase(MeetingContainerHelper.identifyMeetingContainer(id));
-			}
-			else closeMeeting();
+			} else
+				closeMeeting();
 		} else {
 			runningAgendaPoint.setRunningTime(0);
 			AgendaPoint.setNextSpeaker(participants, runningAgendaPoint);

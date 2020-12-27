@@ -96,7 +96,13 @@ public class AgendaPoint {
 		this.doneSpeaker = doneSpeaker;
 	}
 
-	public boolean equals(AgendaPoint agendaPoint) {
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof AgendaPoint)) {
+			return false;
+
+		}
+		AgendaPoint agendaPoint = (AgendaPoint) object;
 		if (this.id == agendaPoint.getId() && this.title.equals(agendaPoint.getTitle())
 				&& this.note.equals(agendaPoint.getNote()) && this.availableTime == agendaPoint.getAvailableTime()
 				&& this.status == agendaPoint.getStatus() && this.sort == agendaPoint.getSort()) {
