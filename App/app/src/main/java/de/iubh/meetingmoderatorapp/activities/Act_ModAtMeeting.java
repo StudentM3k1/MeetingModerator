@@ -66,9 +66,10 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
+        recyAP.setLayoutManager(apLayoutManger);
+        recyAP.setAdapter(apAdapter);
 
-
-
+        //1. SYNC
         // verbleibende Gesamtzeit anzeigen und runter zählen
         passedTime = mh.syncModServer(meetingID, sbView);
         new CountDownTimer(m.getSettings().getDuration(), 1000){
@@ -87,13 +88,15 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         }.start();
 
 
-        //Change
+        //2. STATE
+        // State is for actuAP and currentSpeaker
+
+        //3. CHANGE every 500 ms
         LocalDateTime lastLocalChange = null;
         LocalDateTime lastServerChange;
         curAp = mh.getAgendapointMod(meetingID, sbView);
-        while (!m.getAgenda().getAgendaPoints().isEmpty()) {
-            recyAP.setLayoutManager(apLayoutManger);
-            recyAP.setAdapter(apAdapter);
+        while (curAp.getId() != 0) {
+
             aktuAP.setText(curAp.getTitle());
             // Zeit des AP runterzählen
             new CountDownTimer(curAp.getAvailableTime(), 1000){

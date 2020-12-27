@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.json.JSONException;
@@ -28,8 +29,10 @@ import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.*;
 
+import static android.view.View.VISIBLE;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 import static de.iubh.meetingmoderatorapp.R.id.start;
+import static de.iubh.meetingmoderatorapp.R.id.visible;
 
 public class Act_CreateMeeting extends AppCompatActivity {
     private Meeting m = new Meeting();
@@ -104,7 +107,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
             startActivity(i);
         });
 
-
+        Button sendIDviaMail = findViewById(R.id.btnIDMial);
         Button btnCreateMeeting = findViewById(R.id.btn_createMeeting);
         btnCreateMeeting.setOnClickListener(v -> {
             m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
@@ -123,6 +126,25 @@ public class Act_CreateMeeting extends AppCompatActivity {
                             +"\nDie MeetingID der User ist: "
                             + meetingResponse.getSettings().getParticipantId()
                             +"\nDie ID's bitte notieren.");
+            sendIDviaMail.setVisibility(VISIBLE);
+        });
+
+
+
+        sendIDviaMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"hiernochStrings@arrayausmeeting.einbringen"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Wir haben ein Meeting zusammen");
+                i.putExtra(Intent.EXTRA_TEXT   , "Bitte melde Dich am " + "hier Meeting Zeit einfügen " + "mit Deiner MeetingID "+ "hier Meeting ID einfügen" + "an um teilzunehemen");
+                try {
+                    startActivity(Intent.createChooser(i, "Sende Mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Snackbar.make(sbView,"Es sind keine Mail-Clients installiert, weshalb die Mail nicht versendet werden kann.", Snackbar.LENGTH_LONG).show();
+                }
+            }
         });
 
         Button btnToHome = findViewById(R.id.btnBackToHome);

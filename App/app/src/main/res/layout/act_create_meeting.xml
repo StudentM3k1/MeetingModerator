@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:visibility="visible">
 
     <Button
         android:id="@+id/btn_createMeeting"
@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Meeting erstellen"
-        android:textSize="24sp"
         android:textColor="@color/design_default_color_primary_variant"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,12 +111,12 @@
 
     <TextView
         android:id="@+id/IDResponse"
-        android:layout_width="383dp"
-        android:layout_height="74dp"
+        android:layout_width="280dp"
+        android:layout_height="85dp"
         app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyTln" />
+        app:layout_constraintTop_toBottomOf="@+id/recyTln"
+        app:layout_constraintVertical_bias="0.439" />
 
     <Button
         android:id="@+id/btnBackToHome"
@@ -148,5 +148,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnIDMial"
+        android:layout_width="116dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="37dp"
+        android:text="IDs versenden"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.804"
+        app:layout_constraintStart_toEndOf="@+id/IDResponse"
+        app:layout_constraintTop_toBottomOf="@+id/recyTln"
+        app:layout_constraintVertical_bias="0.416" />
 </androidx.constraintlayout.widget.ConstraintLayout>

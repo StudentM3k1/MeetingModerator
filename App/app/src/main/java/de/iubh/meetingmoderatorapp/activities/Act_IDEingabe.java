@@ -16,7 +16,7 @@ import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_IDEingabe extends AppCompatActivity {
-    Meeting m = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +25,13 @@ public class Act_IDEingabe extends AppCompatActivity {
 
         MeetingHelper mh = new MeetingHelper();
         EditText meetingID = findViewById(R.id.txtMeetingID);
-        View sbView = findViewById(R.id.snackbarView);
+        View sbView = findViewById(R.id.idSnack);
 
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String modId = extras.getString("modId");
             meetingID.setText(modId);
-            m = mh.updateMeetingMod(modId, sbView);
         }
 
 
@@ -45,30 +44,30 @@ public class Act_IDEingabe extends AppCompatActivity {
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
         btnJoinMeeting.setOnClickListener(v -> {
             String id = meetingID.getText().toString();
-
-            if (id.equals("")) {
-                Snackbar.make(
-                        findViewById(R.id.idSnack),
-                        "Bitte Meeting-ID eingeben.",
-                        Snackbar.LENGTH_LONG)
-                        .show();
+            Meeting m = mh.updateMeetingMod(id, sbView);
+            if(m == null) {
+                Snackbar.make(sbView, "Meeting konnte nicht geholt werden.", Snackbar.LENGTH_LONG).show();
             } else {
-                //if id equals ModID --> ModPreMeeting
-                if(id.equals(m.getSettings().getModeratorId())){
-                    Intent i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
-                    i.putExtra("JSON", mh.getMeetingString(id, sbView));
-                    i.putExtra("meetingID", id);
-                    startActivity(i);
+                Intent i;
+                if (id.equals("")) {
+                    Snackbar.make(
+                            sbView,
+                            "Bitte Meeting-ID eingeben.",
+                            Snackbar.LENGTH_LONG)
+                            .show();
                 } else {
-                    Intent i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
+                    if(m.getSettings().getModeratorId().equals("0") ){
+                        i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
+                    } else {
+                        i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
+                    }
                     i.putExtra("JSON", mh.getMeetingString(id, sbView));
                     i.putExtra("meetingID", id);
                     startActivity(i);
+
                 }
-
-
-                // else PartiPreMeeting (Welcome.act)
             }
+
         });
     }
 }

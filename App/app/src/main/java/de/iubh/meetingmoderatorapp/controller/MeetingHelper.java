@@ -4,10 +4,8 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.json.JSONException;
 import org.threeten.bp.LocalDateTime;
 
-import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.model.AgendaPoint;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 
@@ -47,18 +45,18 @@ public class MeetingHelper {
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
                         snackbarview,
-                        "Meeting Update konte nicht geladen werden",
+                        "Meeting Update konte nicht geladen werden"
+                                + "\nResCode: " + client.getResponseCode()
+                                + "\nNachricht vom Server: "
+                                + client.getResponseBody(),
                         Snackbar.LENGTH_LONG)
                         .show();
-
             } else {
                 meeting = JSONHelper.JSONToMeeting(client.getResponseBody());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return meeting;
     }
 

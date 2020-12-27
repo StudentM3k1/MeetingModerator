@@ -79,7 +79,7 @@ public class HTTPClient {
     // GET Meeting per ID
     public void getMeeting(String url) {
         Request request = new Request.Builder()
-                .url(URL + url)
+                .url(URL +  "Moderator/" + url)
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -89,7 +89,7 @@ public class HTTPClient {
     // GET Change for User
     public void getUserChange(String id) {
         Request request = new Request.Builder()
-                .url(URL + "/User/" + id + "/Change")
+                .url(URL + "User/" + id + "/Change")
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -98,7 +98,7 @@ public class HTTPClient {
     // GET Change for Mod
     public void getModChange(String id) {
         Request request = new Request.Builder()
-                .url(URL + "/Moderator/" + id + "/Change")
+                .url(URL + "Moderator/" + id + "/Change")
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -108,7 +108,7 @@ public class HTTPClient {
     // GET State for User
     public void getUserState(String id) {
         Request request = new Request.Builder()
-                .url(URL + "/User/" + id + "/State")
+                .url(URL + "User/" + id + "/State")
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -117,7 +117,7 @@ public class HTTPClient {
     // GET State for Mod
     public void getModState(String id) {
         Request request = new Request.Builder()
-                .url(URL + "/Moderator/" + id + "/State")
+                .url(URL + "Moderator/" + id + "/State")
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -127,7 +127,7 @@ public class HTTPClient {
     // GET Sync for User
     public void getUserSync(String id) {
         Request request = new Request.Builder()
-                .url(URL + "/User/" + id + "/Start")
+                .url(URL + "User/" + id + "/Start")
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -136,7 +136,7 @@ public class HTTPClient {
     // GET Sync for Mod
     public void getModSync(String id) {
         Request request = new Request.Builder()
-                .url(URL + "/Moderator/" + id + "/Start")
+                .url(URL + "Moderator/" + id + "/Start")
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -147,7 +147,7 @@ public class HTTPClient {
         responseReceived = false;
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
-                .url(URL + "/Moderator/" + id + "/Start")
+                .url(URL + "Moderator/" + id + "/Start")
                 .post(body)
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -157,7 +157,7 @@ public class HTTPClient {
     public void postNextUser(String id) {
         RequestBody body = RequestBody.create(JSON, id);
         Request request = new Request.Builder()
-                .url(URL + "/Moderator/" + id + "/Next")
+                .url(URL + "Moderator/" + id + "/Next")
                 .post(body)
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -167,7 +167,7 @@ public class HTTPClient {
     public void postNextModerator(String json, String id) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
-                .url(URL + "/Moderator/" + id + "/Next")
+                .url(URL + "Moderator/" + id + "/Next")
                 .post(body)
                 .build();
         client.newCall(request).enqueue(resCallback);
