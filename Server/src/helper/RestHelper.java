@@ -43,6 +43,7 @@ public final class RestHelper {
 		Meeting newMeeting = JSONHelper.JSONToMeeting(json);
 		Meeting meeting = MeetingContainerHelper.getMeeting(id);
 		meeting.checkChanges(newMeeting);
+		MeetingContainerHelper.forceReload(MeetingContainerHelper.identifyMeetingContainer(id));
 		MeetingContainerHelper.releaseMeeting(id);
 	}
 
