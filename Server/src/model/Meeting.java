@@ -99,6 +99,7 @@ public class Meeting {
 			}
 
 			if (present == false) {
+				System.out.println("del:" + agenda.getAgendaPoints().get(old_i).getNote());
 				removeMeetingAgendaPoint(agenda.getAgendaPoints().get(old_i));
 			}
 		}
@@ -115,7 +116,8 @@ public class Meeting {
 			}
 
 			if (present == false) {
-				addMeetingAgendaPoint(agenda.getAgendaPoints().get(new_i));
+				System.out.println("add:"+newAgenda.getAgendaPoints().get(new_i).getNote());
+				addMeetingAgendaPoint(newAgenda.getAgendaPoints().get(new_i));
 			}
 		}
 	}
@@ -123,21 +125,6 @@ public class Meeting {
 	public void checkParticipants(ArrayList<Participant> newParticipants) throws Exception {
 
 		boolean present = false;
-
-		// Prüfen, ob Teilnehmer hinzugefügt
-		for (int new_i = 0; new_i < newParticipants.size(); new_i++) {
-			present = false;
-			for (int old_i = 0; old_i < participants.size(); old_i++) {
-
-				if (newParticipants.get(new_i).equals(participants.get(old_i))) {
-					present = true;
-					break;
-				}
-			}
-			if (present == false) {
-				addParticipant(newParticipants.get(new_i));
-			}
-		}
 		
 		// Prüfen, ob Teilnehmer entfernt
 		for (int old_i = 0; old_i < participants.size(); old_i++) {
@@ -149,7 +136,24 @@ public class Meeting {
 				}
 			}
 			if (present == false) {
+				System.out.println("del:"+participants.get(old_i).getUser().getFirstname());	
 				removeParticipant(participants.get(old_i));
+			}
+		}
+		
+		// Prüfen, ob Teilnehmer hinzugefügt
+		for (int new_i = 0; new_i < newParticipants.size(); new_i++) {
+			present = false;
+			for (int old_i = 0; old_i < participants.size(); old_i++) {
+
+				if (newParticipants.get(new_i).equals(participants.get(old_i))) {
+					present = true;
+					break;
+				}
+			}
+			if (present == false) {
+				System.out.println("add:"+newParticipants.get(new_i).getUser().getFirstname());		
+				addParticipant(newParticipants.get(new_i));
 			}
 		}
 	}

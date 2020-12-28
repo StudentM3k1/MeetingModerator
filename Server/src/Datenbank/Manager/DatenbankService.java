@@ -95,7 +95,7 @@ public class DatenbankService {
 
 		for (model.Participant participant : meeting.getParticipants()) {
 			long teilnehmerId = this._teilnehmerManager
-					.AddOrUpdateTeilnehmer(MapperTeilnehmer.MapToTeilnehmer(participant.getUser()));
+					.AddTeilnehmer(MapperTeilnehmer.MapToTeilnehmer(participant.getUser()));
 			Datenbank.Dbo.MeetingTeilnehmer meetingTeilnehmer = MapperMeetingTeilnehmer
 					.MapToMeetingTeilnehmer(participant, meetingId);
 			meetingTeilnehmer.TeilnehmerId = teilnehmerId;
