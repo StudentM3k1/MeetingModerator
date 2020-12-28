@@ -12,7 +12,7 @@ public class Act_VoyAtMeeting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_parti_at_meeting);
+        setContentView(R.layout.act_voy_at_meeting);
         AndroidThreeTen.init(this);
 
 

@@ -13,7 +13,7 @@ public class Act_MeetingBeendet extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_id_eingabe);
+        setContentView(R.layout.act_meeting_beendet);
         AndroidThreeTen.init(this);
 
 

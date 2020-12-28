@@ -24,8 +24,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HTTPClient {
-    //static String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
-    static String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
+    static String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
+    //static String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
@@ -154,10 +154,10 @@ public class HTTPClient {
     }
 
     // POST Next User
-    public void postNextUser(String id) {
+    public void postNextUser(String json, String id) {
         RequestBody body = RequestBody.create(JSON, id);
         Request request = new Request.Builder()
-                .url(URL + "Moderator/" + id + "/Next")
+                .url(URL + "User/" + id + "/Next")
                 .post(body)
                 .build();
         client.newCall(request).enqueue(resCallback);

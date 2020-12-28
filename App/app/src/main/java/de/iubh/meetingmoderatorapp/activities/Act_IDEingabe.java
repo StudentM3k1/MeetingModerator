@@ -44,18 +44,20 @@ public class Act_IDEingabe extends AppCompatActivity {
         Button btnJoinMeeting = findViewById(R.id.btnMeetingEinwahl);
         btnJoinMeeting.setOnClickListener(v -> {
             String id = meetingID.getText().toString();
-            Meeting m = mh.updateMeetingMod(id, sbView);
-            if(m == null) {
+            Meeting m = mh.getMeetingMod(id, sbView);
+
+
+            if (id.equals("")) {
+                Snackbar.make(
+                        sbView,
+                        "Bitte Meeting-ID eingeben.",
+                        Snackbar.LENGTH_LONG)
+                        .show();
+            } else if(m == null) {
                 Snackbar.make(sbView, "Meeting konnte nicht geholt werden.", Snackbar.LENGTH_LONG).show();
             } else {
                 Intent i;
-                if (id.equals("")) {
-                    Snackbar.make(
-                            sbView,
-                            "Bitte Meeting-ID eingeben.",
-                            Snackbar.LENGTH_LONG)
-                            .show();
-                } else {
+                {
                     if(m.getSettings().getModeratorId().equals("0") ){
                         i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
                     } else {

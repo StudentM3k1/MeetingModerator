@@ -36,7 +36,7 @@ public class MeetingHelper {
         return m;
     }
 
-    public Meeting updateMeetingMod (String meetingID, View snackbarview) {
+    public Meeting getMeetingMod (String meetingID, View snackbarview) {
         Meeting meeting = null;
         HTTPClient client = new HTTPClient();
         try {
@@ -178,7 +178,9 @@ public class MeetingHelper {
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
                         snackbarview,
-                        "Metting Start nicht möglich",
+                        "Meeting Start nicht möglich "
+                        + client.getResponseCode()
+                        + client.getResponseBody(),
                         Snackbar.LENGTH_LONG)
                         .show();
             }
@@ -188,7 +190,7 @@ public class MeetingHelper {
         }
     }
 
-    public Meeting updateMeetingUser (String meetingID, View snackbarview) {
+    public Meeting getMeetingUser (String meetingID, View snackbarview) {
         Meeting meeting = null;
         HTTPClient client = new HTTPClient();
         try {
@@ -281,10 +283,11 @@ public class MeetingHelper {
         return passTime;
     }
 
-    public void nextUserAgendapoint(String meetingID, View snackbarview){
+    public void nextUserAgendapoint(Meeting m, String meetingID, View snackbarview){
         HTTPClient client = new HTTPClient();
         try {
-            client.postNextUser(meetingID);
+            String json = JSONHelper.MeetingToJSON(m);
+            client.postNextUser(json, meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(

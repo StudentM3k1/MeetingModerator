@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneId;
 
 
 import de.iubh.meetingmoderatorapp.R;
@@ -27,7 +28,8 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
     AgendaPoint curAp = null;
     String meetingID;
     long passedTime;
-
+    LocalDateTime lastLocalChange;
+    LocalDateTime lastServerChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,8 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         View sbView = findViewById(R.id.snackbar);
 
         TextView meetingTitle = findViewById(R.id.txtModMeetingTitle);
-        TextView aktuAP = findViewById(R.id.aktuAPMod);
         TextView verbleibendeGesamtzeit = findViewById(R.id.txtModVerbleibendeGesamtzeit);
         TextView verbleibendeAPZeit = findViewById(R.id.txtModVerbleibendeAPZeit);
-        TextView verbleibendeSprechZeit = findViewById(R.id.txtVerbleibendeSprechZeit);
-        TextView aktuSprecher = findViewById(R.id.txtModAktuSprecher);
         TextView modGruss = findViewById(R.id.txtModGruss);
         TextView modSprechNote = findViewById(R.id.txtModSprechzeit);
 
@@ -54,7 +53,8 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
             meetingID = extras.getString("meetingID");
         }
 
-        m = mh.updateMeetingMod(meetingID, sbView);
+        m = mh.getMeetingMod(meetingID, sbView);
+
         meetingTitle.setText(m.getSettings().getMeetingTitle());
         modGruss.setText("Hallo Moderator, willkommen im Meeting.");
 
@@ -62,12 +62,14 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         AgendaPointAdapter apAdapter;
         RecyclerView recyAP;
         RecyclerView.LayoutManager apLayoutManger;
-        recyAP = findViewById(R.id.recyPartiPreMeetingMod);
+        recyAP = findViewById(R.id.recyAPModAtMeeting);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
         recyAP.setLayoutManager(apLayoutManger);
         recyAP.setAdapter(apAdapter);
+
+
 
         //1. SYNC
         // verbleibende Gesamtzeit anzeigen und runter zählen
@@ -78,81 +80,56 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
                 verbleibendeGesamtzeit.setText(String.valueOf(m.getSettings().getDuration() - passedTime));
                 passedTime++;
             }
-
             @Override
-            public void onFinish() {
-                verbleibendeGesamtzeit.setText("Meeting Ende");
-                Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
-                startActivity(i);
-            }
+            public void onFinish() {            }
         }.start();
 
+        lastLocalChange = LocalDateTime.now(ZoneId.systemDefault()   );
 
-        //2. STATE
-        // State is for actuAP and currentSpeaker
-
-        //3. CHANGE every 500 ms
-        LocalDateTime lastLocalChange = null;
-        LocalDateTime lastServerChange;
         curAp = mh.getAgendapointMod(meetingID, sbView);
-        while (curAp.getId() != 0) {
+        runMeeting(lastLocalChange, curAp, mh, sbView);
 
-            aktuAP.setText(curAp.getTitle());
-            // Zeit des AP runterzählen
-            new CountDownTimer(curAp.getAvailableTime(), 1000){
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    verbleibendeAPZeit.setText(String.valueOf(curAp.getAvailableTime() - passedTime));
-                    passedTime++;
-                }
 
-                @Override
-                public void onFinish() {
-                    verbleibendeAPZeit.setText("Agendapunkt Ende");
-                    // neuen Agendapunkt anfordern
-                    mh.nextModAgendapoint(m, meetingID, sbView);
-                }
-            }.start();
 
-            aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
-
-            lastServerChange = mh.getLastChangeMod(meetingID, sbView);
-            // Changes unterschiedlich, aber noch Agendapunktvorhanden
-            if(lastServerChange != lastLocalChange) {
-                //neuen Agendapunkt setzen
-                curAp = mh.getAgendapointMod(meetingID, sbView);
-                //Meeting updaten
-                m = mh.updateMeetingMod(meetingID, sbView);
-                // Change updaten
-                lastLocalChange = lastServerChange;
-
-            }
-        }
-        //Meeting beenden
-        endMeeting();
-
-        // nächster Teilnehmer
-        Button btnStartSpeak = findViewById(R.id.btnModSprechenStarten);
-        btnStartSpeak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO nicht ganz richtig....
-
-                mh.startMeetingMod(m, meetingID,sbView);
-
-            }
-        });
-
-        // nächster Agendapunkt
+        // nächster Agendapunkt/ Teilnehmer
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
         btnEndSpeak.setOnClickListener(v -> {
             mh.nextModAgendapoint(m, meetingID, sbView);
         });
         }
 
-    public void endMeeting(){
-        Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
-        startActivity(i);
-    }
+    public void runMeeting(LocalDateTime lastLocalChange, AgendaPoint curAP, MeetingHelper mh, View sbView) {
+        if (curAP.getId() == 0) {
+            Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
+            startActivity(i);
+        } else {
+            //1. SYNC
 
+            //2. STATE
+            curAP = mh.getAgendapointMod(meetingID, sbView);
+                // update Agendapoint
+                TextView aktuAP = findViewById(R.id.txtAktuAPMod);
+                aktuAP.setText(curAP.getTitle());
+                // update aktueller Sprecher
+                TextView aktuSprecher = findViewById(R.id.txtModAktuSprecher);
+                aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
+            //3. CHANGE
+
+            new CountDownTimer(curAp.getAvailableTime(), 500) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    lastServerChange = mh.getLastChangeMod(meetingID, sbView);
+                }
+                @Override
+                public void onFinish() {
+                }
+            }.start();
+            if (lastServerChange != lastLocalChange) {
+                curAp = mh.getAgendapointMod(meetingID, sbView);
+                lastLocalChange = lastServerChange;
+                runMeeting(lastLocalChange, curAP, mh, sbView);
+            }
+
+        }
+    }
 }

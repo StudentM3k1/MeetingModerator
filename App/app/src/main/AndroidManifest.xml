@@ -23,15 +23,13 @@
         <activity android:name=".activities.Act_addParticipant"/>
         <activity android:name=".activities.Act_Agenda"/>
         <activity android:name=".activities.Act_CreateMeeting"/>
+        <activity android:name=".activities.Act_MeetingBeendet"/>
         <activity android:name=".activities.Act_MeetingSettings"/>
         <activity android:name=".activities.Act_ModAtMeeting"/>
         <activity android:name=".activities.Act_ModPreMeeting"/>
         <activity android:name=".activities.Act_PartiAtMeeting"/>
         <activity android:name=".activities.Act_VoyAtMeeting"/>
         <activity android:name=".activities.Act_Welcome"/>
-
-
-
 
     </application>
 

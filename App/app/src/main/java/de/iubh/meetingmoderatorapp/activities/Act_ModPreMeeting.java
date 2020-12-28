@@ -27,11 +27,11 @@ public class Act_ModPreMeeting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_parti_at_meeting);
+        setContentView(R.layout.act_mod_pre_meeting);
         AndroidThreeTen.init(this);
 
         MeetingHelper mh = new MeetingHelper();
-        View sbView = findViewById(R.id.snackbarView);
+        View sbView = findViewById(R.id.modPreSnack);
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
@@ -55,7 +55,7 @@ public class Act_ModPreMeeting extends AppCompatActivity {
 
 
             // Aufbau RecyView Participant
-            RecyclerView recyTLN = findViewById(R.id.recyPartiPreMeetingMod);
+            RecyclerView recyTLN = findViewById(R.id.recyAPModAtMeeting);
             TeilnehmerAdapter tlnAdapter;
             RecyclerView.LayoutManager tlnLayoutManger;
             recyTLN.setHasFixedSize(true);
@@ -63,20 +63,14 @@ public class Act_ModPreMeeting extends AppCompatActivity {
             tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
             recyTLN.setLayoutManager(tlnLayoutManger);
             recyTLN.setAdapter(tlnAdapter);
-
-            Button btnStartMeeting = findViewById(R.id.btnStartMeetingMod);
-            btnStartMeeting.setOnClickListener(v -> {
-                Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
-                i.putExtra("meetingID", Long.toString(m.getId()));
-                mh.startMeetingMod(m, meetingID, sbView);
-                startActivity(i);
-
-            });
         }
+        Button btnStartMeeting = findViewById(R.id.btnStartMeetingMod);
+        btnStartMeeting.setOnClickListener(v -> {
+            Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
+            i.putExtra("meetingID", meetingID);
+            mh.startMeetingMod(m, meetingID, sbView);
+            startActivity(i);
+        });
         }
-
-
-
-
     }
 

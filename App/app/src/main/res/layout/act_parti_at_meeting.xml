@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/aktuAP"
+        android:id="@+id/aktuAPParti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -44,12 +44,10 @@
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/txtVerbleibendeSprechZeit"
-        app:layout_constraintEnd_toEndOf="@+id/aktuAP"
+        app:layout_constraintEnd_toEndOf="@+id/aktuAPParti"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/aktuAP"
-        app:layout_constraintTop_toBottomOf="@+id/aktuAP"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/aktuAPParti"
+        app:layout_constraintTop_toBottomOf="@+id/aktuAPParti" />
 
     <TextView
         android:id="@+id/txtVerbleibendeGesamtzeit"
@@ -79,20 +77,6 @@
         app:layout_constraintStart_toStartOf="@+id/txtVerbleibendeGesamtzeit"
         app:layout_constraintTop_toBottomOf="@+id/txtVerbleibendeGesamtzeit" />
 
-    <TextView
-        android:id="@+id/txtVerbleibendeSprechZeit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Restzeit Sprecher"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/txtVerbleibendeAPZeit"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/txtVerbleibendeAPZeit"
-        app:layout_constraintTop_toBottomOf="@+id/txtVerbleibendeAPZeit" />
-
     <Button
         android:id="@+id/btnPartiSprechenBeenden"
         android:layout_width="match_parent"
@@ -106,7 +90,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyPartiPreMeetingMod"
+        android:id="@+id/recyAPModAtMeeting"
         android:layout_width="396dp"
         android:layout_height="318dp"
         android:layout_marginBottom="8dp"
@@ -122,6 +106,7 @@
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/txtPartiSprechzeit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.323"
@@ -138,9 +123,10 @@
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recyPartiPreMeetingMod"
+        app:layout_constraintBottom_toTopOf="@+id/recyAPModAtMeeting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/txtPartiMeetSnack"
