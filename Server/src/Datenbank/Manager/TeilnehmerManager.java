@@ -18,6 +18,10 @@ public class TeilnehmerManager extends SqlBase<Teilnehmer> {
 		return this.Add(teilnehmer);
 	}
 	
+	public long AddTeilnehmer(Teilnehmer teilnehmer) throws Exception {
+		return this.Add(teilnehmer);
+	}
+	
 	public Teilnehmer GetById(long teilnehmerId) throws Exception {
 		return getFirst(this.GetBy(new Bedingung(Teilnehmer.class.getField("TeilnehmerId"), teilnehmerId)));
 	}

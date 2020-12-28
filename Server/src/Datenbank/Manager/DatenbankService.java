@@ -95,7 +95,7 @@ public class DatenbankService {
 
 		for (model.Participant participant : meeting.getParticipants()) {
 			long teilnehmerId = this._teilnehmerManager
-					.AddOrUpdateTeilnehmer(MapperTeilnehmer.MapToTeilnehmer(participant.getUser()));
+					.AddTeilnehmer(MapperTeilnehmer.MapToTeilnehmer(participant.getUser()));
 			Datenbank.Dbo.MeetingTeilnehmer meetingTeilnehmer = MapperMeetingTeilnehmer
 					.MapToMeetingTeilnehmer(participant, meetingId);
 			meetingTeilnehmer.TeilnehmerId = teilnehmerId;
@@ -105,8 +105,8 @@ public class DatenbankService {
 		return meetingId;
 	}
 
-	public void saveTeilnehmer(List<model.Participant> addParticipants, List<model.Participant> updateParticipants,
-			List<model.Participant> deleteParticipants, long meetingId) throws Exception {
+	public void saveTeilnehmer(List<model.Participant> addParticipants, List<model.Participant> deleteParticipants, 
+			long meetingId) throws Exception {
 		if (addParticipants != null) {
 			for (model.Participant item : addParticipants) {
 				long teilnehmerId = this._teilnehmerManager
@@ -118,17 +118,6 @@ public class DatenbankService {
 			}
 		}
 
-		if (updateParticipants != null) {
-			for (model.Participant item : updateParticipants) {
-				long teilnehmerId = this._teilnehmerManager
-						.AddOrUpdateTeilnehmer(MapperTeilnehmer.MapToTeilnehmer(item.getUser()));
-				Datenbank.Dbo.MeetingTeilnehmer meetingTeilnehmer = MapperMeetingTeilnehmer
-						.MapToMeetingTeilnehmer(item, meetingId);
-				meetingTeilnehmer.TeilnehmerId = teilnehmerId;
-				this._meetingTeilnehmerManager.UpdateMeetingTeilnehmer(meetingTeilnehmer);
-			}
-		}
-
 		if (deleteParticipants != null) {
 			for (model.Participant item : deleteParticipants) {
 				this._meetingTeilnehmerManager.Delete(MapperMeetingTeilnehmer.MapToMeetingTeilnehmer(item, meetingId));
@@ -136,17 +125,11 @@ public class DatenbankService {
 		}
 	}
 
-	public void saveAgenda(List<model.AgendaPoint> addAgendaPoints, List<model.AgendaPoint> updateAgendaPoints,
-			List<model.AgendaPoint> deleteAgendaPoints, long meetingId) throws Exception {
+	public void saveAgenda(List<model.AgendaPoint> addAgendaPoints, List<model.AgendaPoint> deleteAgendaPoints, 
+			long meetingId) throws Exception {
 		if (addAgendaPoints != null) {
 			for (model.AgendaPoint item : addAgendaPoints) {
 				this._agendaManager.Add(MapperAgenda.MapToAgenda(item, meetingId));
-			}
-		}
-
-		if (updateAgendaPoints != null) {
-			for (model.AgendaPoint item : updateAgendaPoints) {
-				this._agendaManager.Update(MapperAgenda.MapToAgenda(item, meetingId));
 			}
 		}
 

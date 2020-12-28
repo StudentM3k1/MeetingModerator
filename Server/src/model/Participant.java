@@ -47,6 +47,7 @@ public class Participant {
 		if (!(object instanceof Participant)) {
 			return false;
 		}
+		
 		Participant participant = (Participant) object;
 		if (this.id == participant.getId() && this.type == participant.getType()
 				&& this.user.getFirstname().equals(participant.user.getFirstname())

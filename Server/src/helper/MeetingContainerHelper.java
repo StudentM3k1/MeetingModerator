@@ -80,15 +80,25 @@ public class MeetingContainerHelper {
 			dbService = DatenbankService.getInstance();
 		}
 
-		dbService.saveTeilnehmer(meetingContainer.getAddedParticipants(), new ArrayList<Participant>(),
+		dbService.saveTeilnehmer(meetingContainer.getAddedParticipants(), 
 				meetingContainer.getRemovedParticipants(), meetingContainer.getMeeting().getId());
-		dbService.saveAgenda(meetingContainer.getAddedAgendaPoint(), new ArrayList<AgendaPoint>(),
+		dbService.saveAgenda(meetingContainer.getAddedAgendaPoint(),
 				meetingContainer.getRemovedAgendaPoints(), meetingContainer.getMeeting().getId());
 		dbService.setMeetingStatus(meetingContainer.getMeeting().getId(),
 				meetingContainer.getMeeting().getMeetingStatus());
 		for (AgendaPoint agendaPoint : meetingContainer.getMeeting().getAgenda().getAgendaPoints()) {
 			dbService.setAgendaStatus(agendaPoint.getId(), agendaPoint.getStatus());
 		}
+		
+		meetingContainer.clearLists();
+	}
+	
+	public static void forceReload(MeetingContainer meetingContainer) throws Exception {
+		if (dbService == null) {
+			dbService = DatenbankService.getInstance();
+		}
 
+		writeToDataBase(meetingContainer);
+ 		meetingContainer.setMeeting(dbService.getMeeting(meetingContainer.getMeeting().getId()));
 	}
 }

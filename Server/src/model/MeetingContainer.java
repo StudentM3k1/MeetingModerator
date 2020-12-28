@@ -101,4 +101,11 @@ public class MeetingContainer {
 		this.removedParticipants.add(removedParticipants);
 	}
 	
+	public void clearLists()
+	{
+		addedAgendaPoints.clear(); 
+		removedAgendaPoints.clear(); 
+		addedParticipants.clear(); 
+		removedParticipants.clear(); 
+	}
 }

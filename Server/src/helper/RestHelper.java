@@ -15,7 +15,7 @@ public final class RestHelper {
 				&& meeting.getParticipants().size() > 0) {
 			meeting.getSettings().setModeratorId(VerbindungsIdGenerator.createModeratorId());
 			meeting.getSettings().setParticipantId(VerbindungsIdGenerator.createUserId());
-
+			
 			DatenbankService dbService = DatenbankService.getInstance();
 			long id = 0;
 			try {
