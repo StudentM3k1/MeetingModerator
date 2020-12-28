@@ -78,23 +78,19 @@ public class TestKlasse {
 		
 		List<Participant> addParticipants = new ArrayList<Participant>();
 		//addParticipants.add(new Participant(0, new User(0, "Neuer", "Teil", "nehmer"), ParticipantType.Participant, 6000));
-		List<Participant> updateParticipants = new ArrayList<Participant>();
-		//updateParticipants.add(new Participant(4, new User(4, "Vorname", "Nachname", "Neue Mail"), ParticipantType.Moderator, 6000));
 		List<Participant> deleteParticipants = new ArrayList<Participant>();
 		deleteParticipants.add(new Participant(4, new User(4, "Neuer", "Teil", "nehmer"), ParticipantType.Participant));
 		
-		DatenbankService.getInstance().saveTeilnehmer(addParticipants, updateParticipants, deleteParticipants, 4);
+		DatenbankService.getInstance().saveTeilnehmer(addParticipants, deleteParticipants, 4);
 	}
 	
 	private static void TestSaveAgenda() throws Exception {
 		List<AgendaPoint> addAgendaPoints = new ArrayList<AgendaPoint>();
 		addAgendaPoints.add(new AgendaPoint(0, "Neuer Punkt", "ganz wichtig", 360, AgendaPointStatus.Planned, 0));
-		List<AgendaPoint> updateAgendaPoints = new ArrayList<AgendaPoint>();
-		//updateAgendaPoints.add(new AgendaPoint(10, "Titel", "Note", 360, AgendaPointStatus.Running, 0));
 		List<AgendaPoint> deleteAgendaPoints = new ArrayList<AgendaPoint>();
 		//deleteAgendaPoints.add(new AgendaPoint(10, "Titel", "Note", 360, AgendaPointStatus.Planned, 0));
 		
-		DatenbankService.getInstance().saveAgenda(addAgendaPoints, updateAgendaPoints, deleteAgendaPoints, 4);
+		DatenbankService.getInstance().saveAgenda(addAgendaPoints, deleteAgendaPoints, 4);
 	}
 	
 	private static void TestSetAgendaStatus() throws Exception {
