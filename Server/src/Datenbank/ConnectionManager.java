@@ -11,9 +11,14 @@ import org.w3c.dom.Document;
 public class ConnectionManager {
 
 	private static ConnectionSettings _settings;
+	private static Connection _connection;
 
 	public static Connection GetConnection() {
-		return GetConnection(true);
+		if(_connection == null) {
+			_connection = GetConnection(true);
+		}
+		
+		return _connection;
 	}
 	
 	private static Connection GetConnection(boolean withDatabase) {

@@ -20,8 +20,14 @@ public class TestKlasse {
 		try {
 			//System.out.println(VerbindungsIdGenerator.createUserId());
 			
-			TestCreateDatabase();
-			TestAddMeeting();
+			for(int i = 0; i < 1000000; i++) {
+				TestGetMeetingId();
+				System.out.println(i);
+			}
+			
+			
+			//TestCreateDatabase();
+			//TestAddMeeting();
 			//TestGetMeetingId();
 			//TestGetMeeting();			
 			//TestGetAgendaPoints();
