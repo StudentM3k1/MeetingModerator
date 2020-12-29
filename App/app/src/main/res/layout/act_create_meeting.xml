@@ -156,7 +156,7 @@
         android:layout_height="36dp"
         android:layout_marginTop="26dp"
         android:layout_marginBottom="37dp"
-        android:text="IDs versenden"
+        android:text="send ID's"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
         app:layout_constraintEnd_toEndOf="parent"

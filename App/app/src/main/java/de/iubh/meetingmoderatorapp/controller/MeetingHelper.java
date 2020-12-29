@@ -194,7 +194,7 @@ public class MeetingHelper {
         Meeting meeting = null;
         HTTPClient client = new HTTPClient();
         try {
-            client.getModState(meetingID);
+            client.getUserState(meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(

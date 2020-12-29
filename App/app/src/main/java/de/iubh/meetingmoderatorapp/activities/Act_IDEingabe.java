@@ -45,31 +45,26 @@ public class Act_IDEingabe extends AppCompatActivity {
         btnJoinMeeting.setOnClickListener(v -> {
             String id = meetingID.getText().toString();
             Meeting m = mh.getMeetingMod(id, sbView);
+            Meeting mu = mh.getMeetingUser(id, sbView);
 
-
+            Intent i;
             if (id.equals("")) {
                 Snackbar.make(
                         sbView,
                         "Bitte Meeting-ID eingeben.",
                         Snackbar.LENGTH_LONG)
                         .show();
-            } else if(m == null) {
-                Snackbar.make(sbView, "Meeting konnte nicht geholt werden.", Snackbar.LENGTH_LONG).show();
-            } else {
-                Intent i;
-                {
-                    if(m.getSettings().getModeratorId().equals("0") ){
-                        i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
-                    } else {
-                        i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
-                    }
-                    i.putExtra("JSON", mh.getMeetingString(id, sbView));
+            } else if((m == null) && (mu != null)){
+                    i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
                     i.putExtra("meetingID", id);
                     startActivity(i);
-
-                }
-            }
-
+            } else if(m.getSettings().getModeratorId().equals(id) ) {
+                i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
+                i.putExtra("meetingID", id);
+                startActivity(i);
+            }else {
+            Snackbar.make(sbView, "Die ID stimmt nicht.", Snackbar.LENGTH_LONG).show();
+        }
         });
     }
 }
