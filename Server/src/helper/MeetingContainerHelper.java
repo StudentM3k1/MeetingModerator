@@ -20,6 +20,7 @@ public class MeetingContainerHelper {
 	public static MeetingContainer identifyMeetingContainer(long id) throws Exception {
 		for (MeetingContainer meetingContainer : meetings) {
 			if (meetingContainer.getMeeting().getId() == id) {
+				meetingContainer.setTimeStamp();
 				return meetingContainer;
 			}
 		}
@@ -67,10 +68,10 @@ public class MeetingContainerHelper {
 	}
 
 	public static void garbageCollect() throws Exception {
-		for (MeetingContainer meeting : meetings) {
-			if (meeting.getMeeting().getMeetingStatus() != MeetingStatus.Running
-					&& meeting.getTimeStamp().isBefore(LocalDateTime.now().minusMinutes(15))) {
-				releaseMeeting(meeting.getMeeting().getId());
+		for (int i = 0; i < meetings.size(); i++) {
+			if (meetings.get(i).getMeeting().getMeetingStatus() != MeetingStatus.Running
+					&& meetings.get(i).getTimeStamp().isBefore(LocalDateTime.now().minusMinutes(15))) {
+				releaseMeeting(meetings.get(i).getMeeting().getId());
 			}
 		}
 	}
