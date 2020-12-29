@@ -1,6 +1,5 @@
 package de.iubh.meetingmoderatorapp.controller;
 
-
 import org.threeten.bp.*;
 import java.util.ArrayList;
 import org.json.*;
@@ -9,7 +8,7 @@ import de.iubh.meetingmoderatorapp.model.enumerations.*;
 
 public class JSONHelper {
 
-    public static String MeetingToJSON(Meeting meeting)  throws JSONException {
+    public static String MeetingToJSON(Meeting meeting) throws JSONException {
 
         JSONObject jsonobj = new JSONObject();
         jsonobj.put("id", meeting.getId());
@@ -19,11 +18,11 @@ public class JSONHelper {
 
         JSONObject meetingSettings = new JSONObject();
         meetingSettings.put("meetingTitle", meeting.getSettings().getMeetingTitle());
-        meetingSettings.put("startTime", meeting.getSettings().getStartTime().toString().substring(0,10) + meeting.getSettings().getStartTime().toString().substring(11));
+        meetingSettings.put("startTime", meeting.getSettings().getStartTime());
         meetingSettings.put("duration", meeting.getSettings().getDuration());
         meetingSettings.put("moderatorId", meeting.getSettings().getModeratorId());
         meetingSettings.put("participantId", meeting.getSettings().getParticipantId());
-        meetingSettings.put("startTime", meeting.getSettings().getStartTime().toEpochSecond(ZoneOffset.UTC));
+        meetingSettings.put("startTime", meeting.getSettings().getStartTime().toString().substring(0,10) + meeting.getSettings().getStartTime().toString().substring(11));
         jsonobj.put("meetingSettings", meetingSettings);
 
         JSONObject agenda = new JSONObject();
@@ -73,9 +72,7 @@ public class JSONHelper {
     public static Meeting JSONToMeeting(String json) throws Exception{
         Meeting meeting = new Meeting();
         MeetingSettings settings = new MeetingSettings();
-
         Agenda agenda = new Agenda();
-        ArrayList<Participant> p = new ArrayList<Participant>();
 
         try {
             JSONObject json_obj = new JSONObject(json);
@@ -150,18 +147,18 @@ public class JSONHelper {
         return meeting;
     }
 
-    public static LocalDateTime JSONToLastChange(String json) throws JSONException  {
+    public static LocalDateTime JSONToLastChange(String json)throws JSONException  {
         JSONObject jsonobj = new JSONObject(json);
         return LocalDateTime.ofEpochSecond(jsonobj.getLong("lastChange"), 0, ZoneOffset.UTC);
     }
 
-    public static String LastChangeToJSON(LocalDateTime localDateTime)  throws JSONException {
+    public static String LastChangeToJSON(LocalDateTime localDateTime) throws JSONException {
         JSONObject jsonobj = new JSONObject();
         jsonobj.put("lastChange", localDateTime.toEpochSecond(ZoneOffset.UTC));
         return jsonobj.toString();
     }
 
-    public static String StateToJSON(AgendaPoint agendaPoint) throws JSONException  {
+    public static String StateToJSON(AgendaPoint agendaPoint) throws JSONException {
         JSONObject jsonobj = new JSONObject();
         jsonobj.put("id", agendaPoint.getId());
         jsonobj.put("title", agendaPoint.getTitle());
@@ -185,7 +182,7 @@ public class JSONHelper {
 
     }
 
-    public static AgendaPoint JSONToState(String json) throws JSONException  {
+    public static AgendaPoint JSONToState(String json)throws JSONException  {
         AgendaPoint agendaPoint = new AgendaPoint();
         JSONObject json_agendaPoint = new JSONObject(json);
         agendaPoint.setId(json_agendaPoint.getLong("id"));
@@ -215,7 +212,7 @@ public class JSONHelper {
         return jsonobj.getLong("passedTime");
     }
 
-    public static String SyncToJSON(long ticks)  throws JSONException {
+    public static String SyncToJSON(long ticks) throws JSONException {
         JSONObject jsonobj = new JSONObject();
         jsonobj.put("passedTime", ticks);
         return jsonobj.toString();

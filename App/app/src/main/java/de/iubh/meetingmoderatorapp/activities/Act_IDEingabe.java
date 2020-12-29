@@ -45,7 +45,7 @@ public class Act_IDEingabe extends AppCompatActivity {
         btnJoinMeeting.setOnClickListener(v -> {
             String id = meetingID.getText().toString();
             Meeting m = mh.getMeetingMod(id, sbView);
-            Meeting mu = mh.getMeetingUser(id, sbView);
+
 
             Intent i;
             if (id.equals("")) {
@@ -54,11 +54,11 @@ public class Act_IDEingabe extends AppCompatActivity {
                         "Bitte Meeting-ID eingeben.",
                         Snackbar.LENGTH_LONG)
                         .show();
-            } else if((m == null) && (mu != null)){
+            } else if(m == null){
                     i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
                     i.putExtra("meetingID", id);
                     startActivity(i);
-            } else if(m.getSettings().getModeratorId().equals(id) ) {
+            } else if(m != null) {
                 i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
                 i.putExtra("meetingID", id);
                 startActivity(i);

@@ -71,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtModVerbleibendeGesamtzeit" />
 
     <Button
-        android:id="@+id/btnModNExt"
+        android:id="@+id/btnModNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="52dp"
@@ -86,7 +86,7 @@
         android:layout_width="367dp"
         android:layout_height="331dp"
         android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnModNExt"
+        app:layout_constraintBottom_toTopOf="@+id/btnModNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent" />
@@ -126,6 +126,6 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnModNExt"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/btnModNext"></LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,7 +24,7 @@ public class MeetingHelper {
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
                         snackbarview,
-                        "Meeting Update konte nicht geladen werden " + client.getResponseCode() + " " + client.getResponseBody(),
+                        "Meeting Update konnte nicht geladen werden " + client.getResponseCode() + " " + client.getResponseBody(),
                         Snackbar.LENGTH_LONG)
                         .show();
             } else {

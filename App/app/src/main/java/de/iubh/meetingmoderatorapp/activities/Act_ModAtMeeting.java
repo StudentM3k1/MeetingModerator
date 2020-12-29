@@ -90,13 +90,13 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         }
 
         // nächster Agendapunkt/ Teilnehmer
-        Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
+        Button btnEndSpeak = findViewById(R.id.btnModNext);
         btnEndSpeak.setOnClickListener(v -> {
             mh.nextModAgendapoint(m, meetingID, sbView);
         });
         }
 
-    public void runMeeting(LocalDateTime lastLocalChange, AgendaPoint curAP, MeetingHelper mh, View sbView) {
+    public void runMeeting(LocalDateTime lastLocalChange, AgendaPoint curAP, MeetingHelper mh, View sbView)  {
         if (curAP.getId() == 0) {
             Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
             startActivity(i);

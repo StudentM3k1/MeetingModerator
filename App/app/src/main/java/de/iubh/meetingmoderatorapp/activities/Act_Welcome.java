@@ -42,11 +42,7 @@ public class Act_Welcome extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             meetingID = extras.getString("meetingID");
-            try {
-                m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            m = mh.getMeetingUser(meetingID, sbView);
         }
 
 
