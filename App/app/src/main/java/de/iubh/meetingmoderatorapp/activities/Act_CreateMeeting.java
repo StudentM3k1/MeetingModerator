@@ -37,6 +37,7 @@ import static de.iubh.meetingmoderatorapp.R.id.visible;
 public class Act_CreateMeeting extends AppCompatActivity {
     private Meeting m = new Meeting();
     private String modId;
+    private String partId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,13 +119,13 @@ public class Act_CreateMeeting extends AppCompatActivity {
             Meeting meetingResponse = mh.postMeetingMod(m, sbView);
 
             modId = meetingResponse.getSettings().getModeratorId();
-
+            partId = meetingResponse.getSettings().getParticipantId();
             //TODO Mailversand an Partis mit deren ID.
             idRes.setText(
                     "Deine ModeratorID ist: "
                             + modId
                             +"\nDie MeetingID der User ist: "
-                            + meetingResponse.getSettings().getParticipantId()
+                            + partId
                             +"\nDie ID's bitte notieren.");
             sendIDviaMail.setVisibility(VISIBLE);
         });
@@ -138,7 +139,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 i.setType("message/rfc822");
                 i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"hiernochStrings@arrayausmeeting.einbringen"});
                 i.putExtra(Intent.EXTRA_SUBJECT, "Wir haben ein Meeting zusammen");
-                i.putExtra(Intent.EXTRA_TEXT   , "Bitte melde Dich am " + "hier Meeting Zeit einfügen " + "mit Deiner MeetingID "+ "hier Meeting ID einfügen" + "an um teilzunehemen");
+                i.putExtra(Intent.EXTRA_TEXT   , "Bitte melde Dich am " + startDate.getText().toString() + "um " + startTime.getText().toString() + "mit Deiner MeetingID   ---   "+ partId + "   ---   an um teilzunehemen");
                 try {
                     startActivity(Intent.createChooser(i, "Sende Mail..."));
                 } catch (android.content.ActivityNotFoundException ex) {

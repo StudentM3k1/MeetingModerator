@@ -31,7 +31,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
     long passedTime;
     LocalDateTime lastLocalChange;
     LocalDateTime lastServerChange;
-
+    //y020evGyb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,7 +140,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
             new CountDownTimer(curAp.getAvailableTime(), 500) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    lastServerChange = mh.getLastChangeMod(meetingID, sbView);
+                    lastServerChange = mh.getLastChangeUser(meetingID, sbView);
                 }
                 @Override
                 public void onFinish() {

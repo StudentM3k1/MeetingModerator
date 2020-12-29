@@ -43,9 +43,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         TextView meetingTitle = findViewById(R.id.txtModMeetingTitle);
         TextView verbleibendeGesamtzeit = findViewById(R.id.txtModVerbleibendeGesamtzeit);
-        TextView verbleibendeAPZeit = findViewById(R.id.txtModVerbleibendeAPZeit);
         TextView modGruss = findViewById(R.id.txtModGruss);
-        TextView modSprechNote = findViewById(R.id.txtModSprechzeit);
 
 
         Bundle extras = getIntent().getExtras();
@@ -87,9 +85,9 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         lastLocalChange = LocalDateTime.now(ZoneId.systemDefault()   );
 
         curAp = mh.getAgendapointMod(meetingID, sbView);
-        runMeeting(lastLocalChange, curAp, mh, sbView);
-
-
+        if (curAp != null) {
+            runMeeting(lastLocalChange, curAp, mh, sbView);
+        }
 
         // nächster Agendapunkt/ Teilnehmer
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
@@ -111,7 +109,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
                 TextView aktuAP = findViewById(R.id.txtAktuAPMod);
                 aktuAP.setText(curAP.getTitle());
                 // update aktueller Sprecher
-                TextView aktuSprecher = findViewById(R.id.txtModAktuSprecher);
+                TextView aktuSprecher = findViewById(R.id.txtModPreOrt);
                 aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
             //3. CHANGE
 
