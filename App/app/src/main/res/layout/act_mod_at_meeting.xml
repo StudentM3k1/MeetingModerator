@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="@+id/txtModVerbleibendeGesamtzeit" />
 
     <TextView
-        android:id="@+id/txtModAktuSprecher"
+        android:id="@+id/txtModPreOrt"
         android:layout_width="157dp"
         android:layout_height="25dp"
         android:layout_marginTop="28dp"
@@ -71,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtModVerbleibendeGesamtzeit" />
 
     <Button
-        android:id="@+id/btnModNExt"
+        android:id="@+id/btnModNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="52dp"
@@ -82,11 +82,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyAPModAtMeeting"
+        android:id="@+id/recyAPPartiAtMeeting"
         android:layout_width="367dp"
         android:layout_height="331dp"
         android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnModNExt"
+        app:layout_constraintBottom_toTopOf="@+id/btnModNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent" />
@@ -102,7 +102,7 @@
         app:layout_constraintBottom_toTopOf="@+id/txtModSprechzeit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtModAktuSprecher"
+        app:layout_constraintTop_toBottomOf="@+id/txtModPreOrt"
         app:layout_constraintVertical_bias="0.431" />
 
     <TextView
@@ -114,7 +114,7 @@
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recyAPModAtMeeting"
+        app:layout_constraintBottom_toTopOf="@+id/recyAPPartiAtMeeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent" />
@@ -126,6 +126,6 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnModNExt"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/btnModNext"></LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

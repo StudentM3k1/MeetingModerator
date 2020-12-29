@@ -21,7 +21,7 @@ import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class Act_Agenda extends AppCompatActivity {
 
-    private Meeting m = new Meeting();
+    private Meeting m = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class Act_Agenda extends AppCompatActivity {
         if(extras != null) {
             String json = extras.getString("JSON");
             try {
-                m = JSONHelper.JSONToMeeting(json);
+                m = JSONHelper.JSONToMeetinginApp(json);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -59,10 +59,8 @@ public class Act_Agenda extends AppCompatActivity {
         btnAddAgendapoint.setOnClickListener(v ->        {
             Intent i = new Intent(Act_Agenda.this, Act_AddAgendaPoint.class);
             try {
-                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }catch (Exception e) {
+                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             startActivity(i);
@@ -74,7 +72,7 @@ public class Act_Agenda extends AppCompatActivity {
         btnToMeetingCreation.setOnClickListener(v ->        {
             Intent i = new Intent(Act_Agenda.this, Act_CreateMeeting.class);
             try {
-                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
             } catch (JSONException e) {
                 e.printStackTrace();
             }catch (Exception e) {

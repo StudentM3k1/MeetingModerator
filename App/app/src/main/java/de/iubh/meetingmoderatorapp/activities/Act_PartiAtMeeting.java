@@ -31,7 +31,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
     long passedTime;
     LocalDateTime lastLocalChange;
     LocalDateTime lastServerChange;
-
+    //y020evGyb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,6 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
             meetingID = extras.getString("meetingID");
             surname = extras.getString("surname");
             lastname = extras.getString("lastname");
-
         }
 
         m = mh.getMeetingUser(meetingID, sbView);
@@ -65,7 +64,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
         AgendaPointAdapter apAdapter;
         RecyclerView recyAP;
         RecyclerView.LayoutManager apLayoutManger;
-        recyAP = findViewById(R.id.recyAPModAtMeeting);
+        recyAP = findViewById(R.id.recyAPPartiAtMeeting);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
@@ -140,7 +139,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
             new CountDownTimer(curAp.getAvailableTime(), 500) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    lastServerChange = mh.getLastChangeMod(meetingID, sbView);
+                    lastServerChange = mh.getLastChangeUser(meetingID, sbView);
                 }
                 @Override
                 public void onFinish() {

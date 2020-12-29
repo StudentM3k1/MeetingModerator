@@ -30,6 +30,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
     long passedTime;
     LocalDateTime lastLocalChange;
     LocalDateTime lastServerChange;
+    boolean runMeeting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         TextView meetingTitle = findViewById(R.id.txtModMeetingTitle);
         TextView verbleibendeGesamtzeit = findViewById(R.id.txtModVerbleibendeGesamtzeit);
-        TextView verbleibendeAPZeit = findViewById(R.id.txtModVerbleibendeAPZeit);
         TextView modGruss = findViewById(R.id.txtModGruss);
-        TextView modSprechNote = findViewById(R.id.txtModSprechzeit);
 
 
         Bundle extras = getIntent().getExtras();
@@ -62,7 +61,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         AgendaPointAdapter apAdapter;
         RecyclerView recyAP;
         RecyclerView.LayoutManager apLayoutManger;
-        recyAP = findViewById(R.id.recyAPModAtMeeting);
+        recyAP = findViewById(R.id.recyAPPartiAtMeeting);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
@@ -78,6 +77,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 verbleibendeGesamtzeit.setText(String.valueOf(m.getSettings().getDuration() - passedTime));
+                //hier noch APTIME verarbieten
                 passedTime++;
             }
             @Override
@@ -86,22 +86,37 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         lastLocalChange = LocalDateTime.now(ZoneId.systemDefault()   );
 
-        curAp = mh.getAgendapointMod(meetingID, sbView);
-        runMeeting(lastLocalChange, curAp, mh, sbView);
 
+
+
+        while(runMeeting) {
+            runMeeting(lastLocalChange, curAp, mh, sbView);
+            try {
+                wait(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
+        startActivity(i);
+                // wait()
+
+
+
+
+        curAp = mh.getAgendapointMod(meetingID, sbView);
 
 
         // nächster Agendapunkt/ Teilnehmer
-        Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
+        Button btnEndSpeak = findViewById(R.id.btnModNext);
         btnEndSpeak.setOnClickListener(v -> {
             mh.nextModAgendapoint(m, meetingID, sbView);
         });
         }
 
-    public void runMeeting(LocalDateTime lastLocalChange, AgendaPoint curAP, MeetingHelper mh, View sbView) {
+    public void runMeeting(LocalDateTime lastLocalChange, AgendaPoint curAP, MeetingHelper mh, View sbView)  {
         if (curAP.getId() == 0) {
-            Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
-            startActivity(i);
+            runMeeting = false;
         } else {
             //1. SYNC
 
@@ -111,7 +126,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
                 TextView aktuAP = findViewById(R.id.txtAktuAPMod);
                 aktuAP.setText(curAP.getTitle());
                 // update aktueller Sprecher
-                TextView aktuSprecher = findViewById(R.id.txtModAktuSprecher);
+                TextView aktuSprecher = findViewById(R.id.txtModPreOrt);
                 aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
             //3. CHANGE
 

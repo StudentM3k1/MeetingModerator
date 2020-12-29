@@ -24,9 +24,10 @@ public class MeetingHelper {
             if(client.getResponseCode() != 200) {
                 Snackbar.make(
                         snackbarview,
-                        "Meeting Update konte nicht geladen werden " + client.getResponseCode() + " " + client.getResponseBody(),
+                        "Meeting konnte nicht erstellt werden " + client.getResponseCode(),
                         Snackbar.LENGTH_LONG)
                         .show();
+                m.getSettings().setMeetingTitle(client.getResponseBody());
             } else {
                 m = JSONHelper.JSONToMeeting(client.getResponseBody());
             }
@@ -194,7 +195,7 @@ public class MeetingHelper {
         Meeting meeting = null;
         HTTPClient client = new HTTPClient();
         try {
-            client.getModState(meetingID);
+            client.getMeetingUser(meetingID);
             while(!client.getResponseReceived()) {}
             if(client.getResponseCode() != 200) {
                 Snackbar.make(

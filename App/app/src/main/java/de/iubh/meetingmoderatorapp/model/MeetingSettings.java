@@ -10,7 +10,9 @@ public class MeetingSettings {
 	private String participantId = new String();
 
 	// Nur für interne Benutzung
-	public MeetingSettings() {	}
+	public MeetingSettings() {
+
+	}
 
 	public MeetingSettings( String meetingTitle, LocalDateTime startTime, long duration, String moderatorId,
 							String participantId) {
@@ -61,5 +63,6 @@ public class MeetingSettings {
 	public void setParticipantId(String participantId) {
 		this.participantId = participantId;
 	}
+
 
 }
