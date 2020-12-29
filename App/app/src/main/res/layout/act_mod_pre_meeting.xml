@@ -27,7 +27,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtPreMeetingTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyAPModAtMeeting"
+        android:id="@+id/recyAPPartiAtMeeting"
         android:layout_width="377dp"
         android:layout_height="220dp"
         app:layout_constraintBottom_toTopOf="@+id/btnStartMeetingMod"
@@ -61,7 +61,7 @@
         android:id="@+id/recyApPreMeetingMod"
         android:layout_width="379dp"
         android:layout_height="226dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyAPModAtMeeting"
+        app:layout_constraintBottom_toTopOf="@+id/recyAPPartiAtMeeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

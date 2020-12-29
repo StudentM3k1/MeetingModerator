@@ -58,7 +58,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             try{
-          m = JSONHelper.JSONToMeeting(extras.getString("JSON"));}
+          m = JSONHelper.JSONToMeetinginApp(extras.getString("JSON"));}
           catch (Exception e) {
                 e.printStackTrace();
             }
@@ -86,7 +86,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
-                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -101,7 +101,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
                 m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                 m.setOrt(ort.getText().toString());
-                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,6 +109,7 @@ public class Act_CreateMeeting extends AppCompatActivity {
         });
 
         Button sendIDviaMail = findViewById(R.id.btnIDMial);
+
         Button btnCreateMeeting = findViewById(R.id.btn_createMeeting);
         btnCreateMeeting.setOnClickListener(v -> {
             m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
@@ -120,14 +121,19 @@ public class Act_CreateMeeting extends AppCompatActivity {
 
             modId = meetingResponse.getSettings().getModeratorId();
             partId = meetingResponse.getSettings().getParticipantId();
-            //TODO Mailversand an Partis mit deren ID.
-            idRes.setText(
-                    "Deine ModeratorID ist: "
-                            + modId
-                            +"\nDie MeetingID der User ist: "
-                            + partId
-                            +"\nDie ID's bitte notieren.");
-            sendIDviaMail.setVisibility(VISIBLE);
+
+            if(modId.equals("") && partId.equals("")){
+                idRes.setText("Hoppla, da hat sich die App verschluckt! \nFehlernachricht: " + meetingResponse.getSettings().getMeetingTitle());
+        } else {
+                idRes.setText(
+                        "Deine ModeratorID ist: "
+                                + modId
+                                +"\nDie MeetingID der User ist: "
+                                + partId
+                                +"\nDie ID's bitte notieren.");
+                sendIDviaMail.setVisibility(VISIBLE);
+            }
+
         });
 
 

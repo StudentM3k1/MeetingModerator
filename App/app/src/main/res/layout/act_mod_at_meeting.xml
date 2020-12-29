@@ -82,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyAPModAtMeeting"
+        android:id="@+id/recyAPPartiAtMeeting"
         android:layout_width="367dp"
         android:layout_height="331dp"
         android:layout_marginBottom="60dp"
@@ -114,7 +114,7 @@
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recyAPModAtMeeting"
+        app:layout_constraintBottom_toTopOf="@+id/recyAPPartiAtMeeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent" />

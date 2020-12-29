@@ -30,6 +30,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
     long passedTime;
     LocalDateTime lastLocalChange;
     LocalDateTime lastServerChange;
+    boolean runMeeting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
         AgendaPointAdapter apAdapter;
         RecyclerView recyAP;
         RecyclerView.LayoutManager apLayoutManger;
-        recyAP = findViewById(R.id.recyAPModAtMeeting);
+        recyAP = findViewById(R.id.recyAPPartiAtMeeting);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
@@ -76,6 +77,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 verbleibendeGesamtzeit.setText(String.valueOf(m.getSettings().getDuration() - passedTime));
+                //hier noch APTIME verarbieten
                 passedTime++;
             }
             @Override
@@ -84,10 +86,26 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
         lastLocalChange = LocalDateTime.now(ZoneId.systemDefault()   );
 
-        curAp = mh.getAgendapointMod(meetingID, sbView);
-        if (curAp != null) {
+
+
+
+        while(runMeeting) {
             runMeeting(lastLocalChange, curAp, mh, sbView);
+            try {
+                wait(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
+        startActivity(i);
+                // wait()
+
+
+
+
+        curAp = mh.getAgendapointMod(meetingID, sbView);
+
 
         // nächster Agendapunkt/ Teilnehmer
         Button btnEndSpeak = findViewById(R.id.btnModNext);
@@ -98,8 +116,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
 
     public void runMeeting(LocalDateTime lastLocalChange, AgendaPoint curAP, MeetingHelper mh, View sbView)  {
         if (curAP.getId() == 0) {
-            Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
-            startActivity(i);
+            runMeeting = false;
         } else {
             //1. SYNC
 

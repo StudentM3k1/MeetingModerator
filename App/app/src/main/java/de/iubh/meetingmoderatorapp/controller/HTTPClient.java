@@ -24,8 +24,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HTTPClient {
-    static String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
-    //static String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
+    static final String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
+    //static final String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
@@ -85,6 +85,14 @@ public class HTTPClient {
         client.newCall(request).enqueue(resCallback);
     }
 
+    // GET Meeting per ID
+    public void getMeetingUser(String url) {
+        Request request = new Request.Builder()
+                .url(URL +  "User/" + url)
+                .get()
+                .build();
+        client.newCall(request).enqueue(resCallback);
+    }
 
     // GET Change for User
     public void getUserChange(String id) {
@@ -127,7 +135,7 @@ public class HTTPClient {
     // GET Sync for User
     public void getUserSync(String id) {
         Request request = new Request.Builder()
-                .url(URL + "User/" + id + "/Start")
+                .url(URL + "User/" + id + "/Sync")
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -136,7 +144,7 @@ public class HTTPClient {
     // GET Sync for Mod
     public void getModSync(String id) {
         Request request = new Request.Builder()
-                .url(URL + "Moderator/" + id + "/Start")
+                .url(URL + "Moderator/" + id + "/Sync")
                 .get()
                 .build();
         client.newCall(request).enqueue(resCallback);
@@ -155,7 +163,7 @@ public class HTTPClient {
 
     // POST Next User
     public void postNextUser(String json, String id) {
-        RequestBody body = RequestBody.create(JSON, id);
+        RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(URL + "User/" + id + "/Next")
                 .post(body)

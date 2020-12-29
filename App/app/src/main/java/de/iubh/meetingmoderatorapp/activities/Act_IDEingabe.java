@@ -45,8 +45,6 @@ public class Act_IDEingabe extends AppCompatActivity {
         btnJoinMeeting.setOnClickListener(v -> {
             String id = meetingID.getText().toString();
             Meeting m = mh.getMeetingMod(id, sbView);
-
-
             Intent i;
             if (id.equals("")) {
                 Snackbar.make(

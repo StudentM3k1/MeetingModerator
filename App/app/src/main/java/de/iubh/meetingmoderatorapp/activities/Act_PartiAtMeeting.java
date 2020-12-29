@@ -53,7 +53,6 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
             meetingID = extras.getString("meetingID");
             surname = extras.getString("surname");
             lastname = extras.getString("lastname");
-
         }
 
         m = mh.getMeetingUser(meetingID, sbView);
@@ -65,7 +64,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
         AgendaPointAdapter apAdapter;
         RecyclerView recyAP;
         RecyclerView.LayoutManager apLayoutManger;
-        recyAP = findViewById(R.id.recyAPModAtMeeting);
+        recyAP = findViewById(R.id.recyAPPartiAtMeeting);
         recyAP.setHasFixedSize(true);
         apLayoutManger = new LinearLayoutManager(this);
         apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());

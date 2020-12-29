@@ -60,7 +60,7 @@ public class Act_ModPreMeeting extends AppCompatActivity {
 
 
         // Aufbau RecyView Participant
-        RecyclerView recyTLN = findViewById(R.id.recyAPModAtMeeting);
+        RecyclerView recyTLN = findViewById(R.id.recyAPPartiAtMeeting);
         TeilnehmerAdapter tlnAdapter;
         RecyclerView.LayoutManager tlnLayoutManger;
         recyTLN.setHasFixedSize(true);
@@ -76,6 +76,8 @@ public class Act_ModPreMeeting extends AppCompatActivity {
         btnStartMeeting.setOnClickListener(v -> {
             Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
             i.putExtra("meetingID", meetingID);
+
+            // check meetng start response code
             mh.startMeetingMod(m, meetingID, sbView);
             startActivity(i);
         });

@@ -36,7 +36,7 @@ public class Act_addParticipant extends AppCompatActivity {
         if(extras != null) {
             String json = extras.getString("JSON");
             try {
-                m = JSONHelper.JSONToMeeting(json);
+                m = JSONHelper.JSONToMeetinginApp(json);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -47,7 +47,7 @@ public class Act_addParticipant extends AppCompatActivity {
         btnBack.setOnClickListener(v -> {
             Intent i = new Intent(Act_addParticipant.this, Act_CreateMeeting.class);
             try {
-                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -65,7 +65,7 @@ public class Act_addParticipant extends AppCompatActivity {
             m.getParticipants().add(p);
 
             try {
-                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
             } catch (Exception e) {
                 e.printStackTrace();
             }
