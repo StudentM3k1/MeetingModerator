@@ -22,6 +22,8 @@ import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;
 
 
+import java.util.ArrayList;
+
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.HTTPClient;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
@@ -51,10 +53,10 @@ public class Act_CreateMeeting extends AppCompatActivity {
         EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
         EditText startDate = findViewById(R.id.timeCreateMeetingStartDate);
         EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
-        EditText duration = findViewById(R.id.minCreateMeetingDuration);
+        TextView duration = findViewById(R.id.minCreateMeetingDuration);
         EditText ort = findViewById(R.id.txtCreateMeetingOrt);
 
-
+        duration.setText("240");
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             try{
@@ -62,10 +64,18 @@ public class Act_CreateMeeting extends AppCompatActivity {
           catch (Exception e) {
                 e.printStackTrace();
             }
+            String calcDur;
+            ArrayList<AgendaPoint> apl = new ArrayList<>();
+            apl = m.getAgenda().getAgendaPoints();
+            long aplTime = 0;
+            for(AgendaPoint ap :apl) {
+                aplTime += ap.getAvailableTime();
+            }
+            calcDur = Long.toString(aplTime);
           meetingTitle.setText(m.getSettings().getMeetingTitle());
           startDate.setText(m.getSettings().getStartTime().toString().substring(0,10));
           startTime.setText(m.getSettings().getStartTime().toString().substring(11));
-          duration.setText("240");
+          duration.setText(calcDur);
           ort.setText(m.getOrt());
         }
 

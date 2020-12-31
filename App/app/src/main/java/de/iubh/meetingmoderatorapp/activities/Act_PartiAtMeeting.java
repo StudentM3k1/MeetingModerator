@@ -31,33 +31,28 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
     long passedTime;
     LocalDateTime lastLocalChange;
     LocalDateTime lastServerChange;
-    //y020evGyb
+    boolean runMeeting = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_parti_at_meeting);
         AndroidThreeTen.init(this);
 
-        TextView meetingTitle = findViewById(R.id.txtMeetingTitle);
-        TextView verbleibendeGesamtzeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
-        TextView verbleibendeAPZeit = findViewById(R.id.txtVerbleibendeAPZeit);
-        TextView aktuSprecher = findViewById(R.id.txtAktuSprecher);
-        TextView partiGruss = findViewById(R.id.txtPartiGruss);
-
         MeetingHelper mh = new MeetingHelper();
         View sbView = findViewById(R.id.snackbar);
 
-
+        // Meeting Daten auslesen und setzen
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             meetingID = extras.getString("meetingID");
             surname = extras.getString("surname");
             lastname = extras.getString("lastname");
         }
-
         m = mh.getMeetingUser(meetingID, sbView);
-
+        TextView meetingTitle = findViewById(R.id.txtMeetingTitle);
         meetingTitle.setText(m.getSettings().getMeetingTitle());
+        TextView partiGruss = findViewById(R.id.txtPartiGruss);
         partiGruss.setText("Hallo " + surname + " " + lastname +", willkommen im Meeting.");
 
         // Aufbau RecyclerView
@@ -71,7 +66,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
         recyAP.setLayoutManager(apLayoutManger);
         recyAP.setAdapter(apAdapter);
 
-
+        runMeeting = true;
 
         //1. SYNC
         // verbleibende Gesamtzeit anzeigen und runter zählen
@@ -79,6 +74,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
         new CountDownTimer(m.getSettings().getDuration(), 1000){
             @Override
             public void onTick(long millisUntilFinished) {
+                TextView verbleibendeGesamtzeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
                 verbleibendeGesamtzeit.setText(String.valueOf(m.getSettings().getDuration() - passedTime));
                 passedTime++;
             }
@@ -87,11 +83,18 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
         }.start();
 
         lastLocalChange = LocalDateTime.now(ZoneId.systemDefault()   );
-
         curAp = mh.getAgendapointMod(meetingID, sbView);
-        runMeeting(lastLocalChange, curAp, mh, sbView);
 
-
+        while(runMeeting) {
+            runMeeting(lastLocalChange, curAp, mh, sbView);
+            try {
+                wait(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Intent i = new Intent(Act_PartiAtMeeting.this, Act_MeetingBeendet.class);
+        startActivity(i);
 
         // nächster Agendapunkt/ Teilnehmer
         Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
@@ -102,17 +105,11 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
 
     public void runMeeting(LocalDateTime lastLocalChange, AgendaPoint curAP, MeetingHelper mh, View sbView) {
         if (curAP.getId() == 0) {
-            Intent i = new Intent(Act_PartiAtMeeting.this, Act_MeetingBeendet.class);
-            startActivity(i);
+            runMeeting = false;
         } else {
-            //1. SYNC
-
             //2. STATE
-            curAP = mh.getAgendapointUser(meetingID, sbView);
-            // update Agendapoint
             TextView aktuAP = findViewById(R.id.txtAgendapointTitle);
             aktuAP.setText(curAP.getTitle());
-            // update aktueller Sprecher
             TextView aktuSprecher = findViewById(R.id.txtAktuSprecher);
             aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
 
@@ -120,35 +117,15 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
                 TextView partiSprechNote = findViewById(R.id.txtPartiSprechzeit);
                 partiSprechNote.setVisibility(View.VISIBLE);
                 long runTime = curAP.getAvailableTime();
-                new CountDownTimer(curAP.getRunningTime(), 1000) {
-                    long spokenSec = 0;
-
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        partiSprechNote.setText("Sprich dich aus für die nächsten " + (runTime - spokenSec) + " Sekunden");
-                        spokenSec++;
-                    }
-
-                    @Override
-                    public void onFinish() {
-                    }
-                }.start();
+                long spokenSec = 0;
+                partiSprechNote.setText("Sprich dich aus für die nächsten " + (runTime - spokenSec) + " Sekunden");
+                spokenSec++;
             }
 
             //3. CHANGE
-            new CountDownTimer(curAp.getAvailableTime(), 500) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    lastServerChange = mh.getLastChangeUser(meetingID, sbView);
-                }
-                @Override
-                public void onFinish() {
-                }
-            }.start();
             if (lastServerChange != lastLocalChange) {
                 curAp = mh.getAgendapointUser(meetingID, sbView);
                 lastLocalChange = lastServerChange;
-                runMeeting(lastLocalChange, curAP, mh, sbView);
             }
 
         }

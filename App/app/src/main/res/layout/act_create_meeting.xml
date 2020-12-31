@@ -86,28 +86,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingTitle" />
 
-    <EditText
+    <TextView
         android:id="@+id/minCreateMeetingDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="136dp"
+        android:layout_height="25dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="120"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="viewEnd"
+        app:layout_constraintBottom_toTopOf="@+id/recyTln"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeCreateMeetingStartDate" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt" />
 
     <EditText
         android:id="@+id/txtCreateMeetingOrt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="text"
         android:text="Ort"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/minCreateMeetingDuration" />
+        app:layout_constraintTop_toBottomOf="@+id/timeCreateMeetingStartDate" />
 
     <TextView
         android:id="@+id/IDResponse"
@@ -136,9 +135,10 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt"
-        app:layout_constraintVertical_bias="0.050000012" />
+        app:layout_constraintVertical_bias="0.342" />
 
     <LinearLayout
         android:id="@+id/createSnack"
@@ -164,4 +164,16 @@
         app:layout_constraintStart_toEndOf="@+id/IDResponse"
         app:layout_constraintTop_toBottomOf="@+id/recyTln"
         app:layout_constraintVertical_bias="0.416" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Minuten sind geplant"
+        app:layout_constraintBottom_toBottomOf="@+id/minCreateMeetingDuration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toEndOf="@+id/minCreateMeetingDuration"
+        app:layout_constraintTop_toTopOf="@+id/minCreateMeetingDuration"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
