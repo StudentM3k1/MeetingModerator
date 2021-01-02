@@ -17,13 +17,18 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
 
 
+import java.io.IOException;
+
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
+import de.iubh.meetingmoderatorapp.controller.Callback;
 import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.model.AgendaPoint;
 import de.iubh.meetingmoderatorapp.model.Meeting;
+import okhttp3.Call;
+import okhttp3.Response;
 
-public class Act_ModAtMeeting  extends AppCompatActivity {
+public class Act_ModAtMeeting  extends AppCompatActivity implements Callback {
     Meeting m = null;
     AgendaPoint curAp = null;
     String meetingID;
@@ -120,5 +125,15 @@ public class Act_ModAtMeeting  extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) {
+        
+    }
+
+    @Override
+    public void onFailure(Call call, IOException e) {
+
     }
 }

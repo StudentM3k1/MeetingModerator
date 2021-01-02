@@ -7,9 +7,6 @@ import okhttp3.Response;
 
 public interface Callback {
 
-    //Override
-    //public void onFailure(Call call, IOException e) {    }
-
-    //@Override
-    //public void onResponse(Call call, Response response){    }
+    public void onResponse(Call call, Response response);
+    public void onFailure(Call call, IOException e);
 }

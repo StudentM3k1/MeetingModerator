@@ -36,7 +36,8 @@ public class HTTPClient {
     Object o = new Object();
 
 
-    public String getResponseBody() {
+    public String getResponseBody()
+    {
         return responseBody;
     }
 
@@ -45,14 +46,16 @@ public class HTTPClient {
         return responseReceived;
     }
 
-    public int getResponseCode() throws  Exception{
+    public int getResponseCode() throws  Exception
+    {
         if(responseCode == 0) {
             throw new Exception();
         }
         else return responseCode;
     }
 
-    Callback resCallback = new Callback() {
+    Callback resCallback = new Callback()
+     {
         @Override
         public void onFailure(Call call, IOException e) {
             e.printStackTrace();
