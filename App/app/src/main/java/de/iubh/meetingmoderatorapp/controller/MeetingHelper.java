@@ -32,11 +32,6 @@ public class MeetingHelper {
         client.getModSync(meetingID, sender);
     }
 
-    public static void getLastChangeMod(String meetingID, Object sender) {
-        HTTPClient client = new HTTPClient();
-        client.getModChange(meetingID, sender);
-    }
-
     public static void nextAgendapointMod(String meetingID, Object sender) {
         HTTPClient client = new HTTPClient();
         client.postNextModerator(meetingID, sender);
@@ -52,7 +47,6 @@ public class MeetingHelper {
         client.getUserState(meetingID, sender);
     }
 
-
     public static void startMeeting(String meetingID, Object sender) {
         HTTPClient client = new HTTPClient();
         client.postStartModerator(meetingID, sender);
@@ -60,7 +54,7 @@ public class MeetingHelper {
 
     public static void nextAgendapointUser(String meetingID, Object sender) {
         HTTPClient client = new HTTPClient();
-        client.getUserState(meetingID, sender);
+        client.postNextUser(meetingID, sender);
     }
 
     public static void syncUser(String meetingID, Object sender) {

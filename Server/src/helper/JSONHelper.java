@@ -167,6 +167,7 @@ public class JSONHelper {
 		jsonobj.put("availableTime", agendaPoint.getAvailableTime());
 		jsonobj.put("status", AgendaPointStatus.getInt(agendaPoint.getStatus()));
 		jsonobj.put("sort", agendaPoint.getSort());
+		jsonobj.put("runningTime", agendaPoint.getRunningTime());
 		
 		JSONObject participant = new JSONObject();
 		JSONObject user = new JSONObject();
@@ -192,6 +193,7 @@ public class JSONHelper {
 		agendaPoint.setAvailableTime(json_agendaPoint.getLong("availableTime"));
 		agendaPoint.setStatus(AgendaPointStatus.getAgendaPointStatus(json_agendaPoint.getInt("status")));
 		agendaPoint.setSort(json_agendaPoint.getLong("sort"));
+		agendaPoint.setRunningTime(json_agendaPoint.getLong("runningTime"));
 		
 		User user = new User();
 		Participant participant = new Participant();

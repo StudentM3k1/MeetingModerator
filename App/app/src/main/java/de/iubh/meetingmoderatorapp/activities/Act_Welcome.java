@@ -27,7 +27,7 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public class Act_Welcome extends AppCompatActivity implements CallbackHandler {
-    TextView surname;
+    TextView firstname;
     TextView lastname;
     Meeting m;
     String meetingID;
@@ -80,12 +80,10 @@ public class Act_Welcome extends AppCompatActivity implements CallbackHandler {
                         // clickable RecyclerViewContent
                         tlnAdapter.setOnItemClickListener(pos -> {
                             Intent i = (new Intent(Act_Welcome.this, Act_PartiAtMeeting.class));
-                            //  String json = mh.getMeetingString(meetingID, sbView);
-                            surname = findViewById(R.id.txtWelcSur);
+                            firstname = findViewById(R.id.txtWelcSur);
                             lastname = findViewById(R.id.txtWelcLast);
                             i.putExtra("meetingID", meetingID);
-                            // i.putExtra("JSON", json);
-                            i.putExtra("surname", surname.getText().toString());
+                            i.putExtra("firstname", firstname.getText().toString());
                             i.putExtra("lastname", lastname.getText().toString());
                             startActivity(i);
                         });

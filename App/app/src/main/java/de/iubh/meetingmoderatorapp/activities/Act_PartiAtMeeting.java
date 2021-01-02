@@ -32,14 +32,15 @@ import okhttp3.Response;
 public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHandler {
     Meeting m = new Meeting();
     AgendaPoint curAp = null;
-    String surname;
+    String firstname;
     String lastname;
     String meetingID;
     long passedTime;
     LocalDateTime lastLocalChange;
     LocalDateTime lastServerChange;
-    boolean runMeeting = false;
     View sbView;
+    boolean runningMeeting = false;
+    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +52,17 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             meetingID = extras.getString("meetingID");
-            surname = extras.getString("surname");
+            firstname = extras.getString("firstname");
             lastname = extras.getString("lastname");
         }
-        MeetingHelper.getMeetingUser(meetingID, this);
 
-        // nächster Agendapunkt/ Teilnehmer
-        Button btnEndSpeak = findViewById(R.id.btnPartiSprechenBeenden);
-        btnEndSpeak.setOnClickListener(v -> {
+        btnNext = findViewById(R.id.btnPartiSprechenBeenden);
+        btnNext.setOnClickListener(v -> {
             MeetingHelper.nextAgendapointUser(meetingID, this);
         });
+
+        MeetingHelper.getMeetingUser(meetingID, this);
+
     }
 
     public void onFailureCallback(Call call, IOException e) {
@@ -68,21 +70,21 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
             case "GetMeetingUser":
                 Snackbar.make(
                         sbView,
-                        "Meeting Update konte nicht geladen werden",
+                        "Meeting Update konnte nicht geladen werden",
                         Snackbar.LENGTH_LONG)
                         .show();
                 break;
             case "GetChangeUser":
                 Snackbar.make(
                         sbView,
-                        "ServerChangeReq fehlgeschlagen",
+                        "ServerChangeRequest fehlgeschlagen",
                         Snackbar.LENGTH_LONG)
                         .show();
                 break;
             case "GetStateUser":
                 Snackbar.make(
                         sbView,
-                        "neuer Agenapunkt konte nicht geladen werden",
+                        "Neuer Agenapunkt konte nicht geladen werden",
                         Snackbar.LENGTH_LONG)
                         .show();
                 break;
@@ -96,15 +98,13 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
             case "NextUser":
                 Snackbar.make(
                         sbView,
-                        "nächster Agendapunkt nicht möglich",
+                        "Nächster Agendapunkt nicht möglich",
                         Snackbar.LENGTH_LONG)
                         .show();
                 break;
             default:
                 break;
         }
-
-
     }
 
     public void onResponseCallback(Call call, Response response) {
@@ -113,9 +113,6 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
                 case "GetMeetingUser":
                     joinMeeting(call, response);
                     break;
-                case "GetChangeUser":
-                    changeMeeting(call, response);
-                    break;
                 case "GetStateUser":
                     stateMeeting(call, response);
                     break;
@@ -123,7 +120,6 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
                     syncMeeting(call, response);
                     break;
                 case "NextUser":
-                    nextMeeting(call, response);
                     break;
                 default:
                     break;
@@ -137,72 +133,67 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            TextView verbleibendeGesamtzeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
-            verbleibendeGesamtzeit.setText(String.valueOf(passedTime));
-            passedTime++;
-            timerHandler.postDelayed(this, 1000);
+            MeetingHelper.syncUser(meetingID, Act_PartiAtMeeting.this);
         }
     };
-
 
     Handler agendaTimerHandler = new Handler();
     Runnable agendaTimerRunnable = new Runnable() {
         @Override
         public void run() {
-            if (curAp != null) {
-                TextView tv_sprechzeit = findViewById(R.id.txtVerbleibendeAPZeit);
-                String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
-                        "\nVerbleibende Sprechzeit: " + (curAp.getAvailableTime() - curAp.getRunningTime());
-                tv_sprechzeit.setText(string_sprecher);
-                curAp.setRunningTime(curAp.getRunningTime() + 1);
-            }
-            agendaTimerHandler.postDelayed(this, 1000);
+            MeetingHelper.getAgendapointUser(meetingID, Act_PartiAtMeeting.this);
         }
     };
 
     private void syncMeeting(Call call, Response response) {
         try {
             passedTime = JSONHelper.JSONToSync(response.body().string());
+            TextView verbleibendeGesamtzeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
+            verbleibendeGesamtzeit.setText(String.valueOf(passedTime));
         } catch (Exception e) {
-            passedTime = 0;
             onFailureCallback(call, new IOException());
         }
-        timerHandler.post(timerRunnable);
-        agendaTimerHandler.post(agendaTimerRunnable);
+        if (runningMeeting == true) {
+            timerHandler.postDelayed(timerRunnable, 500);
+        }
     }
 
     private void stateMeeting(Call call, Response response) {
         try {
-            curAp = JSONHelper.JSONToState(response.body().string());
+            String body = response.body().string();
+            curAp = JSONHelper.JSONToState(body);
             if (curAp.getId() == 0) {
-                runMeeting = false;
+                runningMeeting = false;
+                Intent i = new Intent(Act_PartiAtMeeting.this, Act_MeetingBeendet.class);
+                startActivity(i);
             } else {
-                TextView aktuAP = findViewById(R.id.aktuAPParti);
-                aktuAP.setText(curAp.getTitle());
-                TextView aktuSprecher = findViewById(R.id.txtAktuSprecher);
-                aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView aktuAP = findViewById(R.id.aktuAPParti);
+                        aktuAP.setText(curAp.getTitle());
+                        TextView aktuSprecher = findViewById(R.id.txtAktuSprecher);
+                        aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
+                        TextView tv_sprechzeit = findViewById(R.id.txtPartiSprechzeit);
+                        String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
+                                "\nVerbleibende Sprechzeit: " + (curAp.getAvailableTime() - curAp.getRunningTime());
+                        tv_sprechzeit.setText(string_sprecher);
+                    }
+                });
+
+                if (firstname.equals(curAp.getActualSpeaker().getUser().getFirstname()) && lastname.equals(curAp.getActualSpeaker().getUser().getLastname())) {
+                    btnNext.setVisibility(View.VISIBLE);
+                } else {
+                    btnNext.setVisibility(View.INVISIBLE);
+                }
             }
         } catch (Exception e) {
             onFailureCallback(call, new IOException());
+        } finally {
+            if (runningMeeting == true) {
+                agendaTimerHandler.postDelayed(agendaTimerRunnable, 500);
+            }
         }
-    }
-
-    private void changeMeeting(Call call, Response response) {
-        LocalDateTime lastServerChange = null;
-        try {
-            lastServerChange = JSONHelper.JSONToLastChange(response.body().string());
-        } catch (Exception e) {
-            onFailureCallback(call, new IOException());
-        }
-
-        if (lastServerChange != lastLocalChange) {
-            MeetingHelper.getAgendapointUser(meetingID, this);
-            lastLocalChange = lastServerChange;
-        }
-    }
-
-    private void nextMeeting(Call call, Response response) {
-        MeetingHelper.getLastChangeUser(meetingID, this);
     }
 
     private void joinMeeting(Call call, Response response) {
@@ -215,7 +206,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
                     TextView meetingTitle = findViewById(R.id.txtMeetingTitle);
                     meetingTitle.setText(m.getSettings().getMeetingTitle());
                     TextView partiGruss = findViewById(R.id.txtPartiGruss);
-                    partiGruss.setText("Hallo " + surname + " " + lastname + ", willkommen im Meeting.");
+                    partiGruss.setText("Hallo " + firstname + " " + lastname + ", willkommen im Meeting.");
 
                     // Aufbau RecyclerView
                     AgendaPointAdapter apAdapter;
@@ -229,26 +220,14 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
                     recyAP.setAdapter(apAdapter);
                 }
             });
-            runMeeting = true;
 
+            runningMeeting = true;
             lastLocalChange = LocalDateTime.now(ZoneId.systemDefault());
+            timerHandler.post(timerRunnable);
+            agendaTimerHandler.post(agendaTimerRunnable);
 
-            //1. SYNC
-            // verbleibende Gesamtzeit anzeigen und runter zählen
             MeetingHelper.syncMod(meetingID, this);
             MeetingHelper.getAgendapointMod(meetingID, this);
-
-            while (runMeeting) {
-                MeetingHelper.getLastChangeMod(meetingID, this);
-                try {
-                    wait(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            Intent i = new Intent(Act_PartiAtMeeting.this, Act_MeetingBeendet.class);
-            startActivity(i);
 
         } catch (Exception e) {
             onFailureCallback(call, new IOException());
