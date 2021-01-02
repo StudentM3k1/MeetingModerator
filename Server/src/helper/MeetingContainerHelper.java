@@ -37,18 +37,24 @@ public class MeetingContainerHelper {
 			if (meetingContainer.getMeeting().getId() == id) {
 				meetingContainer.increaseCurrentAccess();
 				meetingContainer.setTimeStamp();
-				meetings.add(meetingContainer);
 				return meetingContainer.getMeeting();
 			}
 		}
+		
 		if (dbService == null)
 			dbService = DatenbankService.getInstance();
 
-		MeetingContainer newMeetingContainer = new MeetingContainer(dbService.getMeeting(id));
-		newMeetingContainer.increaseCurrentAccess();
-		newMeetingContainer.setTimeStamp();
-		meetings.add(newMeetingContainer);
-		return newMeetingContainer.getMeeting();
+		Meeting newMeeting = null;
+		newMeeting = dbService.getMeeting(id);
+		if (newMeeting != null) {
+			MeetingContainer newMeetingContainer = new MeetingContainer(newMeeting);
+			newMeetingContainer.increaseCurrentAccess();
+			newMeetingContainer.setTimeStamp();
+			meetings.add(newMeetingContainer);
+			return newMeetingContainer.getMeeting();
+		} else {
+			throw new Exception("Meeting nicht vorhanden");
+		}
 	}
 
 	public static void releaseMeeting(long id) throws Exception {
@@ -81,25 +87,25 @@ public class MeetingContainerHelper {
 			dbService = DatenbankService.getInstance();
 		}
 
-		dbService.saveTeilnehmer(meetingContainer.getAddedParticipants(), 
-				meetingContainer.getRemovedParticipants(), meetingContainer.getMeeting().getId());
-		dbService.saveAgenda(meetingContainer.getAddedAgendaPoint(),
-				meetingContainer.getRemovedAgendaPoints(), meetingContainer.getMeeting().getId());
+		dbService.saveTeilnehmer(meetingContainer.getAddedParticipants(), meetingContainer.getRemovedParticipants(),
+				meetingContainer.getMeeting().getId());
+		dbService.saveAgenda(meetingContainer.getAddedAgendaPoint(), meetingContainer.getRemovedAgendaPoints(),
+				meetingContainer.getMeeting().getId());
 		dbService.setMeetingStatus(meetingContainer.getMeeting().getId(),
 				meetingContainer.getMeeting().getMeetingStatus());
 		for (AgendaPoint agendaPoint : meetingContainer.getMeeting().getAgenda().getAgendaPoints()) {
 			dbService.setAgendaStatus(agendaPoint.getId(), agendaPoint.getStatus());
 		}
-		
+
 		meetingContainer.clearLists();
 	}
-	
+
 	public static void forceReload(MeetingContainer meetingContainer) throws Exception {
 		if (dbService == null) {
 			dbService = DatenbankService.getInstance();
 		}
 
 		writeToDataBase(meetingContainer);
- 		meetingContainer.setMeeting(dbService.getMeeting(meetingContainer.getMeeting().getId()));
+		meetingContainer.setMeeting(dbService.getMeeting(meetingContainer.getMeeting().getId()));
 	}
 }

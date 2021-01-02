@@ -93,6 +93,7 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
                 } else {
                     if (m.getMeetingStatus() != MeetingStatus.Running) {
                         Snackbar.make(sbView, "Meeting wurde noch nicht gestartet.", Snackbar.LENGTH_LONG).show();
+                        isModerator = true;
                     } else {
                         i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
                         i.putExtra("meetingID", id);
