@@ -6,7 +6,13 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import java.io.IOException;
+
 import de.iubh.meetingmoderatorapp.R;
+import de.iubh.meetingmoderatorapp.controller.CallbackHandler;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class Act_MeetingBeendet extends AppCompatActivity {
 

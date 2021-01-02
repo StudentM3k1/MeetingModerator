@@ -27,163 +27,170 @@ public class HTTPClient {
     //static final String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
     static final String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    OkHttpClient client = new OkHttpClient();
-
-    private String responseBody = "";
-    private int responseCode = 0;
-    private boolean responseReceived = false;
-
-    Object o = new Object();
+    OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+                                                    .writeTimeout(10, TimeUnit.SECONDS)
+                                                    .readTimeout(10, TimeUnit.SECONDS)
+                                                    .build();
+    Object sender = null;
 
 
-    public String getResponseBody()
-    {
-        return responseBody;
-    }
-
-    public boolean getResponseReceived()
-    {
-        return responseReceived;
-    }
-
-    public int getResponseCode() throws  Exception
-    {
-        if(responseCode == 0) {
-            throw new Exception();
-        }
-        else return responseCode;
-    }
-
-    Callback resCallback = new Callback()
-     {
+    Callback callback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
             e.printStackTrace();
-            responseCode = 410;
-            responseReceived = true;
+            if (sender != null) {
+                ((CallbackHandler) sender).onFailureCallback(call, e);
+                sender = null;
+            }
         }
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            responseBody = response.body().string();
-            responseCode = response.code();
-            responseReceived = true;
+            if (sender != null)
+            {
+                ((CallbackHandler)sender).onResponseCallback(call, response);
+                sender = null;
+            }
         }
     };
 
+    Object o = new Object();
+
     // POST Meeting to create
-    public void postMeeting(String json) {
-        responseReceived = false;
+    public void postMeeting(String json, Object sender) {
+        this.sender = sender;
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
+                .tag("CreateMeeting")
                 .url(URL)
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // GET Meeting per ID
-    public void getMeeting(String url) {
+    public void getMeeting(String url, Object sender) {
+        this.sender = sender;
         Request request = new Request.Builder()
+                .tag("GetMeetingMod")
                 .url(URL +  "Moderator/" + url)
                 .get()
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // GET Meeting per ID
-    public void getMeetingUser(String url) {
+    public void getMeetingUser(String url, Object sender) {
+        this.sender = sender;
         Request request = new Request.Builder()
+                .tag("GetMeetingUser")
                 .url(URL +  "User/" + url)
                 .get()
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // GET Change for User
-    public void getUserChange(String id) {
+    public void getUserChange(String id, Object sender) {
+        this.sender = sender;
         Request request = new Request.Builder()
+                .tag("GetChangeUser")
                 .url(URL + "User/" + id + "/Change")
                 .get()
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // GET Change for Mod
-    public void getModChange(String id) {
+    public void getModChange(String id, Object sender) {
+        this.sender = sender;
         Request request = new Request.Builder()
+                .tag("GetChangeMod")
                 .url(URL + "Moderator/" + id + "/Change")
                 .get()
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
 
     // GET State for User
-    public void getUserState(String id) {
+    public void getUserState(String id, Object sender) {
+        this.sender = sender;
         Request request = new Request.Builder()
+                .tag("GetStateUser")
                 .url(URL + "User/" + id + "/State")
                 .get()
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // GET State for Mod
-    public void getModState(String id) {
+    public void getModState(String id, Object sender) {
+        this.sender = sender;
         Request request = new Request.Builder()
+                .tag("GetStateMod")
                 .url(URL + "Moderator/" + id + "/State")
                 .get()
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
 
     // GET Sync for User
-    public void getUserSync(String id) {
+    public void getUserSync(String id, Object sender) {
+        this.sender = sender;
         Request request = new Request.Builder()
+                .tag("GetSyncUser")
                 .url(URL + "User/" + id + "/Sync")
                 .get()
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // GET Sync for Mod
-    public void getModSync(String id) {
+    public void getModSync(String id, Object sender) {
+        this.sender = sender;
         Request request = new Request.Builder()
+                .tag("GetSyncMod")
                 .url(URL + "Moderator/" + id + "/Sync")
                 .get()
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // POST Moderator Start
-    public void postStartModerator(String json, String id) {
-        responseReceived = false;
-        RequestBody body = RequestBody.create(JSON, json);
+    public void postStartModerator(String id, Object sender) {
+        this.sender = sender;
+        RequestBody body = RequestBody.create(JSON, "");
         Request request = new Request.Builder()
+                .tag("StartMeeting")
                 .url(URL + "Moderator/" + id + "/Start")
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // POST Next User
-    public void postNextUser(String json, String id) {
-        RequestBody body = RequestBody.create(JSON, json);
+    public void postNextUser(String id, Object sender) {
+        this.sender = sender;
+        RequestBody body = RequestBody.create(JSON, "");
         Request request = new Request.Builder()
+                .tag("NextUser")
                 .url(URL + "User/" + id + "/Next")
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 
     // POST Moderator Next
-    public void postNextModerator(String json, String id) {
-        RequestBody body = RequestBody.create(JSON, json);
+    public void postNextModerator(String id, Object sender) {
+        this.sender = sender;
+        RequestBody body = RequestBody.create(JSON, "");
         Request request = new Request.Builder()
+                .tag("NextMod")
                 .url(URL + "Moderator/" + id + "/Next")
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(resCallback);
+        client.newCall(request).enqueue(callback);
     }
 }

@@ -10,14 +10,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 
+import java.io.IOException;
+
 import de.iubh.meetingmoderatorapp.R;
+import de.iubh.meetingmoderatorapp.controller.CallbackHandler;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 import de.iubh.meetingmoderatorapp.model.Participant;
 import de.iubh.meetingmoderatorapp.model.User;
 import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
+import okhttp3.Call;
+import okhttp3.Response;
 
-public class Act_addParticipant extends AppCompatActivity {
+public class Act_addParticipant extends AppCompatActivity implements CallbackHandler {
     private Meeting m = new Meeting();
 
     @Override
@@ -71,5 +76,26 @@ public class Act_addParticipant extends AppCompatActivity {
             }
             startActivity(i);
         });
+    }    public void onFailureCallback(Call call, IOException e)
+    {
+        switch (call.request().tag().toString())
+        {
+            case "":
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public void onResponseCallback(Call call, Response response)
+    {
+        switch (call.request().tag().toString())
+        {
+            case "":
+                break;
+            default:
+                break;
+        }
     }
 }

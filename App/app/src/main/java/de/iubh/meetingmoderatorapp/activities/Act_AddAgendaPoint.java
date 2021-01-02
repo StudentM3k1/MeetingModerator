@@ -11,13 +11,18 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.json.JSONException;
 
+import java.io.IOException;
+
 import de.iubh.meetingmoderatorapp.R;
+import de.iubh.meetingmoderatorapp.controller.CallbackHandler;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.model.AgendaPoint;
 import de.iubh.meetingmoderatorapp.model.Meeting;
 import de.iubh.meetingmoderatorapp.model.enumerations.AgendaPointStatus;
+import okhttp3.Call;
+import okhttp3.Response;
 
-public class Act_AddAgendaPoint  extends AppCompatActivity {
+public class Act_AddAgendaPoint  extends AppCompatActivity  {
 
     private Meeting m = new Meeting();
 
@@ -78,5 +83,27 @@ public class Act_AddAgendaPoint  extends AppCompatActivity {
         });
 
 
+    }
+    public void onFailureCallback(Call call, IOException e)
+    {
+        switch (call.request().tag().toString())
+        {
+            case "":
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public void onResponseCallback(Call call, Response response)
+    {
+        switch (call.request().tag().toString())
+        {
+            case "":
+                break;
+            default:
+                break;
+        }
     }
 }

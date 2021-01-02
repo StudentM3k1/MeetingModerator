@@ -51,7 +51,7 @@
         android:ems="10"
         android:hint="Bitte gib hier deine Meeting ID ein"
         android:inputType="text"
-        android:text="pL8095R89"
+        android:text="w33lQE5j6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
