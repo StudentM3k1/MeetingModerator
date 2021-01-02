@@ -91,10 +91,15 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
                     i.putExtra("meetingID", id);
                     startActivity(i);
                 } else {
-                    if (m.getMeetingStatus() != MeetingStatus.Running) {
+                    if (m.getMeetingStatus() == MeetingStatus.Planned) {
                         Snackbar.make(sbView, "Meeting wurde noch nicht gestartet.", Snackbar.LENGTH_LONG).show();
                         isModerator = true;
-                    } else {
+                    }
+                    else if (m.getMeetingStatus() == MeetingStatus.Done) {
+                        Snackbar.make(sbView, "Meeting wurde bereits beendet.", Snackbar.LENGTH_LONG).show();
+                        isModerator = true;
+                    }
+                    else {
                         i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
                         i.putExtra("meetingID", id);
                         startActivity(i);
