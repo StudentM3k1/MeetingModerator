@@ -173,17 +173,21 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
             TextView partiGruss = findViewById(R.id.txtModGruss);
             partiGruss.setText("Hallo " + surname + " " + lastname +", willkommen im Meeting.");
 
-            // Aufbau RecyclerView
-            AgendaPointAdapter apAdapter;
-            RecyclerView recyAP;
-            RecyclerView.LayoutManager apLayoutManger;
-            recyAP = findViewById(R.id.recyAPPartiAtMeeting);
-            recyAP.setHasFixedSize(true);
-            apLayoutManger = new LinearLayoutManager(this);
-            apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
-            recyAP.setLayoutManager(apLayoutManger);
-            recyAP.setAdapter(apAdapter);
-            runMeeting = true;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Aufbau RecyclerView
+                    AgendaPointAdapter apAdapter;
+                    RecyclerView recyAP;
+                    RecyclerView.LayoutManager apLayoutManger;
+                    recyAP = findViewById(R.id.recyAPPartiAtMeeting);
+                    recyAP.setHasFixedSize(true);
+                    apLayoutManger = new LinearLayoutManager(Act_PartiAtMeeting.this);
+                    apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
+                    recyAP.setLayoutManager(apLayoutManger);
+                    recyAP.setAdapter(apAdapter);
+                    runMeeting = true;
+                }});
 
             lastLocalChange = LocalDateTime.now(ZoneId.systemDefault());
 

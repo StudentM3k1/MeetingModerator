@@ -63,6 +63,7 @@ public class Act_Welcome extends AppCompatActivity implements CallbackHandler {
         if (response.code() == 200) {
             // Aufbau RecyclerView Participants
             if (m != null) {
+
                 RecyclerView recyTLN = findViewById(R.id.recyTeilnehmerliste);
                 TeilnehmerAdapter tlnAdapter;
                 RecyclerView.LayoutManager tlnLayoutManger;
