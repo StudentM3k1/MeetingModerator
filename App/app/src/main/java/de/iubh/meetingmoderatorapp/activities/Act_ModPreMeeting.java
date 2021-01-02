@@ -10,19 +10,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 
+import java.io.IOException;
+
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.AgendaPointAdapter;
+import de.iubh.meetingmoderatorapp.controller.CallbackHandler;
+import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
+import okhttp3.Call;
+import okhttp3.Response;
 
-public class Act_ModPreMeeting extends AppCompatActivity {
+public class Act_ModPreMeeting extends AppCompatActivity implements CallbackHandler {
     private String meetingID;
-    private Meeting m = null;
-
+    View sbView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,57 +36,90 @@ public class Act_ModPreMeeting extends AppCompatActivity {
         setContentView(R.layout.act_mod_pre_meeting);
         AndroidThreeTen.init(this);
 
-        MeetingHelper mh = new MeetingHelper();
-        View sbView = findViewById(R.id.modPreSnack);
+        sbView = findViewById(R.id.modPreSnack);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             meetingID = extras.getString("meetingID");
         }
 
-        m = mh.getMeetingMod(meetingID, sbView);
+        MeetingHelper.getMeetingMod(meetingID, this);
 
-        TextView meetingTitle = findViewById(R.id.txtPreMeetingTitle);
-        meetingTitle.setText(m.getSettings().getMeetingTitle());
-        TextView gesamtZeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
-        //gesamtZeit.setText(Long.toString(m.getSettings().getDuration()));
-        TextView txtModAktuSprecher = findViewById(R.id.txtModPreOrt);
-        txtModAktuSprecher.setText(m.getOrt());
-
-
-        // Aufbau RecyView AgendaPoint
-        RecyclerView recyAP = findViewById(R.id.recyApPreMeetingMod);
-        AgendaPointAdapter apAdapter;
-        RecyclerView.LayoutManager apLayoutManger;
-        recyAP.setHasFixedSize(true);
-        apLayoutManger = new LinearLayoutManager(this);
-        apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
-        recyAP.setLayoutManager(apLayoutManger);
-        recyAP.setAdapter(apAdapter);
-
-
-        // Aufbau RecyView Participant
-        RecyclerView recyTLN = findViewById(R.id.recyAPPartiAtMeeting);
-        TeilnehmerAdapter tlnAdapter;
-        RecyclerView.LayoutManager tlnLayoutManger;
-        recyTLN.setHasFixedSize(true);
-        tlnLayoutManger = new LinearLayoutManager(this);
-        tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
-        recyTLN.setLayoutManager(tlnLayoutManger);
-        recyTLN.setAdapter(tlnAdapter);
-
-        // Button geändertes Meeting speichern
-
-
-        Button btnStartMeeting = findViewById(R.id.btnStartMeetingMod);
-        btnStartMeeting.setOnClickListener(v -> {
-            Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
-            i.putExtra("meetingID", meetingID);
-
-            // check meetng start response code
-            mh.startMeetingMod(m, meetingID, sbView);
-            startActivity(i);
+        findViewById(R.id.btnStartMeetingMod).setOnClickListener(v -> {
+            MeetingHelper.startMeeting(meetingID, this);
         });
+    }
+
+    public void onFailureCallback(Call call, IOException e) {
+        switch (call.request().tag().toString()) {
+            case "StartMeeting":
+                Snackbar.make(
+                        sbView,
+                        "Meeting kann nicht gestartet werden",
+                        Snackbar.LENGTH_LONG)
+                        .show();
+            case "GetMeetingMod":
+                Snackbar.make(
+                        sbView,
+                        "Meeting kann nicht geladen werden",
+                        Snackbar.LENGTH_LONG)
+                        .show();
+            default:
+                break;
         }
     }
 
+    public void onResponseCallback(Call call, Response response) {
+        if (response.code() == 200) {
+            switch (call.request().tag().toString()) {
+                case "StartMeeting":
+                    Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
+                    i.putExtra("meetingID", meetingID);
+                    startActivity(i);
+                    break;
+                case "GetMeetingMod":
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Meeting m = null;
+                            try {
+                                m = JSONHelper.JSONToMeeting(response.body().string());
+                            } catch (Exception e) {
+                                onFailureCallback(call, new IOException());
+                            }
+                            TextView meetingTitle = findViewById(R.id.txtPreMeetingTitle);
+                            meetingTitle.setText(m.getSettings().getMeetingTitle());
+                            TextView gesamtZeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
+                            //gesamtZeit.setText(Long.toString(m.getSettings().getDuration()));
+                            TextView txtModAktuSprecher = findViewById(R.id.txtModPreOrt);
+                            txtModAktuSprecher.setText(m.getOrt());
+
+                            // Aufbau RecyView AgendaPoint
+                            RecyclerView recyAP = findViewById(R.id.recyApPreMeetingMod);
+                            AgendaPointAdapter apAdapter;
+                            RecyclerView.LayoutManager apLayoutManger;
+                            recyAP.setHasFixedSize(true);
+
+                            apLayoutManger = new LinearLayoutManager(Act_ModPreMeeting.this);
+                            apAdapter = new AgendaPointAdapter(m.getAgenda().getAgendaPoints());
+                            recyAP.setLayoutManager(apLayoutManger);
+                            recyAP.setAdapter(apAdapter);
+
+                            // Aufbau RecyView Participant
+                            RecyclerView recyTLN = findViewById(R.id.recyAPPartiAtMeeting);
+                            TeilnehmerAdapter tlnAdapter;
+                            RecyclerView.LayoutManager tlnLayoutManger;
+                            recyTLN.setHasFixedSize(true);
+                            tlnLayoutManger = new LinearLayoutManager(Act_ModPreMeeting.this);
+                            tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
+                            recyTLN.setLayoutManager(tlnLayoutManger);
+                            recyTLN.setAdapter(tlnAdapter);
+                        }
+                    });
+                    break;
+            }
+        } else {
+            onFailureCallback(call, new IOException());
+        }
+    }
+}
