@@ -93,9 +93,10 @@
         android:id="@+id/recyAPUserAtMeeting"
         android:layout_width="396dp"
         android:layout_height="318dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@+id/btnPartiSprechenBeenden"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
