@@ -25,9 +25,9 @@ public class HTTPClient {
     static final String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
     //static final String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-                                                    .writeTimeout(10, TimeUnit.SECONDS)
-                                                    .readTimeout(10, TimeUnit.SECONDS)
+    OkHttpClient client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.SECONDS)
+                                                    .writeTimeout(2, TimeUnit.SECONDS)
+                                                    .readTimeout(2, TimeUnit.SECONDS)
                                                     .build();
     Object sender = null;
 

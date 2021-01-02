@@ -28,13 +28,24 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     String id;
     boolean isModerator = true;
 
+
+    /* todo
+    *  Activities schön machen
+    *  evtl. Ping bei start
+    *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
+    *  Textfelder anpassen
+    *  Moderator Activity -> Daten erfassen
+    *  Datum in Deutsch
+    *  Zeiten in HH:MM:SS
+    *  1,0 kassieren
+    */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_id_eingabe);
         AndroidThreeTen.init(this);
 
-        MeetingHelper mh = new MeetingHelper();
         EditText meetingID = findViewById(R.id.txtMeetingID);
         sbView = findViewById(R.id.idSnack);
 
@@ -87,17 +98,16 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
             Intent i;
             if (m != null) {
                 if (isModerator) {
-                    i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
+                     i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
                     i.putExtra("meetingID", id);
                     startActivity(i);
                 } else {
+                    isModerator = true;
                     if (m.getMeetingStatus() == MeetingStatus.Planned) {
                         Snackbar.make(sbView, "Meeting wurde noch nicht gestartet.", Snackbar.LENGTH_LONG).show();
-                        isModerator = true;
                     }
                     else if (m.getMeetingStatus() == MeetingStatus.Done) {
                         Snackbar.make(sbView, "Meeting wurde bereits beendet.", Snackbar.LENGTH_LONG).show();
-                        isModerator = true;
                     }
                     else {
                         i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));

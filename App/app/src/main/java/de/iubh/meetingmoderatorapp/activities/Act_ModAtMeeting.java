@@ -38,8 +38,8 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
     String meetingID;
     long passedTime;
     LocalDateTime lastLocalChange;
-    boolean runMeeting = false;
     View sbView;
+    boolean runningMeeting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +111,6 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
                 case "GetMeetingMod":
                     startMeeting(call, response);
                     break;
-                case "GetChangeMod":
-                    changeMeeting(call, response);
-                    break;
                 case "GetStateMod":
                     stateMeeting(call, response);
                     break;
@@ -121,7 +118,6 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
                     syncMeeting(call, response);
                     break;
                 case "NextMod":
-                    nextMeeting(call, response);
                     break;
                 default:
                     break;
@@ -132,86 +128,65 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
     }
 
     Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable()
-    {
+    Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            TextView verbleibendeGesamtzeit = findViewById(R.id.txtModVerbleibendeGesamtzeit);
-            verbleibendeGesamtzeit.setText(String.valueOf(passedTime));
-            passedTime++;
-            timerHandler.postDelayed(this, 1000);
+            MeetingHelper.syncMod(meetingID,Act_ModAtMeeting.this);
         }
     };
 
-
     Handler agendaTimerHandler = new Handler();
-    Runnable agendaTimerRunnable = new Runnable()
-    {
+    Runnable agendaTimerRunnable = new Runnable() {
         @Override
         public void run() {
-            if (curAp != null) {
-            TextView tv_sprechzeit = findViewById(R.id.txtModSprechzeit);
-            String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " +  curAp.getActualSpeaker().getUser().getLastname() +
-                                     "\nVerbleibende Sprechzeit: " +  (curAp.getAvailableTime() - curAp.getRunningTime());
-                tv_sprechzeit.setText(string_sprecher);
-                curAp.setRunningTime(curAp.getRunningTime() + 1);
-            }
-            agendaTimerHandler.postDelayed(this, 1000);
+            MeetingHelper.getAgendapointMod(meetingID, Act_ModAtMeeting.this);
         }
     };
 
     private void syncMeeting(Call call, Response response) {
         try {
             passedTime = JSONHelper.JSONToSync(response.body().string());
+            TextView verbleibendeGesamtzeit = findViewById(R.id.txtModVerbleibendeGesamtzeit);
+            verbleibendeGesamtzeit.setText(Long.toString(passedTime));
+        } catch (Exception e) {
+            onFailureCallback(call, new IOException());
+        } finally {
+            if (runningMeeting == true) {
+                timerHandler.postDelayed(timerRunnable, 500);
+            }
         }
-        catch (Exception e)
-        {
-            passedTime = 0;
-            onFailureCallback( call, new IOException());
-        }
-        timerHandler.post(timerRunnable);
-        agendaTimerHandler.post(agendaTimerRunnable);
     }
 
     private void stateMeeting(Call call, Response response) {
         try {
-            curAp = JSONHelper.JSONToState(response.body().string());
+            String body = response.body().string();
+            curAp = JSONHelper.JSONToState(body);
             if (curAp.getId() == 0) {
-                runMeeting = false;
+                runningMeeting = false;
+                Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
+                startActivity(i);
             } else {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                TextView aktuAP = findViewById(R.id.txtAktuAPMod);
-                aktuAP.setText(curAp.getTitle());
-                TextView aktuSprecher = findViewById(R.id.txtModPreOrt);
-                aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
+                        TextView aktuAP = findViewById(R.id.txtAktuAPMod);
+                        aktuAP.setText(curAp.getTitle());
+                        TextView aktuSprecher = findViewById(R.id.txtModPreOrt);
+                        aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
+                        TextView tv_sprechzeit = findViewById(R.id.txtModSprechzeit);
+                        String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
+                                "\nVerbleibende Sprechzeit: " + (curAp.getAvailableTime() - curAp.getRunningTime());
+                        tv_sprechzeit.setText(string_sprecher);
                     }
                 });
             }
         } catch (Exception e) {
             onFailureCallback(call, new IOException());
+        } finally {
+            if (runningMeeting == true) {
+                agendaTimerHandler.postDelayed(agendaTimerRunnable, 500);
+            }
         }
-    }
-
-    private void changeMeeting(Call call, Response response) {
-        LocalDateTime lastServerChange = null;
-        try {
-            lastServerChange = JSONHelper.JSONToLastChange(response.body().string());
-        } catch (Exception e) {
-            onFailureCallback(call, new IOException());
-        }
-
-        if (lastServerChange.getHour() != lastLocalChange.getHour() ||
-                lastServerChange.getMinute() != lastLocalChange.getMinute() ||
-                lastServerChange.getSecond() != lastLocalChange.getSecond() ) {
-            MeetingHelper.getAgendapointMod(meetingID, this);
-            lastLocalChange = lastServerChange;
-        }
-    }
-
-    private void nextMeeting(Call call, Response response) {
-        MeetingHelper.getLastChangeMod(meetingID, this);
     }
 
     private void startMeeting(Call call, Response response) {
@@ -238,26 +213,14 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
                     recyAP.setAdapter(apAdapter);
                 }
             });
-
-            runMeeting = true;
-
+            runningMeeting =true;
             lastLocalChange = LocalDateTime.now(ZoneId.systemDefault());
-
+            timerHandler.post(timerRunnable);
+            agendaTimerHandler.post(agendaTimerRunnable);
             MeetingHelper.syncMod(meetingID, this);
             MeetingHelper.getAgendapointMod(meetingID, this);
 
-            while (runMeeting) {
-                MeetingHelper.getLastChangeMod(meetingID, this);
-                try {
-                    sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            Intent i = new Intent(Act_ModAtMeeting.this, Act_MeetingBeendet.class);
-            startActivity(i);
-
-        } catch (Exception e) {
+           } catch (Exception e) {
             onFailureCallback(call, new IOException());
         }
     }

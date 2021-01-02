@@ -63,20 +63,6 @@
         app:layout_constraintStart_toStartOf="@+id/txtMeetingTitle"
         app:layout_constraintTop_toBottomOf="@+id/txtMeetingTitle" />
 
-    <TextView
-        android:id="@+id/txtVerbleibendeAPZeit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Restzeit AP"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/txtVerbleibendeGesamtzeit"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/txtVerbleibendeGesamtzeit"
-        app:layout_constraintTop_toBottomOf="@+id/txtVerbleibendeGesamtzeit" />
-
     <Button
         android:id="@+id/btnPartiSprechenBeenden"
         android:layout_width="match_parent"
@@ -116,8 +102,8 @@
 
     <TextView
         android:id="@+id/txtPartiSprechzeit"
-        android:layout_width="365dp"
-        android:layout_height="16dp"
+        android:layout_width="367dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="36dp"
         android:text="Du bist mit Sprechen dran, Deine übrige Zeit ist: 0000 Minuten"
         android:textColor="@color/design_default_color_primary_variant"
