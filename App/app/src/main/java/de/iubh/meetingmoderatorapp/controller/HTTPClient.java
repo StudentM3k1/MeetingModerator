@@ -24,14 +24,17 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HTTPClient {
-    static final String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
-    //static final String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
+    //static final String URL="http://meetingmoderator.me/MeetingModeratorServer/Meeting/";
+    static final String URL ="http:10.0.2.2:8080/MeetingModeratorServer/Meeting/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
     private String responseBody = "";
     private int responseCode = 0;
     private boolean responseReceived = false;
+
+    Object o = new Object();
+
 
     public String getResponseBody() {
         return responseBody;

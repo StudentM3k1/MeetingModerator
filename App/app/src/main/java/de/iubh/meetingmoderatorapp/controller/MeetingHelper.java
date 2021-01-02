@@ -185,7 +185,6 @@ public class MeetingHelper {
                         Snackbar.LENGTH_LONG)
                         .show();
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -70,15 +70,13 @@ public class Act_ModPreMeeting extends AppCompatActivity {
         recyTLN.setAdapter(tlnAdapter);
 
         // Button geändertes Meeting speichern
-
-
         Button btnStartMeeting = findViewById(R.id.btnStartMeetingMod);
         btnStartMeeting.setOnClickListener(v -> {
+            // check meeting start response code findet in meetingHelperMethode statt
+            mh.startMeetingMod(m, meetingID, sbView);
+
             Intent i = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
             i.putExtra("meetingID", meetingID);
-
-            // check meetng start response code
-            mh.startMeetingMod(m, meetingID, sbView);
             startActivity(i);
         });
         }

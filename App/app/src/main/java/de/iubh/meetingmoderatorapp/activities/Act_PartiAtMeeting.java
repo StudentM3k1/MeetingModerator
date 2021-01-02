@@ -123,6 +123,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity {
             }
 
             //3. CHANGE
+            lastServerChange = mh.getLastChangeUser(meetingID, sbView);
             if (lastServerChange != lastLocalChange) {
                 curAp = mh.getAgendapointUser(meetingID, sbView);
                 lastLocalChange = lastServerChange;
