@@ -129,7 +129,15 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                     m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
                     m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
                     m.setOrt(ort.getText().toString());
-                    MeetingHelper.createMeeting(m,this);
+                    if (m.getAgenda().getAgendaPoints().size() == 0) {
+                        Snackbar.make(sbView, "Es muss mindestens ein Agendapunkt angegeben werden!", Snackbar.LENGTH_LONG).show();
+                    } else if (m.getParticipants().size() == 0) {
+                        Snackbar.make(sbView, "Es muss mindestens ein Teilnehmer am Meeting teilnehmen!", Snackbar.LENGTH_LONG).show();
+                    } else if (m.getSettings().getDuration() <= 60) {
+                        Snackbar.make(sbView, "Ein Meeting muss länger als 60 Sekunden dauern!", Snackbar.LENGTH_LONG).show();
+                    } else {
+                        MeetingHelper.createMeeting(m, this);
+                    }
                 }
            );
 

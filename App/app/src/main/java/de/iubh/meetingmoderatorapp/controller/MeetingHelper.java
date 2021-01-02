@@ -47,6 +47,11 @@ public class MeetingHelper {
         client.getModState(meetingID, sender);
     }
 
+    public static void getAgendapointUser(String meetingID, Object sender) {
+        HTTPClient client = new HTTPClient();
+        client.getUserState(meetingID, sender);
+    }
+
 
     public static void startMeeting(String meetingID, Object sender) {
         HTTPClient client = new HTTPClient();

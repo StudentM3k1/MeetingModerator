@@ -3,7 +3,6 @@ package de.iubh.meetingmoderatorapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,13 +22,14 @@ import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
 import de.iubh.meetingmoderatorapp.model.Meeting;
+import de.iubh.meetingmoderatorapp.model.enumerations.MeetingStatus;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class Act_ModPreMeeting extends AppCompatActivity implements CallbackHandler {
     private String meetingID;
     View sbView;
-
+    Meeting m;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +44,6 @@ public class Act_ModPreMeeting extends AppCompatActivity implements CallbackHand
         }
 
         MeetingHelper.getMeetingMod(meetingID, this);
-
-        findViewById(R.id.btnStartMeetingMod).setOnClickListener(v -> {
-            MeetingHelper.startMeeting(meetingID, this);
-        });
     }
 
     public void onFailureCallback(Call call, IOException e) {
@@ -81,7 +77,6 @@ public class Act_ModPreMeeting extends AppCompatActivity implements CallbackHand
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Meeting m = null;
                             try {
                                 m = JSONHelper.JSONToMeeting(response.body().string());
                             } catch (Exception e) {
@@ -106,7 +101,7 @@ public class Act_ModPreMeeting extends AppCompatActivity implements CallbackHand
                             recyAP.setAdapter(apAdapter);
 
                             // Aufbau RecyView Participant
-                            RecyclerView recyTLN = findViewById(R.id.recyAPPartiAtMeeting);
+                            RecyclerView recyTLN = findViewById(R.id.recyAPModAtMeeting);
                             TeilnehmerAdapter tlnAdapter;
                             RecyclerView.LayoutManager tlnLayoutManger;
                             recyTLN.setHasFixedSize(true);
@@ -114,6 +109,22 @@ public class Act_ModPreMeeting extends AppCompatActivity implements CallbackHand
                             tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
                             recyTLN.setLayoutManager(tlnLayoutManger);
                             recyTLN.setAdapter(tlnAdapter);
+                        }
+                    });
+
+                    findViewById(R.id.btnStartMeetingMod).setOnClickListener(v -> {
+                        if (m.getMeetingStatus() == MeetingStatus.Done) {
+                            Snackbar.make(
+                                    sbView,
+                                    "Meeting ist bereits beendet",
+                                    Snackbar.LENGTH_LONG)
+                                    .show();
+                        } else if (m.getMeetingStatus() == MeetingStatus.Running) {
+                            Intent intent = (new Intent(Act_ModPreMeeting.this, Act_ModAtMeeting.class));
+                            intent.putExtra("meetingID", meetingID);
+                            startActivity(intent);
+                        } else {
+                            MeetingHelper.startMeeting(meetingID, this);
                         }
                     });
                     break;
