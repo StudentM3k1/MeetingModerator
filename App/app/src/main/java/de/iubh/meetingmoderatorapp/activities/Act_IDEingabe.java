@@ -35,7 +35,6 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     *      - nerviLeiste über AppTitles entfernen
     *  evtl. Ping bei start
     *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
-    *  Datum in Deutsch
     *  Zeiten in HH:MM:SS
     *  1,0 kassieren
     */

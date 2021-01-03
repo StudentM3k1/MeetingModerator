@@ -1,6 +1,7 @@
 package de.iubh.meetingmoderatorapp.activities;
 
-import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,19 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONException;
-import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZoneOffset;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.CallbackHandler;
-import de.iubh.meetingmoderatorapp.controller.HTTPClient;
 import de.iubh.meetingmoderatorapp.controller.JSONHelper;
 import de.iubh.meetingmoderatorapp.controller.MeetingHelper;
 import de.iubh.meetingmoderatorapp.controller.TeilnehmerAdapter;
@@ -34,16 +33,19 @@ import de.iubh.meetingmoderatorapp.model.*;
 import okhttp3.Call;
 import okhttp3.Response;
 
+
 import static android.view.View.VISIBLE;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
-import static de.iubh.meetingmoderatorapp.R.id.start;
-import static de.iubh.meetingmoderatorapp.R.id.visible;
 
-public class Act_CreateMeeting extends AppCompatActivity implements CallbackHandler {
+public class Act_CreateMeeting extends AppCompatActivity implements CallbackHandler, DatePickerDialog.OnDateSetListener {
     private Meeting m = new Meeting();
     private String modId;
     private String partId;
     private boolean isCreated = false;
+    DatePickerDialog datePickerDialog;
+    TimePickerDialog timePickerDialog;
+    Calendar calendar;
+    String year, month, day, hour, minute, second;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +80,16 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             }
             calcDur = Long.toString(aplTime / 60);
             meetingTitle.setText(m.getSettings().getMeetingTitle());
-            startDate.setText(m.getSettings().getStartTime().toString().substring(0, 10));
-            startTime.setText(m.getSettings().getStartTime().toString().substring(11));
+            year = m.getSettings().getStartTime().toString().substring(0, 4);
+            month = m.getSettings().getStartTime().toString().substring(5, 7);
+            day = m.getSettings().getStartTime().toString().substring(8, 10);
+            startDate.setText(day + "." + month + "." + year);
+
+            hour = m.getSettings().getStartTime().toString().substring(11, 13);
+            minute = m.getSettings().getStartTime().toString().substring(14, 16);
+            startTime.setText(hour + ":" + minute);
             duration.setText(calcDur);
+
             ort.setText(m.getOrt());
         }
 
@@ -92,12 +101,41 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         recyTLN.setAdapter(tlnAdapter);
 
 
+        // Datepicker
+        startDate.setFocusable(false);
+        startTime.setFocusable(false);
+        startDate.setClickable(true);
+        startTime.setClickable(true);
+        startDate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Calendar now = Calendar.getInstance();
+                datePickerDialog = DatePickerDialog.newInstance(Act_CreateMeeting.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+                datePickerDialog.setThemeDark(true);
+                datePickerDialog.showYearPickerFirst(false);
+                datePickerDialog.setTitle("Date Picker");
+                datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        Snackbar.make(sbView, "Datepicker Canceled", Snackbar.LENGTH_LONG).show();
+                    }
+                });
+
+                datePickerDialog.show(getSupportFragmentManager(), "DatePickerDialog");
+            }
+        });
+
+
         Button btnToAgenda = findViewById(R.id.btnToAgenda);
         btnToAgenda.setOnClickListener(v -> {
             Intent i = new Intent(Act_CreateMeeting.this, Act_Agenda.class);
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-                m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
+                m.getSettings().setStartTime(LocalDateTime.parse(year + "-" + month + "-" + day + "T" + hour + ":" + minute));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
@@ -112,7 +150,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             Intent i = (new Intent(Act_CreateMeeting.this, Act_addParticipant.class));
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-                m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
+                m.getSettings().setStartTime(LocalDateTime.parse(year + "-" + month + "-" + day + "T" + hour + ":" + minute));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
@@ -126,7 +164,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         Button btnCreateMeeting = findViewById(R.id.btn_createMeeting);
         btnCreateMeeting.setOnClickListener(v -> {
                     m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-                    m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
+                    m.getSettings().setStartTime(LocalDateTime.parse(year + "-" + month + "-" + day + "T" + hour + ":" + minute));
                     m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                     m.setOrt(ort.getText().toString());
                     if (m.getAgenda().getAgendaPoints().size() == 0) {
@@ -135,10 +173,10 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                         Snackbar.make(sbView, "Es muss mindestens ein Teilnehmer am Meeting teilnehmen!", Snackbar.LENGTH_LONG).show();
                     } else if (m.getSettings().getDuration() <= 60) {
                         Snackbar.make(sbView, "Ein Meeting muss länger als 1 Minute dauern!", Snackbar.LENGTH_LONG).show();
-                    }                    else if ((m.getSettings().getStartTime().toLocalDate().isEqual(LocalDateTime.now().toLocalDate()) && m.getSettings().getStartTime().toLocalTime().isBefore(LocalDateTime.now().toLocalTime()))
+                    } /*else if ((m.getSettings().getStartTime().toLocalDate().isEqual(LocalDateTime.now().toLocalDate()) && m.getSettings().getStartTime().toLocalTime().isBefore(LocalDateTime.now().toLocalTime()))
                             || m.getSettings().getStartTime().toLocalDate().isBefore(LocalDateTime.now().toLocalDate())) {
                         Snackbar.make(sbView, "Ein Meeting darf nicht in der Vergangenheit beginnen (MEZ)", Snackbar.LENGTH_LONG).show();
-                    }                    else {
+                    }*/ else {
                         MeetingHelper.createMeeting(m, this);
                         isCreated = true;
                     }
@@ -152,7 +190,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                 i.setType("message/rfc822");
                 i.putExtra(Intent.EXTRA_EMAIL, new String[]{"hiernochStrings@arrayausmeeting.einbringen"});
                 i.putExtra(Intent.EXTRA_SUBJECT, "Wir haben ein Meeting zusammen");
-                i.putExtra(Intent.EXTRA_TEXT, "Bitte melde Dich am " + startDate.getText().toString() + "um " + startTime.getText().toString() + "mit Deiner MeetingID   ---   " + partId + "   ---   an um teilzunehemen");
+                i.putExtra(Intent.EXTRA_TEXT, "Bitte melde Dich am " + day + "." + month + "." + year + " um " + hour + ":" + minute + " mit Deiner MeetingID   ---   " + partId + "   ---   an um teilzunehemen");
                 try {
                     startActivity(Intent.createChooser(i, "Sende Mail..."));
                 } catch (android.content.ActivityNotFoundException ex) {
@@ -162,11 +200,11 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         });
         Button btnToHome = findViewById(R.id.btnBackToHome);
         btnToHome.setOnClickListener(v -> {
-            if(isCreated){
+            if (isCreated) {
                 Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
                 i.putExtra("modId", modId);
                 startActivity(i);
-            } else{
+            } else {
                 Snackbar sb = Snackbar.make(sbView, "Ohne Meeting speichern fortfahren?", Snackbar.LENGTH_LONG);
                 sb.setAction("Alles verlieren!", v1 -> {
                     Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
@@ -174,7 +212,6 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                 });
                 sb.show();
             }
-
 
 
         });
@@ -268,4 +305,28 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             onFailureCreateMeeting("Response nicht lesbar.");
         }
     }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+        EditText startDate = findViewById(R.id.timeCreateMeetingStartDate);
+        String dom = "This bug";
+        String moy = " is designed by Michi";
+        monthOfYear += 1;
+        if (dayOfMonth < 10) {
+            dom = "0" + dayOfMonth;
+        } else {
+            dom = Integer.toString(dayOfMonth);
+        }
+        if (monthOfYear < 10) {
+
+            moy = "0" + monthOfYear;
+        } else {
+            moy = Integer.toString(monthOfYear);
+        }
+
+        String date = dom + "." + moy + "." + year;
+        startDate.setText(date);
+    }
+
 }
