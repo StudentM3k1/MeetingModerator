@@ -37,7 +37,6 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
     *  Datum in Deutsch
     *  Zeiten in HH:MM:SS
-    *  Meeting Dauer ">=" 60 s 1 Minute kleinste Einheit einstellbar in Agendapoint
     *  1,0 kassieren
     */
 

@@ -11,10 +11,11 @@
         android:id="@+id/txtModPreOrt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:text="aktueller Sprecher"
         app:layout_constraintBottom_toBottomOf="@+id/txtModVerbleibendeGesamtzeit"
-        app:layout_constraintTop_toTopOf="@+id/txtModVerbleibendeGesamtzeit"
-        tools:layout_editor_absoluteX="42dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtModVerbleibendeGesamtzeit" />
 
     <TextView
         android:id="@+id/txtModVerbleibendeGesamtzeit"
@@ -22,8 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Restzeit Meeting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.541"
-        app:layout_constraintStart_toStartOf="@+id/txtPreMeetingTitle"
+        app:layout_constraintStart_toEndOf="@+id/txtModPreOrt"
         app:layout_constraintTop_toBottomOf="@+id/txtPreMeetingTitle" />
 
     <androidx.recyclerview.widget.RecyclerView

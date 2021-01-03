@@ -134,7 +134,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                     } else if (m.getParticipants().size() == 0) {
                         Snackbar.make(sbView, "Es muss mindestens ein Teilnehmer am Meeting teilnehmen!", Snackbar.LENGTH_LONG).show();
                     } else if (m.getSettings().getDuration() <= 60) {
-                        Snackbar.make(sbView, "Ein Meeting muss länger als 60 Sekunden dauern!", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(sbView, "Ein Meeting muss länger als 1 Minute dauern!", Snackbar.LENGTH_LONG).show();
                     }                    else if ((m.getSettings().getStartTime().toLocalDate().isEqual(LocalDateTime.now().toLocalDate()) && m.getSettings().getStartTime().toLocalTime().isBefore(LocalDateTime.now().toLocalTime()))
                             || m.getSettings().getStartTime().toLocalDate().isBefore(LocalDateTime.now().toLocalDate())) {
                         Snackbar.make(sbView, "Ein Meeting darf nicht in der Vergangenheit beginnen (MEZ)", Snackbar.LENGTH_LONG).show();
