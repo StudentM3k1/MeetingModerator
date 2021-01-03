@@ -43,7 +43,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
     private Meeting m = new Meeting();
     private String modId;
     private String partId;
-
+    private boolean isCreated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +135,12 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                         Snackbar.make(sbView, "Es muss mindestens ein Teilnehmer am Meeting teilnehmen!", Snackbar.LENGTH_LONG).show();
                     } else if (m.getSettings().getDuration() <= 60) {
                         Snackbar.make(sbView, "Ein Meeting muss länger als 60 Sekunden dauern!", Snackbar.LENGTH_LONG).show();
-                    } else {
+                    }                    else if ((m.getSettings().getStartTime().toLocalDate().isEqual(LocalDateTime.now().toLocalDate()) && m.getSettings().getStartTime().toLocalTime().isBefore(LocalDateTime.now().toLocalTime()))
+                            || m.getSettings().getStartTime().toLocalDate().isBefore(LocalDateTime.now().toLocalDate())) {
+                        Snackbar.make(sbView, "Ein Meeting darf nicht in der Vergangenheit beginnen (MEZ)", Snackbar.LENGTH_LONG).show();
+                    }                    else {
                         MeetingHelper.createMeeting(m, this);
+                        isCreated = true;
                     }
                 }
         );
@@ -158,9 +162,21 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         });
         Button btnToHome = findViewById(R.id.btnBackToHome);
         btnToHome.setOnClickListener(v -> {
-            Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
-            i.putExtra("modId", modId);
-            startActivity(i);
+            if(isCreated){
+                Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
+                i.putExtra("modId", modId);
+                startActivity(i);
+            } else{
+                Snackbar sb = Snackbar.make(sbView, "Ohne Meeting speichern fortfahren?", Snackbar.LENGTH_LONG);
+                sb.setAction("Alles verlieren!", v1 -> {
+                    Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
+                    startActivity(i);
+                });
+                sb.show();
+            }
+
+
+
         });
 
         Button btnBackToRegistMod = findViewById(R.id.btnBackToRegistMod);
@@ -241,6 +257,8 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                                         + partId
                                         + "\nDie ID's bitte notieren.");
                         sendIDviaMail.setVisibility(VISIBLE);
+
+
                     }
                 });
             } else {

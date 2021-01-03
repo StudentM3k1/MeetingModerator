@@ -84,8 +84,8 @@ public class Act_ModPreMeeting extends AppCompatActivity implements CallbackHand
                             }
                             TextView meetingTitle = findViewById(R.id.txtPreMeetingTitle);
                             meetingTitle.setText(m.getSettings().getMeetingTitle());
-                            TextView gesamtZeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
-                            //gesamtZeit.setText(Long.toString(m.getSettings().getDuration()));
+                            TextView gesamtZeit = findViewById(R.id.txtModVerbleibendeGesamtzeit);
+                            gesamtZeit.setText(Long.toString(m.getSettings().getDuration()));
                             TextView txtModAktuSprecher = findViewById(R.id.txtModPreOrt);
                             txtModAktuSprecher.setText(m.getOrt());
 

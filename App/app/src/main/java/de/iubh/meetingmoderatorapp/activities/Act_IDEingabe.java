@@ -35,12 +35,9 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     *      - nerviLeiste über AppTitles entfernen
     *  evtl. Ping bei start
     *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
-    *  Textfelder anpassen
-    *  ModPreMeeting Meeting Dauer anzeigen
     *  Datum in Deutsch
     *  Zeiten in HH:MM:SS
     *  Meeting Dauer ">=" 60 s 1 Minute kleinste Einheit einstellbar in Agendapoint
-    *  Home nicht klickbar, wenn keine response erfolgt ist --Snackbar mit Actionbutton Meeting erzeugen
     *  1,0 kassieren
     */
 
