@@ -76,7 +76,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             for (AgendaPoint ap : apl) {
                 aplTime += ap.getAvailableTime();
             }
-            calcDur = Long.toString(aplTime/60);
+            calcDur = Long.toString(aplTime / 60);
             meetingTitle.setText(m.getSettings().getMeetingTitle());
             startDate.setText(m.getSettings().getStartTime().toString().substring(0, 10));
             startTime.setText(m.getSettings().getStartTime().toString().substring(11));
@@ -98,7 +98,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
-                m.getSettings().setDuration(Long.parseLong(duration.getText().toString())*60);
+                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (Exception e) {
@@ -113,7 +113,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
-                m.getSettings().setDuration(Long.parseLong(duration.getText().toString())*60);
+                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (Exception e) {
@@ -127,7 +127,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         btnCreateMeeting.setOnClickListener(v -> {
                     m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                     m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
-                    m.getSettings().setDuration(Long.parseLong(duration.getText().toString())*60);
+                    m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                     m.setOrt(ort.getText().toString());
                     if (m.getAgenda().getAgendaPoints().size() == 0) {
                         Snackbar.make(sbView, "Es muss mindestens ein Agendapunkt angegeben werden!", Snackbar.LENGTH_LONG).show();
@@ -139,7 +139,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                         MeetingHelper.createMeeting(m, this);
                     }
                 }
-           );
+        );
 
         sendIDviaMail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +166,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         Button btnBackToRegistMod = findViewById(R.id.btnBackToRegistMod);
         btnBackToRegistMod.setOnClickListener(v -> {
             Intent i = (new Intent(Act_CreateMeeting.this, Act_ModRegistration.class));
-            try{
+            try {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -188,13 +188,13 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
 
     public void onResponseCallback(Call call, Response response) {
         if (response.code() == 200) {
-        switch (call.request().tag().toString()) {
-            case "CreateMeeting":
-                onResponseCreateMeeting(call, response);
-                break;
-            default:
-                break;
-        }
+            switch (call.request().tag().toString()) {
+                case "CreateMeeting":
+                    onResponseCreateMeeting(call, response);
+                    break;
+                default:
+                    break;
+            }
         } else {
             onFailureCreateMeeting("Server konnte Anfrage nicht verarbeiten.");
         }
@@ -205,44 +205,49 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
     }
 
     public void onFailureCreateMeeting(String error) {
-        TextView idRes = findViewById(R.id.IDResponse);
-        idRes.setText("Hoppla, da hat sich die App verschluckt! \nFehlernachricht: " + error);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView idRes = findViewById(R.id.IDResponse);
+                idRes.setText("Hoppla, da hat sich die App verschluckt! \nFehlernachricht: " + error);
+            }
+        });
     }
 
 
-
     private void onResponseCreateMeeting(Call call, Response response) {
-            TextView idRes = findViewById(R.id.IDResponse);
-            Button sendIDviaMail = findViewById(R.id.btnIDMial);
+        TextView idRes = findViewById(R.id.IDResponse);
+        Button sendIDviaMail = findViewById(R.id.btnIDMial);
 
-            Meeting m = null;
-            try {
-                m = JSONHelper.JSONToMeeting(response.body().string());
-            } catch (Exception e) {
-                onFailureCreateMeeting("Response nicht lesbar.");
-            }
-            if (m != null) {
-                modId = m.getSettings().getModeratorId();
-                partId = m.getSettings().getParticipantId();
+        Meeting m = null;
+        try {
+            m = JSONHelper.JSONToMeeting(response.body().string());
+        } catch (Exception e) {
+            onFailureCreateMeeting("Response nicht lesbar.");
+        }
+        if (m != null) {
+            modId = m.getSettings().getModeratorId();
+            partId = m.getSettings().getParticipantId();
 
-                if (!modId.equals("") && !partId.equals("")) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            idRes.setText(
-                                    "Deine ModeratorID ist: "
-                                            + modId
-                                            + "\nDie MeetingID der User ist: "
-                                            + partId
-                                            + "\nDie ID's bitte notieren.");
-                            sendIDviaMail.setVisibility(VISIBLE);
-                        }
-                    });
-                } else {
-                    onFailureCreateMeeting("Response nicht lesbar.");
-                }
+            if (!modId.equals("") && !partId.equals("")) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        idRes.setText(
+                                "Deine ModeratorID ist: "
+                                        + modId
+                                        + "\nDie MeetingID der User ist: "
+                                        + partId
+                                        + "\nDie ID's bitte notieren.");
+                        sendIDviaMail.setVisibility(VISIBLE);
+                    }
+                });
             } else {
                 onFailureCreateMeeting("Response nicht lesbar.");
             }
+        } else {
+            onFailureCreateMeeting("Response nicht lesbar.");
+        }
     }
 }
