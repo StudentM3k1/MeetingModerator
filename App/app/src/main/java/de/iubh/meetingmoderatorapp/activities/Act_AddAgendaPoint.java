@@ -39,7 +39,7 @@ public class Act_AddAgendaPoint  extends AppCompatActivity  {
         Bundle extras = getIntent().getExtras();
         if(extras!= null) {
             try {
-                m = JSONHelper.JSONToMeetinginApp(extras.getString("JSON"));
+                m = JSONHelper.JSONToMeeting(extras.getString("JSON"));
             }catch (Exception e) {
                 e.printStackTrace();
             }
@@ -69,12 +69,12 @@ public class Act_AddAgendaPoint  extends AppCompatActivity  {
                             .size()+1,
                     apTitle.getText().toString(),
                     apNote.getText().toString(),
-                    Long.parseLong(apTime.getText().toString()),
+                    Long.parseLong(apTime.getText().toString())*60,
                     AgendaPointStatus.Planned,
                     0);
             m.getAgenda().getAgendaPoints().add(ap);
             try {
-                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
 
             } catch (Exception e) {
                 e.printStackTrace();

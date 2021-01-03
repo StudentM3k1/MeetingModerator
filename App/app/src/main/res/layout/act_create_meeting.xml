@@ -11,7 +11,6 @@
         android:id="@+id/btn_createMeeting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:text="Meeting erstellen"
         app:layout_constraintBottom_toTopOf="@+id/btnBackToHome"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +21,6 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Meeting erstellen"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="24sp"
@@ -35,7 +33,6 @@
         android:id="@+id/btnToAgenda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:text="zur Agenda"
         app:layout_constraintBottom_toTopOf="@+id/btn_toAddParticipan"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +43,6 @@
         android:id="@+id/btn_toAddParticipan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
         android:text="Teilnehmer hinzufügen"
         app:layout_constraintBottom_toTopOf="@+id/btn_createMeeting"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +90,8 @@
         android:textAlignment="viewEnd"
         app:layout_constraintBottom_toTopOf="@+id/recyTln"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/txtCreateMeetingOrt"
@@ -104,14 +101,13 @@
         android:inputType="text"
         android:text="Ort"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeCreateMeetingStartDate" />
 
     <TextView
         android:id="@+id/IDResponse"
         android:layout_width="280dp"
-        android:layout_height="85dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyTln"
@@ -121,18 +117,25 @@
         android:id="@+id/btnBackToHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="Zurück"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Home"
+        app:layout_constraintBottom_toTopOf="@+id/btnBackToRegistMod"
         app:layout_constraintEnd_toStartOf="@+id/btn_createMeeting"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnBackToRegistMod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="zurück"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="36dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyTln"
-        android:layout_width="326dp"
-        android:layout_height="117dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -142,7 +145,7 @@
 
     <LinearLayout
         android:id="@+id/createSnack"
-        android:layout_width="339dp"
+        android:layout_width="0dp"
         android:layout_height="39dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -152,17 +155,15 @@
 
     <Button
         android:id="@+id/btnIDMial"
-        android:layout_width="116dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginBottom="37dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="send ID's"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
+        app:layout_constraintBottom_toBottomOf="@+id/IDResponse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.804"
         app:layout_constraintStart_toEndOf="@+id/IDResponse"
-        app:layout_constraintTop_toBottomOf="@+id/recyTln"
+        app:layout_constraintTop_toTopOf="@+id/IDResponse"
         app:layout_constraintVertical_bias="0.416" />
 
     <TextView

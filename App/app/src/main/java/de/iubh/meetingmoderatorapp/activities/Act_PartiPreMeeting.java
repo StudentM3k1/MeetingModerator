@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import org.threeten.bp.LocalDateTime;
-
 import java.io.IOException;
-import java.nio.channels.ScatteringByteChannel;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.CallbackHandler;
@@ -26,7 +23,7 @@ import de.iubh.meetingmoderatorapp.model.Meeting;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class Act_Welcome extends AppCompatActivity implements CallbackHandler {
+public class Act_PartiPreMeeting extends AppCompatActivity implements CallbackHandler {
     TextView firstname;
     TextView lastname;
     Meeting m;
@@ -36,7 +33,7 @@ public class Act_Welcome extends AppCompatActivity implements CallbackHandler {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_welcome_scree);
+        setContentView(R.layout.act_parti_pre_meeting);
         AndroidThreeTen.init(this);
 
         MeetingHelper mh = new MeetingHelper();
@@ -72,14 +69,14 @@ public class Act_Welcome extends AppCompatActivity implements CallbackHandler {
                         TeilnehmerAdapter tlnAdapter;
                         RecyclerView.LayoutManager tlnLayoutManger;
                         recyTLN.setHasFixedSize(true);
-                        tlnLayoutManger = new LinearLayoutManager(Act_Welcome.this);
+                        tlnLayoutManger = new LinearLayoutManager(Act_PartiPreMeeting.this);
                         tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
                         recyTLN.setLayoutManager(tlnLayoutManger);
                         recyTLN.setAdapter(tlnAdapter);
 
                         // clickable RecyclerViewContent
                         tlnAdapter.setOnItemClickListener(pos -> {
-                            Intent i = (new Intent(Act_Welcome.this, Act_PartiAtMeeting.class));
+                            Intent i = (new Intent(Act_PartiPreMeeting.this, Act_PartiAtMeeting.class));
                             firstname = findViewById(R.id.txtWelcSur);
                             lastname = findViewById(R.id.txtWelcLast);
                             i.putExtra("meetingID", meetingID);

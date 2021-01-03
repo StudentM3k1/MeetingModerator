@@ -13,11 +13,10 @@
         android:layout_height="wrap_content"
         android:background="@color/design_default_color_primary"
         android:text="Agendapunkt hinzufügen"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintTop_toBottomOf="@+id/recyAP" />
 
     <Button
         android:id="@+id/btnToMeetingCreation"
@@ -25,21 +24,18 @@
         android:layout_height="wrap_content"
         android:background="@color/design_default_color_primary"
         android:text="zum Meeting"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddAgendapoint"
-        app:layout_constraintVertical_bias="0.344" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddAgendapoint" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Agenda"
-        android:textSize="24sp"
         android:textColor="@color/design_default_color_primary_variant"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,13 +43,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyAP"
-        android:layout_width="299dp"
-        android:layout_height="329dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddAgendapoint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:text="TextView"
-            android:textSize="24sp"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +34,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:text="TextView"
-            android:textSize="24sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtWelcSur"
             app:layout_constraintTop_toTopOf="parent" />

@@ -172,8 +172,6 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
                     public void run() {
                         TextView aktuAP = findViewById(R.id.aktuAPParti);
                         aktuAP.setText(curAp.getTitle());
-                        TextView aktuSprecher = findViewById(R.id.txtAktuSprecher);
-                        aktuSprecher.setText(curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname());
                         TextView tv_sprechzeit = findViewById(R.id.txtPartiSprechzeit);
                         String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
                                 "\nVerbleibende Sprechzeit: " + (curAp.getAvailableTime() - curAp.getRunningTime());

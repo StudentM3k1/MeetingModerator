@@ -11,7 +11,6 @@
         android:id="@+id/txtModMeetingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="ModAtMeeting"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
@@ -29,22 +28,10 @@
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtModVerbleibendeGesamtzeit"
         app:layout_constraintEnd_toStartOf="@+id/txtModVerbleibendeGesamtzeit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtModVerbleibendeGesamtzeit" />
-
-    <TextView
-        android:id="@+id/txtModPreOrt"
-        android:layout_width="157dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="28dp"
-        android:text="Aktueller Sprecher"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/txtAktuAPMod"
-        app:layout_constraintStart_toStartOf="@+id/txtAktuAPMod"
-        app:layout_constraintTop_toBottomOf="@+id/txtAktuAPMod" />
 
     <TextView
         android:id="@+id/txtModVerbleibendeGesamtzeit"
@@ -58,70 +45,53 @@
         app:layout_constraintStart_toStartOf="@+id/txtModMeetingTitle"
         app:layout_constraintTop_toBottomOf="@+id/txtModMeetingTitle" />
 
-    <TextView
-        android:id="@+id/txtModVerbleibendeAPZeit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Restzeit AP"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/txtModVerbleibendeGesamtzeit"
-        app:layout_constraintStart_toStartOf="@+id/txtModVerbleibendeGesamtzeit"
-        app:layout_constraintTop_toBottomOf="@+id/txtModVerbleibendeGesamtzeit" />
-
     <Button
         android:id="@+id/btnModNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
         android:text="nächster Agendapunkt"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyAPModAtMeeting" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyAPModAtMeeting"
-        android:layout_width="367dp"
-        android:layout_height="331dp"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnModNext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtModSprechzeit" />
 
     <TextView
         android:id="@+id/txtModGruss"
-        android:layout_width="340dp"
-        android:layout_height="21dp"
-        android:text="Kommende Agendapunkte:"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Servus "
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/txtModSprechzeit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtModPreOrt"
-        app:layout_constraintVertical_bias="0.431" />
+        app:layout_constraintTop_toBottomOf="@+id/txtModVerbleibendeGesamtzeit" />
 
     <TextView
         android:id="@+id/txtModSprechzeit"
-        android:layout_width="363dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="36dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="Du bist mit Sprechen dran, Deine übrige Zeit ist: 0000 Minuten"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recyAPModAtMeeting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtModGruss" />
 
     <LinearLayout
         android:id="@+id/snackbar"
-        android:layout_width="395dp"
-        android:layout_height="57dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

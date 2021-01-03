@@ -11,7 +11,6 @@
         android:id="@+id/txtMeetingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="PartiAtMeeting"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
@@ -25,35 +24,20 @@
         android:id="@+id/aktuAPParti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Aktueller Agendapunkt"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtVerbleibendeGesamtzeit"
         app:layout_constraintEnd_toStartOf="@+id/txtVerbleibendeGesamtzeit"
         app:layout_constraintHorizontal_bias="0.626"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtVerbleibendeGesamtzeit" />
 
     <TextView
-        android:id="@+id/txtAktuSprecher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Aktueller Sprecher"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/aktuAPParti"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/aktuAPParti"
-        app:layout_constraintTop_toBottomOf="@+id/aktuAPParti" />
-
-    <TextView
         android:id="@+id/txtVerbleibendeGesamtzeit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Restzeit Meeting"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
@@ -67,61 +51,55 @@
         android:id="@+id/btnPartiSprechenBeenden"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
         android:text="Sprechen beenden"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.57"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyAPUserAtMeeting" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyAPUserAtMeeting"
-        android:layout_width="396dp"
-        android:layout_height="318dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnPartiSprechenBeenden"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPartiSprechzeit" />
 
     <TextView
         android:id="@+id/txtPartiGruss"
-        android:layout_width="340dp"
-        android:layout_height="21dp"
-        android:text="Kommende Agendapunkte:"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="ServusParti"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/txtPartiSprechzeit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.323"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtAktuSprecher"
-        app:layout_constraintVertical_bias="0.584" />
+        app:layout_constraintTop_toBottomOf="@+id/txtVerbleibendeGesamtzeit" />
 
     <TextView
         android:id="@+id/txtPartiSprechzeit"
-        android:layout_width="367dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="36dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="Du bist mit Sprechen dran, Deine übrige Zeit ist: 0000 Minuten"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recyAPUserAtMeeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPartiGruss"
         tools:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/txtPartiMeetSnack"
-        android:layout_width="367dp"
-        android:layout_height="55dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
-        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnPartiSprechenBeenden"></LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

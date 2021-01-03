@@ -60,11 +60,12 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         EditText ort = findViewById(R.id.txtCreateMeetingOrt);
         Button sendIDviaMail = findViewById(R.id.btnIDMial);
 
-        duration.setText("240");
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             try {
-                m = JSONHelper.JSONToMeetinginApp(extras.getString("JSON"));
+                String meeting = extras.getString("JSON");
+                m = JSONHelper.JSONToMeeting(meeting);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -75,7 +76,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             for (AgendaPoint ap : apl) {
                 aplTime += ap.getAvailableTime();
             }
-            calcDur = Long.toString(aplTime);
+            calcDur = Long.toString(aplTime/60);
             meetingTitle.setText(m.getSettings().getMeetingTitle());
             startDate.setText(m.getSettings().getStartTime().toString().substring(0, 10));
             startTime.setText(m.getSettings().getStartTime().toString().substring(11));
@@ -87,7 +88,6 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         TeilnehmerAdapter tlnAdapter = new TeilnehmerAdapter(m.getParticipants());
         RecyclerView.LayoutManager tlnLayoutManger = new LinearLayoutManager(this);
         recyTLN.setHasFixedSize(true);
-
         recyTLN.setLayoutManager(tlnLayoutManger);
         recyTLN.setAdapter(tlnAdapter);
 
@@ -98,9 +98,9 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
-                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                m.getSettings().setDuration(Long.parseLong(duration.getText().toString())*60);
                 m.setOrt(ort.getText().toString());
-                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -113,9 +113,9 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                 m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
-                m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                m.getSettings().setDuration(Long.parseLong(duration.getText().toString())*60);
                 m.setOrt(ort.getText().toString());
-                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -127,7 +127,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         btnCreateMeeting.setOnClickListener(v -> {
                     m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
                     m.getSettings().setStartTime(LocalDateTime.parse(startDate.getText().toString() + "T" + startTime.getText().toString()));
-                    m.getSettings().setDuration(Long.parseLong(duration.getText().toString()));
+                    m.getSettings().setDuration(Long.parseLong(duration.getText().toString())*60);
                     m.setOrt(ort.getText().toString());
                     if (m.getAgenda().getAgendaPoints().size() == 0) {
                         Snackbar.make(sbView, "Es muss mindestens ein Agendapunkt angegeben werden!", Snackbar.LENGTH_LONG).show();
@@ -160,6 +160,17 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         btnToHome.setOnClickListener(v -> {
             Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
             i.putExtra("modId", modId);
+            startActivity(i);
+        });
+
+        Button btnBackToRegistMod = findViewById(R.id.btnBackToRegistMod);
+        btnBackToRegistMod.setOnClickListener(v -> {
+            Intent i = (new Intent(Act_CreateMeeting.this, Act_ModRegistration.class));
+            try{
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             startActivity(i);
         });
 

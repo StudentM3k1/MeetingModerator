@@ -1,77 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/addParticipant"
+    android:id="@+id/registMod"
     android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/txtPartiMail"
+        android:id="@+id/txtModMail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="mail"
         android:inputType="textEmailAddress"
-        android:text="parti@meeting.com"
-        app:layout_constraintEnd_toEndOf="@+id/txtPartiLastname"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/txtPartiLastname"
-        app:layout_constraintTop_toBottomOf="@+id/txtPartiLastname" />
+        android:text="mod@meeting.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtModLastname" />
 
     <EditText
-        android:id="@+id/txtPartiFirstName"
+        android:id="@+id/txtModFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Vorname"
+        android:text="ModVorname"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleModRegist" />
 
     <EditText
-        android:id="@+id/txtPartiLastname"
+        android:id="@+id/txtModLastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Nachname"
-        app:layout_constraintEnd_toEndOf="@+id/txtPartiFirstName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/txtPartiFirstName"
-        app:layout_constraintTop_toBottomOf="@+id/txtPartiFirstName" />
-
-    <Button
-        android:id="@+id/btnAddParti"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hinzufügen"
+        android:text="ModNachname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPartiMail" />
+        app:layout_constraintTop_toBottomOf="@+id/txtModFirstName" />
 
     <Button
-        android:id="@+id/btnBackHome"
+        android:id="@+id/btnAddMod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registrieren"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtModMail" />
+
+    <Button
+        android:id="@+id/btnModRegistBackHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="zurück"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddParti" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddMod" />
 
     <TextView
         android:id="@+id/titleModRegist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Teilnehmer hinzufügen"
+        android:text="Als Moderator registrieren"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

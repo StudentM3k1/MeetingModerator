@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import org.threeten.bp.LocalDateTime;
 
 import java.io.IOException;
 
@@ -22,35 +23,45 @@ import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class Act_addParticipant extends AppCompatActivity implements CallbackHandler {
+public class Act_ModRegistration extends AppCompatActivity implements CallbackHandler {
     private Meeting m = new Meeting();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_add_participant);
+        setContentView(R.layout.act_mod_registration);
         AndroidThreeTen.init(this);
 
-
-        EditText surname = findViewById(R.id.txtPartiFirstName);
-        EditText lastname = findViewById(R.id.txtPartiLastname);
-        EditText mail = findViewById(R.id.txtPartiMail);
+        EditText surname = findViewById(R.id.txtModFirstName);
+        EditText lastname = findViewById(R.id.txtModLastname);
+        EditText mail = findViewById(R.id.txtModMail);
 
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             String json = extras.getString("JSON");
             try {
                 m = JSONHelper.JSONToMeeting(json);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        if (m.getSettings().getMeetingTitle().equals("")) {
+            m.getSettings().setMeetingTitle("myMeeting");
+        }
+        if (m.getSettings().getStartTime().equals("")) {
+            m.getSettings().setStartTime(LocalDateTime.parse("2021-01-31T13:00"));
+        }
+        if (m.getSettings().getDuration() == 0) {
+            m.getSettings().setDuration(60);
+        }
+        if (m.getOrt() == null) {
+            m.setOrt("MeetingSpace");
+        }
 
-        Button btnBack = findViewById(R.id.btnBackHome);
+        Button btnBack = findViewById(R.id.btnModRegistBackHome);
         btnBack.setOnClickListener(v -> {
-            Intent i = new Intent(Act_addParticipant.this, Act_CreateMeeting.class);
+            Intent i = new Intent(de.iubh.meetingmoderatorapp.activities.Act_ModRegistration.this, Act_CreateMeeting.class);
             try {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (Exception e) {
@@ -59,13 +70,13 @@ public class Act_addParticipant extends AppCompatActivity implements CallbackHan
             startActivity(i);
         });
 
-        Button btnAddParti = findViewById(R.id.btnAddParti);
-        btnAddParti.setOnClickListener(v -> {
-            Intent i = new Intent(Act_addParticipant.this, Act_CreateMeeting.class);
+        Button btnAddMod = findViewById(R.id.btnAddMod);
+        btnAddMod.setOnClickListener(v -> {
+            Intent i = new Intent(Act_ModRegistration.this, Act_CreateMeeting.class);
             Participant p = new Participant(
-                    m.getParticipants().size()+1,
-                    new User(0,surname.getText().toString(),lastname.getText().toString(),mail.getText().toString()),
-                    ParticipantType.Participant
+                    m.getParticipants().size() + 1,
+                    new User(0, surname.getText().toString(), lastname.getText().toString(), mail.getText().toString()),
+                    ParticipantType.Moderator
             );
             m.getParticipants().add(p);
 
@@ -76,10 +87,10 @@ public class Act_addParticipant extends AppCompatActivity implements CallbackHan
             }
             startActivity(i);
         });
-    }    public void onFailureCallback(Call call, IOException e)
-    {
-        switch (call.request().tag().toString())
-        {
+    }
+
+    public void onFailureCallback(Call call, IOException e) {
+        switch (call.request().tag().toString()) {
             case "":
                 break;
             default:
@@ -88,14 +99,14 @@ public class Act_addParticipant extends AppCompatActivity implements CallbackHan
 
     }
 
-    public void onResponseCallback(Call call, Response response)
-    {
-        switch (call.request().tag().toString())
-        {
+    public void onResponseCallback(Call call, Response response) {
+        switch (call.request().tag().toString()) {
             case "":
                 break;
             default:
                 break;
         }
     }
+
 }
+

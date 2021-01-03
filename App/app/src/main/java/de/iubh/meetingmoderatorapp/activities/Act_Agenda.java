@@ -42,7 +42,7 @@ public class Act_Agenda extends AppCompatActivity implements CallbackHandler {
         if(extras != null) {
             String json = extras.getString("JSON");
             try {
-                m = JSONHelper.JSONToMeetinginApp(json);
+                m = JSONHelper.JSONToMeeting(json);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -63,7 +63,7 @@ public class Act_Agenda extends AppCompatActivity implements CallbackHandler {
         btnAddAgendapoint.setOnClickListener(v ->        {
             Intent i = new Intent(Act_Agenda.this, Act_AddAgendaPoint.class);
             try {
-                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -76,7 +76,7 @@ public class Act_Agenda extends AppCompatActivity implements CallbackHandler {
         btnToMeetingCreation.setOnClickListener(v ->        {
             Intent i = new Intent(Act_Agenda.this, Act_CreateMeeting.class);
             try {
-                i.putExtra("JSON", JSONHelper.MeetingToJSONinApp(m));
+                i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
             } catch (JSONException e) {
                 e.printStackTrace();
             }catch (Exception e) {

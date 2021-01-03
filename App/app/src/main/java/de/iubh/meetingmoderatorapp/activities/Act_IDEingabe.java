@@ -31,12 +31,16 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
 
     /* todo
     *  Activities schön machen
+    *      - Buttons gestalten (Home, zurück, neuer AP, User registrieren, Mod registrieren, Meeting beitreten, nächster AP)
+    *      - nerviLeiste über AppTitles entfernen
     *  evtl. Ping bei start
     *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
     *  Textfelder anpassen
-    *  Moderator Activity -> Daten erfassen
+    *  ModPreMeeting Meeting Dauer anzeigen
     *  Datum in Deutsch
     *  Zeiten in HH:MM:SS
+    *  Meeting Dauer ">=" 60 s 1 Minute kleinste Einheit einstellbar in Agendapoint
+    *  Home nicht klickbar, wenn keine response erfolgt ist --Snackbar mit Actionbutton Meeting erzeugen
     *  1,0 kassieren
     */
 
@@ -57,7 +61,7 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
 
         Button btnToCreateMeeting = findViewById(R.id.btn_createNewMeeting);
         btnToCreateMeeting.setOnClickListener(v -> {
-            Intent i = new Intent(Act_IDEingabe.this, Act_CreateMeeting.class);
+            Intent i = new Intent(Act_IDEingabe.this, Act_ModRegistration.class);
             startActivity(i);
         });
 
@@ -110,7 +114,7 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
                         Snackbar.make(sbView, "Meeting wurde bereits beendet.", Snackbar.LENGTH_LONG).show();
                     }
                     else {
-                        i = (new Intent(Act_IDEingabe.this, Act_Welcome.class));
+                        i = (new Intent(Act_IDEingabe.this, Act_PartiPreMeeting.class));
                         i.putExtra("meetingID", id);
                         startActivity(i);
                     }
