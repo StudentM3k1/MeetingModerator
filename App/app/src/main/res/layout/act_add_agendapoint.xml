@@ -23,10 +23,26 @@
         android:id="@+id/btn_addPointToAgenda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:text="add"
+        android:background="@drawable/custom_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtAPDauer" />
+
+    <Button
+        android:id="@+id/btnBackToAgenda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/custom_button"
+        android:text="zurück"
+        app:layout_constraintEnd_toStartOf="@+id/btn_addPointToAgenda"
+        app:layout_constraintHorizontal_bias="0.543"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addPointToAgenda" />
 
     <EditText
         android:id="@+id/txtAgendapointTitle"
@@ -50,16 +66,6 @@
         app:layout_constraintEnd_toEndOf="@+id/txtAgendapointTitle"
         app:layout_constraintStart_toStartOf="@+id/txtAgendapointTitle"
         app:layout_constraintTop_toBottomOf="@+id/txtAgendapointTitle" />
-
-    <Button
-        android:id="@+id/btnBackToAgenda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="zurück"
-        app:layout_constraintEnd_toStartOf="@+id/btn_addPointToAgenda"
-        app:layout_constraintHorizontal_bias="0.543"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_addPointToAgenda" />
 
     <EditText
         android:id="@+id/txtAPDauer"

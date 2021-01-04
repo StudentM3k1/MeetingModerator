@@ -47,6 +47,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrieren"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/custom_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModMail" />
@@ -56,6 +59,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="zurück"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/custom_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAddMod" />
 
