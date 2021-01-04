@@ -32,7 +32,6 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     /* todo
     *  Activities schön machen
     *      - Buttons gestalten (Home, zurück, neuer AP, User registrieren, Mod registrieren, Meeting beitreten, nächster AP)
-    *      - nerviLeiste über AppTitles entfernen
     *  evtl. Ping bei start
     *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
     *  Zeiten in HH:MM:SS
