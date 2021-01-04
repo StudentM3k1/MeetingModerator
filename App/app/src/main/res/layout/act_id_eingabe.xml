@@ -53,6 +53,7 @@
         android:ems="10"
         android:hint="Bitte gib hier deine Meeting ID ein"
         android:drawableStart="@drawable/ic_id"
+        android:drawablePadding="12dp"
         android:inputType="text"
         android:text="w33lQE5j6"
         app:layout_constraintEnd_toEndOf="parent"
