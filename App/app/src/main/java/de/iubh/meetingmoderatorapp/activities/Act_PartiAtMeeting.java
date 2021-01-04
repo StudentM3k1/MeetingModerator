@@ -149,7 +149,7 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
         try {
             passedTime = JSONHelper.JSONToSync(response.body().string());
             TextView verbleibendeGesamtzeit = findViewById(R.id.txtVerbleibendeGesamtzeit);
-            verbleibendeGesamtzeit.setText(String.valueOf(passedTime));
+            verbleibendeGesamtzeit.setText(String.format("%02d:%02d:%02d", passedTime / 3600, (passedTime % 3600) / 60, (passedTime % 60)));
         } catch (Exception e) {
             onFailureCallback(call, new IOException());
         }
@@ -173,8 +173,10 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
                         TextView aktuAP = findViewById(R.id.aktuAPParti);
                         aktuAP.setText(curAp.getTitle());
                         TextView tv_sprechzeit = findViewById(R.id.txtPartiSprechzeit);
+
+
                         String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
-                                "\nVerbleibende Sprechzeit: " + (curAp.getAvailableTime() - curAp.getRunningTime());
+                                "\nVerbleibende Sprechzeit: " + (String.format("%02d:%02d:%02d", (curAp.getAvailableTime() - curAp.getRunningTime()) / 3600, ((curAp.getAvailableTime() - curAp.getRunningTime()) % 3600) / 60, ((curAp.getAvailableTime() - curAp.getRunningTime()) % 60)));
                         tv_sprechzeit.setText(string_sprecher);
                     }
                 });

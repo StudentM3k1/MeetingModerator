@@ -147,7 +147,9 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
         try {
             passedTime = JSONHelper.JSONToSync(response.body().string());
             TextView verbleibendeGesamtzeit = findViewById(R.id.txtModVerbleibendeGesamtzeit);
-            verbleibendeGesamtzeit.setText(Long.toString(passedTime));
+            //Long.toString(passedTime)
+
+            verbleibendeGesamtzeit.setText(String.format("%02d:%02d:%02d", passedTime / 3600, (passedTime % 3600) / 60, (passedTime % 60)));
         } catch (Exception e) {
             onFailureCallback(call, new IOException());
         } finally {
@@ -173,8 +175,10 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
                         aktuAP.setText(curAp.getTitle());
                         TextView tv_sprechzeit = findViewById(R.id.txtModSprechzeit);
                         if(curAp != null) {
+
+                            String apTime = String.format("%02d:%02d:%02d", (curAp.getAvailableTime() - curAp.getRunningTime()) / 3600, ((curAp.getAvailableTime() - curAp.getRunningTime())  % 3600) / 60, ((curAp.getAvailableTime() - curAp.getRunningTime())  % 60));
                             String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
-                                    "\nVerbleibende Sprechzeit: " + (curAp.getAvailableTime() - curAp.getRunningTime());
+                                    "\nSprechzeit: " + (apTime);
                             tv_sprechzeit.setText(string_sprecher);
                         }
                     }
@@ -199,7 +203,7 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
                     TextView meetingTitle = findViewById(R.id.txtModMeetingTitle);
                     meetingTitle.setText(m.getSettings().getMeetingTitle());
                     TextView modGruss = findViewById(R.id.txtModGruss);
-                    modGruss.setText("Hallo Moderator, willkommen im Meeting.");
+                    modGruss.setText("Hallo Moderator, \nwillkommen im Meeting.");
 
                     // Aufbau RecyclerView
                     AgendaPointAdapter apAdapter;
