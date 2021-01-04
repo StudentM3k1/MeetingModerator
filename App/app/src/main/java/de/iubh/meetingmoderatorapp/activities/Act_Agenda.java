@@ -58,7 +58,7 @@ public class Act_Agenda extends AppCompatActivity implements CallbackHandler {
         }
         
         // Button zu Activity AddAgendapoint
-        ImageButton buttonAddPointToAgenda = (ImageButton) this.findViewById(R.id.btn_addPointToAgenda);
+        Button buttonAddPointToAgenda = findViewById(R.id.btnAddAgendapoint);
         buttonAddPointToAgenda.setOnClickListener(v ->        {
             Intent i = new Intent(Act_Agenda.this, Act_AddAgendaPoint.class);
             try {

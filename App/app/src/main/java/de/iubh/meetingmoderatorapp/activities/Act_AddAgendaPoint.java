@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -46,7 +47,7 @@ public class Act_AddAgendaPoint  extends AppCompatActivity  {
         }
 
 
-        Button btnBackToAgenda = findViewById(R.id.btnBackToAgenda);
+        ImageButton btnBackToAgenda = (ImageButton) this.findViewById(R.id.btnBackToAgenda);
         btnBackToAgenda.setOnClickListener(v -> {
             try {
                 Intent i = new Intent(Act_AddAgendaPoint.this, Act_Agenda.class);
@@ -58,7 +59,7 @@ public class Act_AddAgendaPoint  extends AppCompatActivity  {
             }
         });
 
-        Button btnAddAP = findViewById(R.id.btn_addPointToAgenda);
+        ImageButton btnAddAP = (ImageButton) this.findViewById(R.id.btn_addPointToAgenda);
         btnAddAP.setOnClickListener(v -> {
             Intent i = new Intent(Act_AddAgendaPoint.this, Act_Agenda.class);
 
