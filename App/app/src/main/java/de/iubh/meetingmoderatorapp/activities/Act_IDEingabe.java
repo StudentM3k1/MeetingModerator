@@ -33,7 +33,6 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     *      - Buttons gestalten (Home, zurück, neuer AP, User registrieren, Mod registrieren, Meeting beitreten, nächster AP)
     *  evtl. Ping bei start
     *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
-    *  Zeiten in HH:MM:SS
     *  1,0 kassieren
     */
 

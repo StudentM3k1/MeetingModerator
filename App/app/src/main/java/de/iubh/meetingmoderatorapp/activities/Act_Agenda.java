@@ -3,6 +3,7 @@ package de.iubh.meetingmoderatorapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,12 +56,10 @@ public class Act_Agenda extends AppCompatActivity implements CallbackHandler {
             recyAP.setLayoutManager(apLayoutManger);
             recyAP.setAdapter(apAdapter);
         }
-
-
-
+        
         // Button zu Activity AddAgendapoint
-        Button btnAddAgendapoint = findViewById(R.id.btnAddAgendapoint);
-        btnAddAgendapoint.setOnClickListener(v ->        {
+        Button buttonAddPointToAgenda = findViewById(R.id.btnAddAgendapoint);
+        buttonAddPointToAgenda.setOnClickListener(v ->        {
             Intent i = new Intent(Act_Agenda.this, Act_AddAgendaPoint.class);
             try {
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
