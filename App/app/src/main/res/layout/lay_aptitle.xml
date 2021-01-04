@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#64BEDD">
+    android:background="@drawable/custom_button">
     android:layout_height="match_parent">
     android:layout_height="wrap_content">
 
@@ -11,15 +11,20 @@
         android:id="@+id/aptitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txtAPTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#64BEDD"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:paddingLeft="12dp"
             android:text="TextView"
-            android:textSize="18sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
