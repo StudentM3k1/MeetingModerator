@@ -28,7 +28,6 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     String id;
     boolean isModerator = true;
 
-
     /* todo
     *  Activities schön machen
     *      - Buttons gestalten (Home, zurück, neuer AP, User registrieren, Mod registrieren, Meeting beitreten, nächster AP)

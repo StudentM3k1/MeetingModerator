@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -130,7 +131,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         });
 
 
-        Button btnToAgenda = findViewById(R.id.btnToAgenda);
+        ImageButton btnToAgenda = findViewById(R.id.btnToAgenda);
         btnToAgenda.setOnClickListener(v -> {
             Intent i = new Intent(Act_CreateMeeting.this, Act_Agenda.class);
             try {
@@ -198,7 +199,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                 }
             }
         });
-        Button btnToHome = findViewById(R.id.btnBackToHome);
+        ImageButton btnToHome = findViewById(R.id.btnBackToHome);
         btnToHome.setOnClickListener(v -> {
             if (isCreated) {
                 Intent i = (new Intent(Act_CreateMeeting.this, Act_IDEingabe.class));
@@ -216,7 +217,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
 
         });
 
-        Button btnBackToRegistMod = findViewById(R.id.btnBackToRegistMod);
+        ImageButton btnBackToRegistMod = findViewById(R.id.btnBackToRegistMod);
         btnBackToRegistMod.setOnClickListener(v -> {
             Intent i = (new Intent(Act_CreateMeeting.this, Act_ModRegistration.class));
             try {
