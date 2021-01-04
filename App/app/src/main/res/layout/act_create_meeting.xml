@@ -58,6 +58,7 @@
         android:ems="10"
         android:inputType="text"
         android:text="Meetingtitel"
+        android:drawableStart="@drawable/ic_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -69,6 +70,7 @@
         android:ems="10"
         android:inputType="text"
         android:text="2021-01-30"
+        android:drawableStart="@drawable/ic_calendar"
         app:layout_constraintEnd_toStartOf="@+id/timeCreateMeetingStartTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingTitle" />
@@ -81,6 +83,7 @@
         android:ems="10"
         android:inputType="text"
         android:text="20:00"
+        android:drawableStart="@drawable/ic_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingTitle" />
 
@@ -91,6 +94,7 @@
         android:ems="10"
         android:inputType="text"
         android:text="Ort"
+        android:drawableStart="@drawable/ic_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeCreateMeetingStartDate" />

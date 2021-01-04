@@ -52,6 +52,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Bitte gib hier deine Meeting ID ein"
+        android:drawableStart="@drawable/ic_id"
         android:inputType="text"
         android:text="w33lQE5j6"
         app:layout_constraintEnd_toEndOf="parent"

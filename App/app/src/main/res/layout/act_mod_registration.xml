@@ -16,6 +16,7 @@
         android:hint="mail"
         android:inputType="textEmailAddress"
         android:text="mod@meeting.com"
+        android:drawableStart="@drawable/ic_mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModLastname" />
@@ -27,6 +28,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="ModVorname"
+        android:drawableStart="@drawable/ic_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleModRegist" />
@@ -38,6 +40,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="ModNachname"
+        android:drawableStart="@drawable/ic_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModFirstName" />
