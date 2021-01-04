@@ -172,12 +172,12 @@ public class Act_ModAtMeeting  extends AppCompatActivity implements CallbackHand
                     @Override
                     public void run() {
                         TextView aktuAP = findViewById(R.id.txtAktuAPMod);
-                        aktuAP.setText(curAp.getTitle());
+                        aktuAP.setText("Aktueller Agendapunkt: \n" + curAp.getTitle());
                         TextView tv_sprechzeit = findViewById(R.id.txtModSprechzeit);
                         if(curAp != null) {
 
-                            String apTime = String.format("%02d:%02d:%02d", (curAp.getAvailableTime() - curAp.getRunningTime()) / 3600, ((curAp.getAvailableTime() - curAp.getRunningTime())  % 3600) / 60, ((curAp.getAvailableTime() - curAp.getRunningTime())  % 60));
-                            String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
+                            String apTime = String.format("Zeit im Meeting: \n%02d:%02d:%02d", (curAp.getAvailableTime() - curAp.getRunningTime()) / 3600, ((curAp.getAvailableTime() - curAp.getRunningTime())  % 3600) / 60, ((curAp.getAvailableTime() - curAp.getRunningTime())  % 60));
+                            String string_sprecher = "Aktueller Sprecher: \n" + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
                                     "\nSprechzeit: " + (apTime);
                             tv_sprechzeit.setText(string_sprecher);
                         }

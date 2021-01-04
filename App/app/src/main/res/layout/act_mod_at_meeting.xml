@@ -73,8 +73,8 @@
 
     <TextView
         android:id="@+id/txtModSprechzeit"
-        android:layout_width="340dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginTop="36dp"
         android:text="Deine übrige Sprechzeit beträgt: 0000 Minuten"
         android:textColor="@color/design_default_color_primary_variant"

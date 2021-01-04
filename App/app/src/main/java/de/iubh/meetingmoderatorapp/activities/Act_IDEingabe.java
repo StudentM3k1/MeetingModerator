@@ -29,10 +29,10 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     boolean isModerator = true;
 
     /* todo
-    *  evtl. Ping bei start
-    *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
-    *  1,0 kassieren
-    */
+     *  Meeting Änderungen (Abfragen auf Dauer, Anzahl User/MP)
+     *  Zeitcheck in CreateMeeting ist noch auskommentiert
+     *  1,0 kassieren
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,11 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
         setContentView(R.layout.act_id_eingabe);
         AndroidThreeTen.init(this);
 
+
         EditText meetingID = findViewById(R.id.txtMeetingID);
         sbView = findViewById(R.id.idSnack);
+
+        MeetingHelper.pingMeeting(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -72,38 +75,73 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
     }
 
     public void onFailureCallback(Call call, IOException e) {
-        if (isModerator) {
-            isModerator = false;
-            MeetingHelper.getMeetingUser(id, this);
-        } else {
-            isModerator = true;
-            Snackbar.make(
-                    sbView,
-                    "Meeting kann nicht geladen werden.",
-                    Snackbar.LENGTH_LONG)
-                    .show();
+        switch (call.request().tag().toString()) {
+            case "PingMeeting":
+                Snackbar.make(
+                        sbView,
+                        "Der Server schläft noch. Bitte Thomas die Katze wecken.",
+                        Snackbar.LENGTH_LONG)
+                        .show();
+                break;
+            case "GetMeetingMod":
+                if (isModerator) {
+                    isModerator = false;
+                    MeetingHelper.getMeetingUser(id, this);
+                } else {
+                    isModerator = true;
+                    Snackbar.make(
+                            sbView,
+                            "Meeting kann nicht geladen werden.",
+                            Snackbar.LENGTH_LONG)
+                            .show();
+                }
+                break;
+            default:
+                break;
         }
+
     }
 
     public void onResponseCallback(Call call, Response response) {
+
+        switch (call.request().tag().toString()) {
+            case "PingMeeting":
+                checkPing(call, response);
+                break;
+            case "GetMeetingMod":
+            case "GetMeetingUser":
+                joinMeeting(call, response);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void checkPing(Call call, Response response) {
+        try{
+            Snackbar.make(sbView, "Der Server grüßt mit Funktionalität", Snackbar.LENGTH_SHORT).show();
+        } catch (Exception e){
+            onFailureCallback(call, new IOException());
+        }
+    }
+
+    public void joinMeeting(Call call, Response response) {
         try {
             Meeting m = null;
             m = JSONHelper.JSONToMeeting(response.body().string());
             Intent i;
             if (m != null) {
                 if (isModerator) {
-                     i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
+                    i = (new Intent(Act_IDEingabe.this, Act_ModPreMeeting.class));
                     i.putExtra("meetingID", id);
                     startActivity(i);
                 } else {
                     isModerator = true;
                     if (m.getMeetingStatus() == MeetingStatus.Planned) {
                         Snackbar.make(sbView, "Meeting wurde noch nicht gestartet.", Snackbar.LENGTH_LONG).show();
-                    }
-                    else if (m.getMeetingStatus() == MeetingStatus.Done) {
+                    } else if (m.getMeetingStatus() == MeetingStatus.Done) {
                         Snackbar.make(sbView, "Meeting wurde bereits beendet.", Snackbar.LENGTH_LONG).show();
-                    }
-                    else {
+                    } else {
                         i = (new Intent(Act_IDEingabe.this, Act_PartiPreMeeting.class));
                         i.putExtra("meetingID", id);
                         startActivity(i);
@@ -117,7 +155,6 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
         }
     }
 }
-
 
 
 

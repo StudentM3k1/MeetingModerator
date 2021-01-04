@@ -171,12 +171,12 @@ public class Act_PartiAtMeeting extends AppCompatActivity implements CallbackHan
                     @Override
                     public void run() {
                         TextView aktuAP = findViewById(R.id.aktuAPParti);
-                        aktuAP.setText(curAp.getTitle());
+                        aktuAP.setText("Akuteller Agendapunkt " + curAp.getTitle());
                         TextView tv_sprechzeit = findViewById(R.id.txtPartiSprechzeit);
 
 
-                        String string_sprecher = "Aktueller Sprecher: " + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
-                                "\nVerbleibende Sprechzeit: " + (String.format("%02d:%02d:%02d", (curAp.getAvailableTime() - curAp.getRunningTime()) / 3600, ((curAp.getAvailableTime() - curAp.getRunningTime()) % 3600) / 60, ((curAp.getAvailableTime() - curAp.getRunningTime()) % 60)));
+                        String string_sprecher = "Aktueller Sprecher: \n" + curAp.getActualSpeaker().getUser().getFirstname() + " " + curAp.getActualSpeaker().getUser().getLastname() +
+                                "\nVerbleibende Sprechzeit: " + (String.format("Zeit im Meeting: %02d:%02d:%02d", (curAp.getAvailableTime() - curAp.getRunningTime()) / 3600, ((curAp.getAvailableTime() - curAp.getRunningTime()) % 3600) / 60, ((curAp.getAvailableTime() - curAp.getRunningTime()) % 60)));
                         tv_sprechzeit.setText(string_sprecher);
                     }
                 });

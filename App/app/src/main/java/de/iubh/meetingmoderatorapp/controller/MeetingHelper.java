@@ -7,6 +7,11 @@ import de.iubh.meetingmoderatorapp.model.Meeting;
 
 public class MeetingHelper {
 
+    public static void pingMeeting(Object sender) {
+        HTTPClient client = new HTTPClient();
+        client.pingMeeting(sender);
+    }
+
     public static void createMeeting(Meeting m, Object sender) {
         try {
             HTTPClient client = new HTTPClient();

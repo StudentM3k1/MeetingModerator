@@ -2,19 +2,10 @@ package de.iubh.meetingmoderatorapp.controller;
 
 
 
-import android.view.View;
-
-import androidx.appcompat.widget.ActionBarContextView;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import de.iubh.meetingmoderatorapp.activities.Act_IDEingabe;
-import de.iubh.meetingmoderatorapp.model.Meeting;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -55,6 +46,19 @@ public class HTTPClient {
     };
 
     Object o = new Object();
+
+    // GET Server-Ping
+    public void pingMeeting(Object sender) {
+        this.sender = sender;
+        Request request = new Request.Builder()
+                .tag("PingMeeting")
+                .url(URL +  "Ping/")
+                .get()
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+
 
     // POST Meeting to create
     public void postMeeting(String json, Object sender) {

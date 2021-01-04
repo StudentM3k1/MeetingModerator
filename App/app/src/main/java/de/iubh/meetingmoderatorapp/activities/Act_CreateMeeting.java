@@ -184,19 +184,16 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                 }
         );
 
-        sendIDviaMail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"hiernochStrings@arrayausmeeting.einbringen"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "Wir haben ein Meeting zusammen");
-                i.putExtra(Intent.EXTRA_TEXT, "Bitte melde Dich am " + day + "." + month + "." + year + " um " + hour + ":" + minute + " mit Deiner MeetingID   ---   " + partId + "   ---   an um teilzunehemen");
-                try {
-                    startActivity(Intent.createChooser(i, "Sende Mail..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Snackbar.make(sbView, "Es sind keine Mail-Clients installiert, weshalb die Mail nicht versendet werden kann.", Snackbar.LENGTH_LONG).show();
-                }
+        sendIDviaMail.setOnClickListener(v -> {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("message/rfc822");
+            i.putExtra(Intent.EXTRA_EMAIL, new String[]{"hiernochStrings@arrayausmeeting.einbringen"});
+            i.putExtra(Intent.EXTRA_SUBJECT, "Wir haben ein Meeting zusammen");
+            i.putExtra(Intent.EXTRA_TEXT, "Bitte melde Dich am " + day + "." + month + "." + year + " um " + hour + ":" + minute + " mit Deiner MeetingID   ---   " + partId + "   ---   an um teilzunehemen");
+            try {
+                startActivity(Intent.createChooser(i, "Sende Mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Snackbar.make(sbView, "Es sind keine Mail-Clients installiert, weshalb die Mail nicht versendet werden kann.", Snackbar.LENGTH_LONG).show();
             }
         });
         ImageButton btnToHome = findViewById(R.id.btnBackToHome);
@@ -260,12 +257,9 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
 
     public void onFailureCreateMeeting(String error) {
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TextView idRes = findViewById(R.id.IDResponse);
-                idRes.setText("Hoppla, da hat sich die App verschluckt! \nFehlernachricht: " + error);
-            }
+        runOnUiThread(() -> {
+            TextView idRes = findViewById(R.id.IDResponse);
+            idRes.setText("Hoppla, da hat sich die App verschluckt! \nFehlernachricht: " + error);
         });
     }
 
