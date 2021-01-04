@@ -12,29 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Meeting erstellen"
+        android:windowSoftInputMode="stateAlwaysHidden"
         app:layout_constraintBottom_toTopOf="@+id/btnBackToHome"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Meeting erstellen"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnToAgenda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="zur Agenda"
-        app:layout_constraintBottom_toTopOf="@+id/btn_toAddParticipan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,10 +23,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Teilnehmer hinzufügen"
+        android:windowSoftInputMode="stateAlwaysHidden"
         app:layout_constraintBottom_toTopOf="@+id/btn_createMeeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnIDMial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="send ID's"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/IDResponse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.804"
+        app:layout_constraintStart_toEndOf="@+id/IDResponse"
+        app:layout_constraintTop_toTopOf="@+id/IDResponse"
+        app:layout_constraintVertical_bias="0.416" />
 
     <EditText
         android:id="@+id/txtCreateMeetingTitle"
@@ -82,17 +75,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingTitle" />
 
-    <TextView
-        android:id="@+id/minCreateMeetingDuration"
-        android:layout_width="136dp"
-        android:layout_height="25dp"
-        android:ems="10"
-        android:textAlignment="viewEnd"
-        app:layout_constraintBottom_toTopOf="@+id/recyTln"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt"
-        app:layout_constraintVertical_bias="0.0" />
-
     <EditText
         android:id="@+id/txtCreateMeetingOrt"
         android:layout_width="wrap_content"
@@ -104,44 +86,85 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeCreateMeetingStartDate" />
 
-    <TextView
-        android:id="@+id/IDResponse"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyTln"
-        app:layout_constraintVertical_bias="0.439" />
-
-    <Button
+    <ImageButton
         android:id="@+id/btnBackToHome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        app:layout_constraintBottom_toTopOf="@+id/btnBackToRegistMod"
-        app:layout_constraintEnd_toStartOf="@+id/btn_createMeeting"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnBackToRegistMod"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="zurück"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="#B0E2FF"
+        android:padding="1dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/home"
+        android:windowSoftInputMode="stateAlwaysHidden"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="36dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyTln"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintEnd_toStartOf="@+id/btnToAgenda"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt"
-        app:layout_constraintVertical_bias="0.342" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.887" />
+
+    <ImageButton
+        android:id="@+id/btnToAgenda"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="#B0E2FF"
+        android:padding="3dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/agenda"
+        android:windowSoftInputMode="stateAlwaysHidden"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBackToRegistMod"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@+id/btnBackToHome"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.887" />
+
+    <ImageButton
+        android:id="@+id/btnBackToRegistMod"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="#B0E2FF"
+        android:padding="1dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/zurueck"
+        android:windowSoftInputMode="stateAlwaysHidden"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnToAgenda"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.887" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="btnBackToHome,btnToAgenda,btnBackToRegistMod"
+        android:orientation="horizontal"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/createSnack"
@@ -153,18 +176,37 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnIDMial"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="send ID's"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/IDResponse"
+        android:text="Meeting erstellen"
+        android:textColor="@color/design_default_color_primary_variant"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.804"
-        app:layout_constraintStart_toEndOf="@+id/IDResponse"
-        app:layout_constraintTop_toTopOf="@+id/IDResponse"
-        app:layout_constraintVertical_bias="0.416" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/minCreateMeetingDuration"
+        android:layout_width="136dp"
+        android:layout_height="25dp"
+        android:ems="10"
+        android:textAlignment="viewEnd"
+        app:layout_constraintBottom_toTopOf="@+id/recyTln"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/IDResponse"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyTln"
+        app:layout_constraintVertical_bias="0.439" />
 
     <TextView
         android:id="@+id/textView7"
@@ -177,4 +219,15 @@
         app:layout_constraintStart_toEndOf="@+id/minCreateMeetingDuration"
         app:layout_constraintTop_toTopOf="@+id/minCreateMeetingDuration"
         app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyTln"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt"
+        app:layout_constraintVertical_bias="0.333" />
 </androidx.constraintlayout.widget.ConstraintLayout>
