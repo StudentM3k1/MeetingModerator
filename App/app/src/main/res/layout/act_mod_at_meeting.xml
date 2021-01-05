@@ -11,7 +11,7 @@
         android:id="@+id/btnModNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/custom_button"
         android:text="nächster Agendapunkt"
         android:textSize="18sp"
@@ -33,10 +33,10 @@
         android:id="@+id/txtModVerbleibendeGesamtzeit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:text="Restzeit Meeting"
         android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="24sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.082"
@@ -64,10 +64,10 @@
         android:layout_marginTop="40dp"
         android:text="Servus "
         android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="24sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.271"
+        app:layout_constraintHorizontal_bias="0.357"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModVerbleibendeGesamtzeit" />
 
@@ -78,7 +78,7 @@
         android:layout_marginTop="36dp"
         android:text="Deine übrige Sprechzeit beträgt: 0000 Minuten"
         android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="24sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.225"
@@ -89,12 +89,13 @@
         android:id="@+id/txtAktuAPMod"
         android:layout_width="373dp"
         android:layout_height="39dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:text="Aktueller Agendapunkt"
         android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="24sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.736"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModMeetingTitle" />
 
@@ -105,9 +106,9 @@
         android:layout_marginTop="40dp"
         app:layout_constraintBottom_toTopOf="@+id/btnModNext"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintHorizontal_bias="0.655"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModSprechzeit"
-        app:layout_constraintVertical_bias="0.244" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
