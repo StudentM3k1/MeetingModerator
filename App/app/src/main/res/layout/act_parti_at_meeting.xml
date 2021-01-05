@@ -117,7 +117,7 @@
         android:layout_width="185dp"
         android:layout_height="20dp"
         android:layout_marginEnd="13dp"
-        android:text="Verbleibende Gesamtdauer"
+        android:text="Gesamtdauer"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="normal"
