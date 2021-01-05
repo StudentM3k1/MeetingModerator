@@ -104,9 +104,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
 
         // Datepicker
         startDate.setFocusable(false);
-        startTime.setFocusable(false);
         startDate.setClickable(true);
-        startTime.setClickable(true);
         startDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
@@ -129,6 +127,12 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                 datePickerDialog.show(getSupportFragmentManager(), "DatePickerDialog");
             }
         });
+
+        //Timepicker
+        startTime.setFocusable(false);
+        startTime.setClickable(true);
+
+
 
 
         ImageButton btnToAgenda = findViewById(R.id.btnToAgenda);
