@@ -57,8 +57,6 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         setContentView(R.layout.act_create_meeting);
         AndroidThreeTen.init(this);
 
-        View sbView = findViewById(R.id.createSnack);
-
         EditText meetingTitle = findViewById(R.id.txtCreateMeetingTitle);
         EditText startDate = findViewById(R.id.timeCreateMeetingStartDate);
         EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
@@ -66,6 +64,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         EditText ort = findViewById(R.id.txtCreateMeetingOrt);
         Button sendIDviaMail = findViewById(R.id.btnIDMial);
 
+        View sbView = findViewById(R.id.createSnack);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
