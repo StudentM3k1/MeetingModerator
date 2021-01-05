@@ -119,7 +119,7 @@ public class Act_IDEingabe extends AppCompatActivity implements CallbackHandler 
 
     public void checkPing(Call call, Response response) {
         try{
-            Snackbar.make(sbView, "Der Server grüßt mit Funktionalität", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(sbView, "Der Server grüßt mit Funktionalität  \\ , , / ,", Snackbar.LENGTH_SHORT).show();
         } catch (Exception e){
             onFailureCallback(call, new IOException());
         }

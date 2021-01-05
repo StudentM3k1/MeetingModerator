@@ -23,7 +23,7 @@ import de.iubh.meetingmoderatorapp.model.enumerations.ParticipantType;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class Act_ModRegistration extends AppCompatActivity implements CallbackHandler {
+public class Act_ModRegistration extends AppCompatActivity{
     private Meeting m = new Meeting();
 
     @Override
@@ -89,24 +89,7 @@ public class Act_ModRegistration extends AppCompatActivity implements CallbackHa
         });
     }
 
-    public void onFailureCallback(Call call, IOException e) {
-        switch (call.request().tag().toString()) {
-            case "":
-                break;
-            default:
-                break;
-        }
 
-    }
-
-    public void onResponseCallback(Call call, Response response) {
-        switch (call.request().tag().toString()) {
-            case "":
-                break;
-            default:
-                break;
-        }
-    }
 
 }
 

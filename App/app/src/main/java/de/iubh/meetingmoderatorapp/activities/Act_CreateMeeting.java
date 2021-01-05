@@ -1,6 +1,5 @@
 package de.iubh.meetingmoderatorapp.activities;
 
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.json.JSONException;
 import org.threeten.bp.LocalDateTime;
@@ -24,6 +26,7 @@ import org.threeten.bp.LocalDateTime;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import de.iubh.meetingmoderatorapp.R;
 import de.iubh.meetingmoderatorapp.controller.CallbackHandler;
@@ -38,7 +41,7 @@ import okhttp3.Response;
 import static android.view.View.VISIBLE;
 import static de.iubh.meetingmoderatorapp.R.id.btn_toAddParticipan;
 
-public class Act_CreateMeeting extends AppCompatActivity implements CallbackHandler, DatePickerDialog.OnDateSetListener {
+public class Act_CreateMeeting extends AppCompatActivity implements CallbackHandler, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private Meeting m = new Meeting();
     private String modId;
     private String partId;
@@ -46,7 +49,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     Calendar calendar;
-    String year, month, day, hour, minute, second;
+    String meetyear, meetmonth, meetday, meethour, meetminute, second;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +84,24 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             }
             calcDur = Long.toString(aplTime / 60);
             meetingTitle.setText(m.getSettings().getMeetingTitle());
-            year = m.getSettings().getStartTime().toString().substring(0, 4);
-            month = m.getSettings().getStartTime().toString().substring(5, 7);
-            day = m.getSettings().getStartTime().toString().substring(8, 10);
-            startDate.setText(day + "." + month + "." + year);
+            meetyear = m.getSettings().getStartTime().toString().substring(0, 4);
+            meetmonth = m.getSettings().getStartTime().toString().substring(5, 7);
+            meetday = m.getSettings().getStartTime().toString().substring(8, 10);
+            startDate.setText(meetday + "." + meetmonth + "." + meetyear);
 
-            hour = m.getSettings().getStartTime().toString().substring(11, 13);
-            minute = m.getSettings().getStartTime().toString().substring(14, 16);
-            startTime.setText(hour + ":" + minute);
+            meethour = m.getSettings().getStartTime().toString().substring(11, 13);
+            meetminute = m.getSettings().getStartTime().toString().substring(14, 16);
+            startTime.setText(meethour + ":" + meetminute);
             duration.setText(calcDur);
 
             ort.setText(m.getOrt());
+        } else {
+            Calendar now = Calendar.getInstance();
+            meetyear = Integer.toString(now.get(Calendar.YEAR));
+            meetmonth = Integer.toString(now.get(Calendar.MONTH));
+            meetday = Integer.toString(now.get(Calendar.DAY_OF_MONTH));
+
+
         }
 
         RecyclerView recyTLN = findViewById(R.id.recyTln);
@@ -105,33 +115,35 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         // Datepicker
         startDate.setFocusable(false);
         startDate.setClickable(true);
-        startDate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Calendar now = Calendar.getInstance();
-                datePickerDialog = DatePickerDialog.newInstance(Act_CreateMeeting.this,
-                        now.get(Calendar.YEAR),
-                        now.get(Calendar.MONTH),
-                        now.get(Calendar.DAY_OF_MONTH)
-                );
-                datePickerDialog.setThemeDark(true);
-                datePickerDialog.showYearPickerFirst(false);
-                datePickerDialog.setTitle("Date Picker");
-                datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        startDate.setOnClickListener(v -> {
+            datePickerDialog = DatePickerDialog.newInstance(Act_CreateMeeting.this,
+                    Integer.parseInt(meetyear),
+                    Integer.parseInt(meetmonth)-1,
+                    Integer.parseInt(meetday)
+            );
+            datePickerDialog.setThemeDark(true);
+            datePickerDialog.showYearPickerFirst(false);
+            datePickerDialog.dismissOnPause(true);
+            datePickerDialog.setMinDate(new GregorianCalendar(2021, 00, 01));
+            datePickerDialog.setTitle("Meeting Termin definieren");
+            datePickerDialog.setOnCancelListener(dialogInterface -> Snackbar.make(sbView, "Meetingdatum nicht aktualisiert", Snackbar.LENGTH_LONG).show());
 
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        Snackbar.make(sbView, "Datepicker Canceled", Snackbar.LENGTH_LONG).show();
-                    }
-                });
-
-                datePickerDialog.show(getSupportFragmentManager(), "DatePickerDialog");
-            }
+            datePickerDialog.show(getSupportFragmentManager(), "DateTimePickerDialog");
         });
 
         //Timepicker
         startTime.setFocusable(false);
         startTime.setClickable(true);
+        startTime.setOnClickListener(v -> {
+            timePickerDialog = TimePickerDialog.newInstance(Act_CreateMeeting.this,
+                    true );
 
+            timePickerDialog.setThemeDark(true);
+            timePickerDialog.dismissOnPause(true);
+            timePickerDialog.setTitle("Wann startet das Meeting?");
+
+            timePickerDialog.show(getSupportFragmentManager(), "TimePickerDialog");
+        });
 
 
 
@@ -140,7 +152,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             Intent i = new Intent(Act_CreateMeeting.this, Act_Agenda.class);
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-                m.getSettings().setStartTime(LocalDateTime.parse(year + "-" + month + "-" + day + "T" + hour + ":" + minute));
+                m.getSettings().setStartTime(LocalDateTime.parse(meetyear + "-" + meetmonth + "-" + meetday + "T" + meethour + ":" + meetminute));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
@@ -155,7 +167,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             Intent i = (new Intent(Act_CreateMeeting.this, Act_addParticipant.class));
             try {
                 m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-                m.getSettings().setStartTime(LocalDateTime.parse(year + "-" + month + "-" + day + "T" + hour + ":" + minute));
+                m.getSettings().setStartTime(LocalDateTime.parse(meetyear + "-" + meetmonth + "-" + meetday + "T" + meethour + ":" + meetminute));
                 m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                 m.setOrt(ort.getText().toString());
                 i.putExtra("JSON", JSONHelper.MeetingToJSON(m));
@@ -169,7 +181,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         Button btnCreateMeeting = findViewById(R.id.btn_createMeeting);
         btnCreateMeeting.setOnClickListener(v -> {
                     m.getSettings().setMeetingTitle(meetingTitle.getText().toString());
-                    m.getSettings().setStartTime(LocalDateTime.parse(year + "-" + month + "-" + day + "T" + hour + ":" + minute));
+                    m.getSettings().setStartTime(LocalDateTime.parse(meetyear + "-" + meetmonth + "-" + meetday + "T" + meethour + ":" + meetminute));
                     m.getSettings().setDuration(Long.parseLong(duration.getText().toString()) * 60);
                     m.setOrt(ort.getText().toString());
                     if (m.getAgenda().getAgendaPoints().size() == 0) {
@@ -178,10 +190,7 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                         Snackbar.make(sbView, "Es muss mindestens ein Teilnehmer am Meeting teilnehmen!", Snackbar.LENGTH_LONG).show();
                     } else if (m.getSettings().getDuration() <= 60) {
                         Snackbar.make(sbView, "Ein Meeting muss länger als 1 Minute dauern!", Snackbar.LENGTH_LONG).show();
-                    } /*else if ((m.getSettings().getStartTime().toLocalDate().isEqual(LocalDateTime.now().toLocalDate()) && m.getSettings().getStartTime().toLocalTime().isBefore(LocalDateTime.now().toLocalTime()))
-                            || m.getSettings().getStartTime().toLocalDate().isBefore(LocalDateTime.now().toLocalDate())) {
-                        Snackbar.make(sbView, "Ein Meeting darf nicht in der Vergangenheit beginnen (MEZ)", Snackbar.LENGTH_LONG).show();
-                    }*/ else {
+                    } else {
                         MeetingHelper.createMeeting(m, this);
                         isCreated = true;
                     }
@@ -193,13 +202,14 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             i.setType("message/rfc822");
             i.putExtra(Intent.EXTRA_EMAIL, new String[]{"hiernochStrings@arrayausmeeting.einbringen"});
             i.putExtra(Intent.EXTRA_SUBJECT, "Wir haben ein Meeting zusammen");
-            i.putExtra(Intent.EXTRA_TEXT, "Bitte melde Dich am " + day + "." + month + "." + year + " um " + hour + ":" + minute + " mit Deiner MeetingID   ---   " + partId + "   ---   an um teilzunehemen");
+            i.putExtra(Intent.EXTRA_TEXT, "Bitte melde Dich am " + meetday + "." + meetmonth + "." + meetyear + " um " + meethour + ":" + meetminute + " mit Deiner MeetingID   ---   " + partId + "   ---   an um teilzunehemen");
             try {
                 startActivity(Intent.createChooser(i, "Sende Mail..."));
             } catch (android.content.ActivityNotFoundException ex) {
                 Snackbar.make(sbView, "Es sind keine Mail-Clients installiert, weshalb die Mail nicht versendet werden kann.", Snackbar.LENGTH_LONG).show();
             }
         });
+
         ImageButton btnToHome = findViewById(R.id.btnBackToHome);
         btnToHome.setOnClickListener(v -> {
             if (isCreated) {
@@ -230,6 +240,9 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         });
 
     }
+
+
+    // Callbacks
 
     public void onFailureCallback(Call call, IOException e) {
         switch (call.request().tag().toString()) {
@@ -266,7 +279,6 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             idRes.setText("Hoppla, da hat sich die App verschluckt! \nFehlernachricht: " + error);
         });
     }
-
 
     private void onResponseCreateMeeting(Call call, Response response) {
         TextView idRes = findViewById(R.id.IDResponse);
@@ -305,27 +317,53 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
         }
     }
 
+
+    // Date and Time Methods
+
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+/*if ((m.getSettings().getStartTime().toLocalDate().isEqual(year+"-"+monthOfYear+"-"+dayOfMonthm.getSettings().getStartTime().toLocalTime().isBefore(LocalDateTime.now().toLocalTime()))
+                            || m.getSettings().getStartTime().toLocalDate().isBefore(LocalDateTime.now().toLocalDate())) {
+                        Snackbar.make(sbView, "Ein Meeting darf nicht in der Vergangenheit beginnen (MEZ)", Snackbar.LENGTH_LONG).show();
+                    }*/
+
+
+
 
         EditText startDate = findViewById(R.id.timeCreateMeetingStartDate);
-        String dom = "This bug";
-        String moy = " is designed by Michi";
+        String dom;
+        String moy;
         monthOfYear += 1;
         if (dayOfMonth < 10) {
-            dom = "0" + dayOfMonth;
+            meetday = dom = "0" + dayOfMonth;
         } else {
-            dom = Integer.toString(dayOfMonth);
+            meetday = dom = Integer.toString(dayOfMonth);
         }
         if (monthOfYear < 10) {
 
-            moy = "0" + monthOfYear;
+            meetmonth = moy = "0" + monthOfYear;
         } else {
-            moy = Integer.toString(monthOfYear);
+            meetmonth = moy = Integer.toString(monthOfYear);
         }
 
         String date = dom + "." + moy + "." + year;
         startDate.setText(date);
     }
 
+
+    @Override
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+
+        /*if ((m.getSettings().getStartTime().toLocalTime().isBefore(LocalDateTime.now().toLocalTime()))
+                            || m.getSettings().getStartTime().toLocalDate().isBefore(LocalDateTime.now().toLocalDate())) {
+            Snackbar.make(sbView, "Ein Meeting darf nicht in der Vergangenheit beginnen (MEZ)", Snackbar.LENGTH_LONG).show();
+        }*/
+
+        meethour = Integer.toString(hourOfDay);
+        meetminute = Integer.toString(minute);
+        EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
+        String time = hourOfDay+":"+minute;
+        startTime.setText(time);
+
+    }
 }

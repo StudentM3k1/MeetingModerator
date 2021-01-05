@@ -80,7 +80,7 @@
         android:drawableStart="@drawable/custom_calendar_icon"
         android:drawablePadding="12dp"
         android:ems="10"
-        android:hint="TT-MM-JJ Datum"
+        android:hint="TT-MM-JJJJ Datum"
         android:inputType="text"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
