@@ -11,10 +11,10 @@
         android:id="@+id/btn_createMeeting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/custom_button"
         android:text="Meeting erstellen"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:windowSoftInputMode="stateAlwaysHidden"
         app:layout_constraintBottom_toTopOf="@+id/btnBackToHome"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,10 +25,10 @@
         android:id="@+id/btn_toAddParticipan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/custom_button"
         android:text="Teilnehmer hinzufügen"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:windowSoftInputMode="stateAlwaysHidden"
         app:layout_constraintBottom_toTopOf="@+id/btn_createMeeting"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,6 +43,7 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/custom_button"
         android:text="ID versenden"
+        android:textSize="14sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/IDResponse"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +65,7 @@
         android:inputType="text"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:textSize="24sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,8 +73,8 @@
 
     <EditText
         android:id="@+id/timeCreateMeetingStartDate"
-        android:layout_width="410dp"
-        android:layout_height="33dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/custom_calendar_icon"
@@ -83,8 +84,9 @@
         android:inputType="text"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:textSize="24sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingTitle" />
 
     <EditText
@@ -100,7 +102,7 @@
         android:inputType="text"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:textSize="24sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +110,7 @@
 
     <EditText
         android:id="@+id/txtCreateMeetingOrt"
-        android:layout_width="411dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/custom_input"
@@ -119,14 +121,15 @@
         android:inputType="text"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:textSize="24sp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeCreateMeetingStartTime" />
 
     <ImageButton
         android:id="@+id/btnBackToHome"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
@@ -148,8 +151,8 @@
 
     <ImageButton
         android:id="@+id/btnToAgenda"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
@@ -172,8 +175,8 @@
 
     <ImageButton
         android:id="@+id/btnBackToRegistMod"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
@@ -206,7 +209,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:text="Meeting erstellen"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="24sp"
@@ -219,32 +222,34 @@
         android:id="@+id/minCreateMeetingDuration"
         android:layout_width="173dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:textAlignment="viewEnd"
-        android:textSize="24sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/recyTln"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt"
-        app:layout_constraintVertical_bias="0.832" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <TextView
         android:id="@+id/IDResponse"
-        android:layout_width="253dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
-        app:layout_constraintEnd_toStartOf="@+id/btnIDMial"
+        android:layout_width="246dp"
+        android:layout_height="67dp"
+        android:layout_marginBottom="24dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_toAddParticipan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyTln"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintVertical_bias="0.59" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="geplante Minuten"
-        android:textSize="24sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/minCreateMeetingDuration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.105"
@@ -256,11 +261,8 @@
         android:id="@+id/recyTln"
         android:layout_width="355dp"
         android:layout_height="105dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="72dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_toAddParticipan"
+        android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt" />
 </androidx.constraintlayout.widget.ConstraintLayout>
