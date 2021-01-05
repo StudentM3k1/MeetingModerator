@@ -33,14 +33,13 @@
         android:id="@+id/txtModVerbleibendeGesamtzeit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="80dp"
         android:text="Restzeit Meeting"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.851"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtAktuAPMod" />
 
     <TextView
@@ -99,6 +98,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModMeetingTitle" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="185dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="Verbleibende Gesamtdauer"
+        android:textColor="@color/design_default_color_primary_variant"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtModGruss"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAktuAPMod"
+        app:layout_constraintVertical_bias="0.05" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyAPModAtMeeting"
         android:layout_width="382dp"
@@ -109,22 +123,6 @@
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtModSprechzeit"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="185dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="50dp"
-        android:text="Verbleibende Gesamtdauer"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/txtModVerbleibendeGesamtzeit"
-        app:layout_constraintEnd_toStartOf="@+id/txtModVerbleibendeGesamtzeit"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtModVerbleibendeGesamtzeit"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
