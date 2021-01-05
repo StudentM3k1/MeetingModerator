@@ -63,8 +63,8 @@
 
     <ImageButton
         android:id="@+id/btnBackToAgenda"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="168dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
@@ -86,8 +86,8 @@
 
     <ImageButton
         android:id="@+id/btnBackToHome"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
@@ -123,8 +123,8 @@
 
     <ImageButton
         android:id="@+id/btn_addPointToAgenda"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:background="@drawable/custom_button"
@@ -144,7 +144,7 @@
         android:layout_width="107dp"
         android:layout_height="28dp"
         android:text="Minute(n)"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtAPDauer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
