@@ -42,6 +42,7 @@
             android:id="@+id/btnIDMial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/custom_button"
@@ -236,10 +237,11 @@
 
         <TextView
             android:id="@+id/IDResponse"
-            android:layout_width="246dp"
-            android:layout_height="67dp"
+            android:layout_width="236dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="24dp"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_toAddParticipan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.076"
