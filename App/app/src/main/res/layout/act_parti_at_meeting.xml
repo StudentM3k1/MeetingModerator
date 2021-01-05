@@ -34,13 +34,13 @@
         android:id="@+id/txtVerbleibendeGesamtzeit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:text="Restzeit Meeting"
         android:textColor="@color/design_default_color_primary_variant"
         android:textSize="14sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintHorizontal_bias="0.715"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aktuAPParti" />
 
@@ -111,4 +111,20 @@
         app:layout_constraintHorizontal_bias="0.326"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPartiSprechzeit" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="185dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="13dp"
+        android:text="Verbleibende Gesamtdauer"
+        android:textColor="@color/design_default_color_primary_variant"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toTopOf="@+id/txtPartiGruss"
+        app:layout_constraintEnd_toStartOf="@+id/txtVerbleibendeGesamtzeit"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aktuAPParti"
+        app:layout_constraintVertical_bias="0.384" />
 </androidx.constraintlayout.widget.ConstraintLayout>
