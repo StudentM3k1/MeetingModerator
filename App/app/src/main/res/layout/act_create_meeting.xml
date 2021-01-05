@@ -25,7 +25,7 @@
         android:id="@+id/btn_toAddParticipan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/custom_button"
         android:text="Teilnehmer hinzufügen"
         android:textSize="14sp"
@@ -209,10 +209,10 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:text="Meeting erstellen"
         android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="14sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -229,19 +229,19 @@
         app:layout_constraintBottom_toTopOf="@+id/recyTln"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt"
-        app:layout_constraintVertical_bias="0.607" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <TextView
         android:id="@+id/IDResponse"
-        android:layout_width="253dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="255dp"
+        android:layout_height="59dp"
+        android:layout_marginBottom="24dp"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAgenda"
-        app:layout_constraintEnd_toStartOf="@+id/btnIDMial"
+        app:layout_constraintBottom_toTopOf="@+id/btn_toAddParticipan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyTln"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintTop_toBottomOf="@+id/recyTln" />
 
     <TextView
         android:id="@+id/textView7"
@@ -260,7 +260,7 @@
         android:id="@+id/recyTln"
         android:layout_width="355dp"
         android:layout_height="105dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCreateMeetingOrt" />
