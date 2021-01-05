@@ -327,26 +327,22 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
                         Snackbar.make(sbView, "Ein Meeting darf nicht in der Vergangenheit beginnen (MEZ)", Snackbar.LENGTH_LONG).show();
                     }*/
 
-
-
-
         EditText startDate = findViewById(R.id.timeCreateMeetingStartDate);
-        String dom;
-        String moy;
+
         monthOfYear += 1;
         if (dayOfMonth < 10) {
-            meetday = dom = "0" + dayOfMonth;
+            meetday = "0" + dayOfMonth;
         } else {
-            meetday = dom = Integer.toString(dayOfMonth);
+            meetday = Integer.toString(dayOfMonth);
         }
         if (monthOfYear < 10) {
 
-            meetmonth = moy = "0" + monthOfYear;
+            meetmonth = "0" + monthOfYear;
         } else {
-            meetmonth = moy = Integer.toString(monthOfYear);
+            meetmonth = Integer.toString(monthOfYear);
         }
 
-        String date = dom + "." + moy + "." + year;
+        String date = meetday + "." + meetmonth + "." + year;
         startDate.setText(date);
     }
 
@@ -359,10 +355,22 @@ public class Act_CreateMeeting extends AppCompatActivity implements CallbackHand
             Snackbar.make(sbView, "Ein Meeting darf nicht in der Vergangenheit beginnen (MEZ)", Snackbar.LENGTH_LONG).show();
         }*/
 
-        meethour = Integer.toString(hourOfDay);
-        meetminute = Integer.toString(minute);
+        if(hourOfDay < 10){
+            meethour = "0"+Integer.toString(hourOfDay);
+        }else {
+            meethour = Integer.toString(hourOfDay);
+        }
+
+        if(minute < 10){
+            meetminute =  "0"+Integer.toString(minute);
+        }else {
+            meetminute =  Integer.toString(minute);
+        }
+
+
+
         EditText startTime = findViewById(R.id.timeCreateMeetingStartTime);
-        String time = hourOfDay+":"+minute;
+        String time =  meethour+":"+meetminute;
         startTime.setText(time);
 
     }
